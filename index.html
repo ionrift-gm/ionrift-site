@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ionrift Workshop</title>
+    <meta name="description" content="Ionrift Workshop builds GM tools for tabletop RPGs - rest systems, soundscapes, settlement generation, inventory management. Less bookkeeping, more story.">
+    <meta name="theme-color" content="#14141e">
+
+    <!-- SEO: Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ionrift Workshop">
+    <meta property="og:description" content="GM tools that handle the mechanical overhead - rest systems, soundscapes, settlement generation, inventory management. Built for Foundry VTT, with standalone tools on the way.">
+    <meta property="og:url" content="https://ionrift.cloud">
+    <meta property="og:site_name" content="Ionrift Workshop">
+    <meta property="og:locale" content="en_GB">
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Ionrift Workshop">
+    <meta name="twitter:description" content="GM tools for tabletop RPGs. Less bookkeeping, more story.">
+
+    <!-- SEO: Canonical -->
+    <link rel="canonical" href="https://ionrift.cloud">
+
+    <!-- SEO: Additional -->
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="foundry vtt, foundry vtt modules, ttrpg tools, gm tools, rest module, soundscape module, settlement generator, tabletop rpg">
+
+    <!-- Structured Data: JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Ionrift Workshop",
+        "url": "https://ionrift.cloud",
+        "description": "GM tools for tabletop RPGs - rest systems, soundscapes, settlement generation, inventory management.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Ionrift Workshop",
+            "url": "https://ionrift.cloud"
+        }
+    }
+    </script>
+
+    <!-- Analytics: GA4 (replace G-XXXXXXXXXX with real measurement ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════ */
+        /*  Ionrift Landing — Design System            */
+        /* ═══════════════════════════════════════════ */
+        :root {
+            --void-bg: #0a0a12;
+            --void-surface: rgba(20, 20, 30, 0.95);
+            --void-card: rgba(20, 20, 32, 0.7);
+            --glass-border: rgba(139, 92, 246, 0.25);
+            --glass-border-hover: rgba(139, 92, 246, 0.5);
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --accent-glow: rgba(139, 92, 246, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b8;
+            --text-dim: #6b6b80;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--void-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══ Background Atmosphere ═══ */
+        .atmosphere {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .atmosphere::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -100px;
+            animation: drift 20s ease-in-out infinite alternate;
+        }
+
+        .atmosphere::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(74, 111, 217, 0.06) 0%, transparent 70%);
+            bottom: -200px;
+            left: -100px;
+            animation: drift 25s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.15); }
+        }
+
+        /* ═══ Noise Texture Overlay ═══ */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px;
+        }
+
+        /* ═══ Layout ═══ */
+        .wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ═══ Navigation ═══ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(10, 10, 18, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            padding: 10px 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            color: white;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .nav-wordmark {
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-cta {
+            background: rgba(139, 92, 246, 0.15) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: var(--accent-light) !important;
+            padding: 8px 18px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            transition: all 0.25s ease !important;
+        }
+
+        .nav-cta:hover {
+            background: rgba(139, 92, 246, 0.3) !important;
+            border-color: var(--glass-border-hover) !important;
+            box-shadow: 0 0 20px var(--accent-glow) !important;
+            color: var(--text-main) !important;
+        }
+
+        /* ═══ Hero Section ═══ */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--accent-light);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero-badge.offline .dot {
+            background: #f87171;
+            box-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--accent-light), #c084fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-patreon {
+            background: #FF424D;
+            color: white;
+        }
+
+        .btn-patreon:hover {
+            background: #ff5c66;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 66, 77, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ═══ Modules Section ═══ */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--void-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--module-color, var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .module-card:hover {
+            background: rgba(25, 25, 40, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 18px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--module-color, var(--accent-light));
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        .module-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .module-tag {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--module-color, var(--accent-light));
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .module-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .module-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 14px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pill-released {
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+        }
+
+        .pill-ea {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-light);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .pill-dev {
+            background: rgba(250, 204, 21, 0.08);
+            color: #facc15;
+            border: 1px solid rgba(250, 204, 21, 0.15);
+        }
+
+        /* ═══ Ethos Section ═══ */
+        .ethos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .ethos-card {
+            text-align: center;
+            padding: 36px 24px;
+            background: var(--void-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .ethos-card:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .ethos-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .ethos-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .ethos-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ═══ CTA Section ═══ */
+        .cta-section {
+            padding: 80px 0;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(109, 40, 217, 0.04));
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 20px;
+            padding: 64px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.04), transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .cta-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .cta-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ═══ Footer ═══ */
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-muted);
+        }
+
+        .api-status {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .api-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6b6b80;
+            transition: all 0.3s ease;
+        }
+
+        .api-status.online .dot {
+            background: #22d3ee;
+            box-shadow: 0 0 6px rgba(34, 211, 238, 0.5);
+        }
+
+        .api-status.offline .dot {
+            background: #f87171;
+        }
+
+        /* ═══ Responsive ═══ */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ethos-grid { grid-template-columns: 1fr; }
+            .module-grid { grid-template-columns: 1fr; }
+            .hero { padding: 120px 0 60px; }
+            .cta-box { padding: 40px 24px; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+
+        /* ═══ Scrollbar ═══ */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--void-bg); }
+        ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3a3a50; }
+        html { scrollbar-color: #2a2a3a var(--void-bg); scrollbar-width: thin; }
+    </style>
+</head>
+<body>
+
+    <div class="atmosphere"></div>
+    <div class="noise"></div>
+
+    <div class="wrapper">
+        <!-- ═══ Nav ═══ -->
+        <nav class="nav" id="nav">
+            <div class="container nav-inner">
+                <a href="/" class="nav-brand">
+                    <div class="nav-logo">I</div>
+                    <span class="nav-wordmark">Ionrift</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#modules">Modules</a></li>
+                    <li><a href="#ethos">About</a></li>
+                    <li><a href="https://discord.gg/vFGXf7Fncj" target="_blank" rel="noopener">Discord</a></li>
+                    <li><a href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener" class="nav-cta">Support on Patreon</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- ═══ Hero ═══ -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge" id="hero-badge">
+                    <span class="dot"></span>
+                    <span id="badge-text">Checking services...</span>
+                </div>
+                <h1>
+                    Less bookkeeping.<br><span class="accent">More story.</span>
+                </h1>
+                <p class="hero-sub">
+                    GM tools that handle the mechanical overhead - rest systems, soundscapes, settlement generation, inventory management. Built for Foundry VTT today, with standalone tools on the way.
+                </p>
+                <div class="hero-actions">
+                    <a href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener" class="btn btn-patreon" id="cta-patreon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524zM.003 23.537h4.22V.524H.003z"/></svg>
+                    Support on Patreon
+                    </a>
+                    <a href="https://discord.gg/vFGXf7Fncj" target="_blank" rel="noopener" class="btn btn-ghost" id="cta-discord">
+                        <svg width="18" height="14" viewBox="0 0 24 18" fill="currentColor"><path d="M20.317 1.492a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 1.492.07.07 0 0 0 3.644 1.52C.533 6.093-.32 10.555.099 14.961a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.02z"/></svg>
+                        Join Discord
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Modules ═══ -->
+        <section class="section" id="modules">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">The toolkit</div>
+                    <h2 class="section-title">What we build</h2>
+                </div>
+                <div class="module-grid">
+
+                    <a class="module-card" href="https://github.com/ionrift-gm/ionrift-respite" target="_blank" rel="noopener" style="--module-color: #E4CFAA;">
+                        <div class="module-icon" style="color: #E4CFAA; background: rgba(228, 207, 170, 0.08); border-color: rgba(228, 207, 170, 0.15);">🔥</div>
+                        <div class="module-name">Respite</div>
+                        <div class="module-tag" style="color: #E4CFAA;">Rest & Downtime</div>
+                        <p class="module-desc">Structured rest phases with terrain-aware events, campfire rituals, forage tables, and profession crafting. Keeps the GM in the narrative, not the bookkeeping.</p>
+                        <span class="module-pill pill-released">Released</span>
+                    </a>
+
+                    <a class="module-card" href="https://github.com/ionrift-gm/ionrift-resonance" target="_blank" rel="noopener" style="--module-color: #4A6FD9;">
+                        <div class="module-icon" style="color: #4A6FD9; background: rgba(74, 111, 217, 0.08); border-color: rgba(74, 111, 217, 0.15);">🎵</div>
+                        <div class="module-name">Resonance</div>
+                        <div class="module-tag" style="color: #4A6FD9;">Soundscapes</div>
+                        <p class="module-desc">Context-sensitive ambient sound. Automatically shifts between exploration, combat, and rest soundscapes with smooth crossfading.</p>
+                        <span class="module-pill pill-released">Released</span>
+                    </a>
+
+                    <a class="module-card" href="https://github.com/ionrift-gm/ionrift-quartermaster" target="_blank" rel="noopener" style="--module-color: #9B59B6;">
+                        <div class="module-icon" style="color: #9B59B6; background: rgba(155, 89, 182, 0.08); border-color: rgba(155, 89, 182, 0.15);">📦</div>
+                        <div class="module-name">Quartermaster</div>
+                        <div class="module-tag" style="color: #9B59B6;">Inventory & Packs</div>
+                        <p class="module-desc">Content pack manager with Patreon-gated downloads, automatic updates, and a unified browsing UI for expanding a campaign.</p>
+                        <span class="module-pill pill-ea">Early Access</span>
+                    </a>
+
+                    <a class="module-card" href="https://github.com/ionrift-gm/ionrift-settlement" target="_blank" rel="noopener" style="--module-color: #7BA05B;">
+                        <div class="module-icon" style="color: #7BA05B; background: rgba(123, 160, 91, 0.08); border-color: rgba(123, 160, 91, 0.15);">🏘️</div>
+                        <div class="module-name">Civic Architect</div>
+                        <div class="module-tag" style="color: #7BA05B;">Settlement Builder</div>
+                        <p class="module-desc">Generate settlements with named residents, businesses, factions, and district layouts. Residents have backgrounds, occupations, and relationships.</p>
+                        <span class="module-pill pill-released">Released</span>
+                    </a>
+
+                    <a class="module-card" style="--module-color: #6b6b80; pointer-events: none; opacity: 0.6;">
+                        <div class="module-icon" style="color: #6b6b80; background: rgba(107, 107, 128, 0.08); border-color: rgba(107, 107, 128, 0.1);">🔮</div>
+                        <div class="module-name">More on the way</div>
+                        <div class="module-tag" style="color: #6b6b80;">In development</div>
+                        <p class="module-desc">More modules and standalone web tools are in progress. Join Discord or Patreon to follow along and shape what gets built next.</p>
+                        <span class="module-pill pill-dev">Roadmap</span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Ethos ═══ -->
+        <section class="section" id="ethos">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">How it works</div>
+                    <h2 class="section-title">Small workshop, sharp tools</h2>
+                </div>
+                <div class="ethos-grid">
+                    <div class="ethos-card">
+                        <span class="ethos-icon">🛠️</span>
+                        <div class="ethos-title">Built at the table</div>
+                        <p class="ethos-desc">Every feature starts as something I needed in my own game. If it doesn't survive a real session, it doesn't ship.</p>
+                    </div>
+                    <div class="ethos-card">
+                        <span class="ethos-icon">🔓</span>
+                        <div class="ethos-title">Open core</div>
+                        <p class="ethos-desc">Core tools are free. Patreon unlocks content packs and early access to new work - the tools themselves stay open.</p>
+                    </div>
+                    <div class="ethos-card">
+                        <span class="ethos-icon">🧩</span>
+                        <div class="ethos-title">Built to work together</div>
+                        <p class="ethos-desc">Modules share common foundations - consistent interface, fewer conflicts with other modules, less bloat on the install.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ CTA ═══ -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-box">
+                    <h2 class="cta-title">Get involved</h2>
+                    <p class="cta-desc">
+                        Test early builds, request features, or just talk shop. There's room at the table.
+                    </p>
+                    <div class="cta-links">
+                        <a href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener" class="btn btn-patreon" id="cta-patreon-2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524zM.003 23.537h4.22V.524H.003z"/></svg>
+                            Patreon
+                        </a>
+                        <a href="https://discord.gg/vFGXf7Fncj" target="_blank" rel="noopener" class="btn btn-ghost" id="cta-discord-2">
+                            <svg width="18" height="14" viewBox="0 0 24 18" fill="currentColor"><path d="M20.317 1.492a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 1.492.07.07 0 0 0 3.644 1.52C.533 6.093-.32 10.555.099 14.961a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.02z"/></svg>
+                            Discord
+                        </a>
+                        <a href="https://github.com/ionrift-gm" target="_blank" rel="noopener" class="btn btn-ghost" id="cta-github">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Footer ═══ -->
+        <footer class="footer">
+            <div class="container footer-inner">
+                <div class="footer-left">
+                    <span>&copy; 2025 Ionrift Workshop</span>
+                    <span style="color: var(--text-dim);">·</span>
+                    <span class="api-status" id="api-status">
+                        <span class="dot"></span>
+                        <span id="api-status-text">api</span>
+                    </span>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/ionrift-gm" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://discord.gg/vFGXf7Fncj" target="_blank" rel="noopener">Discord</a></li>
+                    <li><a href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ═══ Nav scroll effect ═══
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        // ═══ API Health Ping ═══
+        async function checkHealth() {
+            const badge = document.getElementById('hero-badge');
+            const badgeText = document.getElementById('badge-text');
+            const apiStatus = document.getElementById('api-status');
+            const apiText = document.getElementById('api-status-text');
+
+            try {
+                const res = await fetch('https://api.ionrift.cloud/health', { signal: AbortSignal.timeout(5000) });
+                if (res.ok) {
+                    badge.classList.remove('offline');
+                    badgeText.textContent = 'Pack services and Early Access online';
+                    apiStatus.classList.add('online');
+                    apiText.textContent = 'api online';
+                } else {
+                    throw new Error(res.status);
+                }
+            } catch {
+                badge.classList.add('offline');
+                badgeText.textContent = 'All modules free on Foundry VTT';
+                apiStatus.classList.remove('online');
+                apiText.textContent = 'api';
+            }
+        }
+
+        checkHealth();
+
+        // ═══ Intersection Observer for scroll-reveal ═══
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.module-card, .ethos-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
