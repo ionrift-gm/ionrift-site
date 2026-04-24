@@ -10,6 +10,7 @@ patreonId: "156260673"
 patreonContentHash: "sha256:c4df5716f1e7be54"
 patreonUrl: "/posts/curses-we-wants-156260673"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/curses-we-wants-it-part-3-of-3/cover.png"
 ---
 
 Part 2 ended on a promise: what happens after discovery, what removal actually looks like, and a sword with opinions about being put down.
