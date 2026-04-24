@@ -24,6 +24,13 @@ export default function (eleventyConfig) {
     return d.toISOString().slice(0, 10);
   });
 
+  eleventyConfig.addFilter("pathBasename", (p) => {
+    if (!p || typeof p !== "string") return "";
+    const s = p.replace(/\\/g, "/");
+    const i = s.lastIndexOf("/");
+    return i === -1 ? s : s.slice(i + 1);
+  });
+
   return {
     dir: {
       input: "src",

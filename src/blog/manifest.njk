@@ -9,6 +9,7 @@
     {%- for post in collections.posts %}
     {
       "slug": {{ post.fileSlug | jsonEncode | safe }},
+      "fileName": {{ post.inputPath | pathBasename | jsonEncode | safe }},
       "url": {{ post.url | jsonEncode | safe }},
       "title": {{ post.data.title | jsonEncode | safe }},
       "date": {{ post.date | htmlDateString | jsonEncode | safe }},
