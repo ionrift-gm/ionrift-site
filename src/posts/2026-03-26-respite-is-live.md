@@ -10,6 +10,7 @@ patreonId: "154027111"
 patreonContentHash: "sha256:af990f883cc0abaf"
 patreonUrl: "/posts/respite-is-live-154027111"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/respite-is-live/cover.png"
 ---
 
 Ionrift Respite v1.0.0 is tagged and available. Replaces the default DnD5e rest dialog with a structured rest flow - terrain, shelter, survival, campfire, the lot.
