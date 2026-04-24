@@ -10,13 +10,13 @@ patreonId:              # fill from dashboard drift-check "needs linking" row
 patreonContentHash:     # fill after first sync baseline (copy from patreon API response)
 patreonUrl: "https://www.patreon.com/c/Ionrift"
 patreonLabel: "Ionrift on Patreon"
-ogImage: "/img/blog/2026/curses-part1/berserker-axe.png"
+ogImage: "https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/382234793380488cba89efe26dc48899/eyJhIjoxLCJwIjoxfQ%3D%3D/1.png?token-hash=El2obwS7ZJNwdYJSC8hZOQLiKBhAVwE2SvTWpehY07w%3D&amp;token-time=1778284800"
 ---
 
 The first cursed item I dropped into a session was the Berserker Axe. SRD, straight out of the book. Thought it'd be fun.
 
 <figure>
-  <img src="/img/blog/2026/curses-part1/berserker-axe.png" alt="Berserker Axe item sheet in Foundry: unidentified (&quot;Unidentified Weapon&quot;, blank description) and after Identify (curse text visible)" width="960" loading="lazy" decoding="async" />
+  <img src="https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/382234793380488cba89efe26dc48899/eyJhIjoxLCJwIjoxfQ%3D%3D/1.png?token-hash=El2obwS7ZJNwdYJSC8hZOQLiKBhAVwE2SvTWpehY07w%3D&amp;token-time=1778284800" alt="Berserker Axe item sheet in Foundry: unidentified (&quot;Unidentified Weapon&quot;, blank description) and after Identify (curse text visible)" width="960" loading="lazy" decoding="async" />
   <figcaption>Stacked or side-by-side: unidentified vs after Identify. Identify shows the curse text; the surprise is gone.</figcaption>
 </figure>
 
@@ -51,7 +51,7 @@ Curses aside, this isn't even a curse-specific problem. Foundry's identification
 Take a Javelin of Lightning. Set it to unidentified. Foundry swaps the name to "Unidentified Javelin" and hides the description. That's all it does.
 
 <figure>
-  <img src="/img/blog/2026/curses-part1/javelin-unidentified.png" alt="Javelin of Lightning in Foundry while unidentified: name hidden, attack and damage still visible" width="960" loading="lazy" decoding="async" />
+  <img src="https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/e17bfa3a82714146a4658f28fd6f234d/eyJhIjoxLCJwIjoxfQ%3D%3D/1.png?token-hash=F3agZU5nhfIQSR6zk7g0_ipX3dmE7joN6sc-Vf8ODlY%3D&amp;token-time=1778284800" alt="Javelin of Lightning in Foundry while unidentified: name hidden, attack and damage still visible" width="960" loading="lazy" decoding="async" />
   <figcaption>Unidentified Javelin: name masked, +5 to hit and 1d6+4 Lightning still on the sheet; layout density differs from a mundane item.</figcaption>
 </figure>
 
@@ -60,7 +60,7 @@ Look at the screenshot. +5 to hit. 1d6+4 Lightning damage. Right there on the sh
 The identification system is beyond busted.
 
 <figure>
-  <img src="/img/blog/2026/curses-part1/longsword-compare.png" alt="Regular longsword sheet next to masked +1 longsword in Foundry" width="960" loading="lazy" decoding="async" />
+  <img src="https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/c19eb0a4cb1447918bfe21b3765cd0ed/eyJhIjoxLCJ3Ijo4MjB9/1.png?token-hash=cPVXkCzDsoqc99VfETI3V-DvJ3dvKKbeppiRWpFmYYs%3D&amp;token-time=1778284800" alt="Regular longsword sheet next to masked +1 longsword in Foundry" width="960" loading="lazy" decoding="async" />
   <figcaption>Side-by-side: mundane longsword vs masked +1 longsword. Tabs, row density, and layout diverge even when the item is meant to stay hidden.</figcaption>
 </figure>
 
