@@ -10,6 +10,7 @@ patreonId: "156257732"
 patreonContentHash: "sha256:ce84b04ab2f5539f"
 patreonUrl: "/posts/curses-item-isnt-156257732"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "https://c10.patreonusercontent.com/4/patreon-media/p/post/156257732/993f8b64e88e430798065b4580377488/eyJhIjoxLCJ3Ijo4MjB9/1.png?token-hash=2C44J2VZJmbud9ReBoVM1y0Dqzkh4kThKoYXAVHycag%3D&token-time=1778284800"
 ---
 
 Part 1 covered the DMG rule: "most methods of identifying items, including the identify spell, fail to reveal such a curse." Identify reveals an item's properties. It does not reveal curses. Those are two separate things, and the rules already treat them that way.
