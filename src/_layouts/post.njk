@@ -1,5 +1,6 @@
 {% set canonical = site.url + page.url %}
-{% set og = ogImage | default(site.mediaBaseUrl + "/og/blog-default.png") %}
+{% set _og = ogImage | default("/img/blog/2026/curses-part1/berserker-axe.png") %}
+{% set og = site.url + _og if _og and _og[0] == "/" else _og %}
 <!DOCTYPE html>
 <html lang="en">
 <head>

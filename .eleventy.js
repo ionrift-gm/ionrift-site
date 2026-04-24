@@ -5,6 +5,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(rssPlugin);
 
   eleventyConfig.addPassthroughCopy("src/css");
+  eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
