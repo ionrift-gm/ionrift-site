@@ -10,6 +10,7 @@ patreonId: "151573597"
 patreonContentHash: "sha256:8cac04d44e8e7594"
 patreonUrl: "/posts/dev-log-building-151573597"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/dev-log-building-a-starter-sound-pack-for-resonance/cover.png"
 ---
 
 The most common feedback I get about Resonance: _it works well, but I have to find all the sounds myself._
