@@ -6,6 +6,8 @@ layout: post.njk
 permalink: "/blog/curses-are-broken/"
 tier: Public
 type: workshop_notes
+patreonId:              # fill from dashboard drift-check "needs linking" row
+patreonContentHash:     # fill after first sync baseline (copy from patreon API response)
 patreonUrl: "https://www.patreon.com/c/Ionrift"
 patreonLabel: "Ionrift on Patreon"
 ogImage: "/img/blog/2026/curses-part1/berserker-axe.png"

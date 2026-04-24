@@ -1,0 +1,22 @@
+---json
+{
+  "permalink": "/blog/manifest.json",
+  "eleventyExcludeFromCollections": true
+}
+---
+{
+  "posts": [
+    {%- for post in collections.posts %}
+    {
+      "slug": {{ post.fileSlug | jsonEncode | safe }},
+      "url": {{ post.url | jsonEncode | safe }},
+      "title": {{ post.data.title | jsonEncode | safe }},
+      "date": {{ post.date | htmlDateString | jsonEncode | safe }},
+      "patreonId": {{ (post.data.patreonId if post.data.patreonId else null) | jsonEncode | safe }},
+      "patreonContentHash": {{ (post.data.patreonContentHash if post.data.patreonContentHash else null) | jsonEncode | safe }},
+      "patreonUrl": {{ (post.data.patreonUrl if post.data.patreonUrl else null) | jsonEncode | safe }}
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ],
+  "generatedAt": "{{ page.date | dateToRfc3339 }}"
+}
