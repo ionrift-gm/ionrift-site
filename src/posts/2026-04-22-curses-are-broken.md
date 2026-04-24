@@ -10,6 +10,7 @@ patreonId: "156247065"
 patreonContentHash: "sha256:127ee7fcf65cdf39"
 patreonUrl: "/posts/curses-are-part-156247065"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/curses-are-broken-part-1-of-3/cover.png"
 ---
 
 ### **Curses are broken**
