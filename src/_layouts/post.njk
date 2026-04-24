@@ -81,6 +81,11 @@
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
             </header>
+            {% if ogImage %}
+            <div class="blog-hero">
+                <img src="{{ og }}" alt="{{ title }}" class="blog-hero-img" loading="eager" decoding="async">
+            </div>
+            {% endif %}
             <div class="blog-prose">
                 {{ content | safe }}
             </div>
