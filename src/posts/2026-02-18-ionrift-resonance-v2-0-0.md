@@ -10,6 +10,7 @@ patreonId: "151020056"
 patreonContentHash: "sha256:37a9a6777be5eddb"
 patreonUrl: "/posts/ionrift-v2-0-0-151020056"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/ionrift-resonance-v2-0-0/cover.gif"
 ---
 
 Automated combat sounds for Foundry with Ionrift Resonance - now live on the Foundry package registry. Both MIT licensed.  
