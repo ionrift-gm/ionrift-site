@@ -1,5 +1,5 @@
 ---
-title: "Curses are broken"
+title: "Curses: are broken (Part 1 of 3)"
 description: "Foundry prints curses and stats on unidentified items. The table never gets the surprise RAW implied. Part 1 of a series."
 date: 2026-04-22
 layout: post.njk
