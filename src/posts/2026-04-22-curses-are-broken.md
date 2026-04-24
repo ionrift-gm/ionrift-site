@@ -10,7 +10,7 @@ patreonId: "156247065"
 patreonContentHash: "sha256:127ee7fcf65cdf39"
 patreonUrl: "/posts/curses-are-part-156247065"
 patreonLabel: "Ionrift on Patreon"
-ogImage: "https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/382234793380488cba89efe26dc48899/eyJhIjoxLCJwIjoxfQ%3D%3D/1.png?token-hash=El2obwS7ZJNwdYJSC8hZOQLiKBhAVwE2SvTWpehY07w%3D&token-time=1778284800"
+ogImage: "/img/blog/2026/curses-are-broken/cover.png"
 ---
 
 The first cursed item I dropped into a session was the Berserker Axe. SRD, straight out of the book. Thought it'd be fun.
