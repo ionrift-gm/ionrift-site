@@ -1,0 +1,33 @@
+---json
+{
+  "permalink": "blog/feed.xml",
+  "eleventyExcludeFromCollections": true,
+  "metadata": {
+    "title": "Ionrift Workshop | Devlog",
+    "subtitle": "Workshop notes and build logs"
+  }
+}
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-gb">
+  <title>{{ metadata.title }}</title>
+  <subtitle>{{ metadata.subtitle }}</subtitle>
+  <link href="{{ site.url }}/blog/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="{{ site.url }}/blog/" rel="alternate" type="text/html" hreflang="en-gb"/>
+  <id>{{ site.url }}/blog/feed.xml</id>
+  <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  <author>
+    <name>{{ site.author.name }}</name>
+    <uri>{{ site.author.url }}</uri>
+  </author>
+  <generator>Eleventy</generator>
+  {% for post in collections.posts %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ post.url | absoluteUrl(site.url) }}" rel="alternate" type="text/html" hreflang="en-gb"/>
+    <id>{{ post.url | absoluteUrl(site.url) }}</id>
+    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <summary type="text">{{ post.data.description }}</summary>
+  </entry>
+  {% endfor %}
+</feed>

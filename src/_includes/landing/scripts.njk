@@ -1,0 +1,51 @@
+<script>
+// ═══ Nav scroll effect ═══
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        // ═══ API Health Ping ═══
+        async function checkHealth() {
+            const badge = document.getElementById('hero-badge');
+            const badgeText = document.getElementById('badge-text');
+            const apiStatus = document.getElementById('api-status');
+            const apiText = document.getElementById('api-status-text');
+
+            try {
+                const res = await fetch('https://api.ionrift.cloud/health', { signal: AbortSignal.timeout(5000) });
+                if (res.ok) {
+                    badge.classList.remove('offline');
+                    badgeText.textContent = 'Pack services and Early Access online';
+                    apiStatus.classList.add('online');
+                    apiText.textContent = 'api online';
+                } else {
+                    throw new Error(res.status);
+                }
+            } catch {
+                badge.classList.add('offline');
+                badgeText.textContent = 'All modules free on Foundry VTT';
+                apiStatus.classList.remove('online');
+                apiText.textContent = 'api';
+            }
+        }
+
+        checkHealth();
+
+        // ═══ Intersection Observer for scroll-reveal ═══
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.module-card, .ethos-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+</script>
