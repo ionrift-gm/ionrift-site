@@ -10,6 +10,7 @@ patreonId: "155877870"
 patreonContentHash: "sha256:55e164b5222f2cfd"
 patreonUrl: "/posts/resonance-core-155877870"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/resonance-core-sfx-now-a-standalone-sound-pack/cover.png"
 ---
 
 Resonance's sounds have been carved out into their own pack.
