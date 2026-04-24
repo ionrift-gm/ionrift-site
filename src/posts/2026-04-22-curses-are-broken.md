@@ -6,9 +6,9 @@ layout: post.njk
 permalink: "/blog/curses-are-broken/"
 tier: Public
 type: workshop_notes
-patreonId:              # fill from dashboard drift-check "needs linking" row
-patreonContentHash:     # fill after first sync baseline (copy from patreon API response)
-patreonUrl: "https://www.patreon.com/c/Ionrift"
+patreonId: "156247065"
+patreonContentHash: "sha256:127ee7fcf65cdf39"
+patreonUrl: "/posts/curses-are-part-156247065"
 patreonLabel: "Ionrift on Patreon"
 ogImage: "https://c10.patreonusercontent.com/4/patreon-media/p/post/156247065/382234793380488cba89efe26dc48899/eyJhIjoxLCJwIjoxfQ%3D%3D/1.png?token-hash=El2obwS7ZJNwdYJSC8hZOQLiKBhAVwE2SvTWpehY07w%3D&token-time=1778284800"
 ---
