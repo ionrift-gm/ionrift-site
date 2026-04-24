@@ -1,4 +1,3 @@
-ogImage: "https://c10.patreonusercontent.com/4/patreon-media/p/post/156257732/e22299281476475a8ebb12b841f3abdb/eyJ3IjoxMDgwfQ%3D%3D/1.png?token-hash=eX4CfHgT3e7xre4RVzfsDElTq32IS-v4zcHj7YZ4Ea8%3D&token-time=1778284800"
 ---
 title: "Curses: the item isn't lying (Part 2 of 3)"
 description: "Part 1 covered the DMG rule: \"most methods of identifying items, including the identify spell, fail to reveal such a curse.\" Identify reveals an item's properties. It does not reveal curses. Those are"
