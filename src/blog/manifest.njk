@@ -14,7 +14,8 @@
       "date": {{ post.date | htmlDateString | jsonEncode | safe }},
       "patreonId": {{ (post.data.patreonId if post.data.patreonId else null) | jsonEncode | safe }},
       "patreonContentHash": {{ (post.data.patreonContentHash if post.data.patreonContentHash else null) | jsonEncode | safe }},
-      "patreonUrl": {{ (post.data.patreonUrl if post.data.patreonUrl else null) | jsonEncode | safe }}
+      "patreonUrl": {{ (post.data.patreonUrl if post.data.patreonUrl else null) | jsonEncode | safe }},
+      "ogImage": {{ (post.data.ogImage if post.data.ogImage else null) | jsonEncode | safe }}
     }{% if not loop.last %},{% endif %}
     {%- endfor %}
   ],
