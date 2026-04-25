@@ -621,6 +621,13 @@
             background: rgba(139, 92, 246, 0.1);
             color: var(--module-color, var(--accent-light));
             border: 1px solid rgba(139, 92, 246, 0.15);
+            overflow: hidden;
+        }
+
+        .module-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .module-name {
