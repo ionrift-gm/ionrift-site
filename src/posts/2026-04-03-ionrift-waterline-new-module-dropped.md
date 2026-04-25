@@ -10,6 +10,8 @@ patreonId: "154674788"
 patreonContentHash: "sha256:4ef042f8a4900804"
 patreonUrl: "/posts/ionrift-new-154674788"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "https://www.youtube.com/embed/USmx-8CmQGk"
+ogImage: "https://img.youtube.com/vi/USmx-8CmQGk/maxresdefault.jpg"
 ---
 
 **I**_**onrift Waterline**_ does two things - animated water overlays and procedural border walls. Both for Foundry VTT v12/v13.
