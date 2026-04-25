@@ -1,5 +1,8 @@
 {% set canonical = site.url + page.url %}
 {% set og = (site.url + ogImage) if ogImage and ogImage[0] == "/" else ogImage %}
+{% set videoSrc = (site.url + coverVideo) if coverVideo and coverVideo[0] == "/" else coverVideo %}
+{% set videoMime = 'video/webm' if (coverVideo and '.webm' in coverVideo) else 'video/mp4' %}
+{% set isYouTube = coverVideo and ('youtube.com/embed' in coverVideo) %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,13 +18,13 @@
     <meta property="og:url" content="{{ canonical }}">
     <meta property="og:site_name" content="Ionrift Workshop">
     <meta property="og:locale" content="en_GB">
-    <meta property="og:image" content="{{ og }}">
+    {% if og %}<meta property="og:image" content="{{ og }}">{% endif %}
     <meta property="article:published_time" content="{{ page.date | dateToRfc3339 }}">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description }}">
-    <meta name="twitter:image" content="{{ og }}">
+    {% if og %}<meta name="twitter:image" content="{{ og }}">{% endif %}
 
     <link rel="canonical" href="{{ canonical }}">
 
@@ -36,7 +39,7 @@
       "datePublished": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
       "dateModified": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
       "url": {{ canonical | jsonEncode | safe }},
-      "image": {{ og | jsonEncode | safe }},
+      {% if og %}"image": {{ og | jsonEncode | safe }},{% endif %}
       "author": {
         "@type": "Person",
         "name": {{ site.author.name | jsonEncode | safe }},
@@ -80,7 +83,19 @@
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
             </header>
-            {% if ogImage %}
+            {% if coverVideo and videoSrc %}
+            {% if isYouTube %}
+            <div class="blog-hero blog-hero--youtube">
+                <iframe class="blog-hero-yt" src="{{ videoSrc }}?rel=0" title="{{ title }}" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+            </div>
+            {% else %}
+            <div class="blog-hero blog-hero--video">
+                <video class="blog-hero-video" controls playsinline preload="metadata"{% if ogImage and og %} poster="{{ og }}"{% endif %} aria-label="{{ title }}">
+                    <source src="{{ videoSrc }}" type="{{ videoMime }}">
+                </video>
+            </div>
+            {% endif %}
+            {% elif ogImage and og %}
             <div class="blog-hero">
                 <img src="{{ og }}" alt="{{ title }}" class="blog-hero-img" loading="eager" decoding="async">
             </div>
