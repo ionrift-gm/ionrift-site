@@ -1,0 +1,633 @@
+---
+layout: null
+permalink: /tools/loot-generator/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loot Cache Generator - Ionrift</title>
+<meta name="description" content="Generate tier-tuned, terrain-themed loot caches for your 5e campaign.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d14;--surface:#11111c;--surface2:#181828;--surface3:#1e1e30;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.04);
+  --accent:#8b5cf6;--accent-dim:rgba(139,92,246,0.12);--accent-border:rgba(139,92,246,0.35);
+  --text:#e2e2f0;--text-muted:rgba(255,255,255,0.35);--text-dim:#888;
+  --gold:#c8a040;--gold-bg:rgba(218,165,32,0.07);--gold-border:rgba(218,165,32,0.15);
+  --green:#3cb371;--radius:6px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.5}
+
+/* Nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(13,13,20,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50}
+.nav-brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-weight:700;font-size:14px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.nav-back{font-size:12px;color:var(--text-muted);text-decoration:none}
+.nav-back:hover{color:var(--accent)}
+
+/* Layout */
+.app-wrap{max-width:1380px;margin:0 auto;width:100%}
+.app{display:grid;grid-template-columns:230px 1fr 270px;min-height:calc(100vh - 45px)}
+
+/* Left panel (main content — wide) */
+.left{display:flex;flex-direction:column;border-right:1px solid var(--border);background:var(--surface);min-width:0}
+
+/* Controls */
+.cache-controls{padding:10px 12px 8px;border-bottom:1px solid var(--border);max-width:500px}
+.app-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(196,167,247,0.7);margin-bottom:10px}
+
+/* Context strip */
+.context-strip{display:flex;align-items:center;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:2px 8px;margin-bottom:8px;gap:0}
+.context-pill{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+.ctx-icon{font-size:11px;color:rgba(139,92,246,0.6)}
+.context-select{flex:1;background:transparent;border:none;color:rgba(255,255,255,0.6);font-size:12px;padding:5px 2px;cursor:pointer;outline:none;font-family:inherit;-webkit-appearance:none;appearance:none}
+.context-select:focus{color:var(--text)}
+.context-divider{width:1px;height:14px;background:rgba(255,255,255,0.1);margin:0 8px;flex-shrink:0}
+
+/* Owner hero */
+.owner-hero-group{display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
+.owner-hero-label{font-size:10px;color:rgba(139,92,246,0.7);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:4px}
+.owner-hero-select{width:100%;background:rgba(0,0,0,0.35);border:1px solid var(--accent-border);color:#e2e2e2;padding:8px 12px;border-radius:var(--radius);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;transition:border-color 0.15s}
+.owner-hero-select:focus{border-color:var(--accent)}
+.cache-type-guidance{font-size:11px;color:var(--text-muted);font-style:italic;line-height:1.4;padding:0 2px}
+
+/* Generate button */
+.btn-generate{width:100%;height:36px;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,rgba(139,92,246,0.4),rgba(59,130,246,0.3));border:1px solid var(--accent-border);color:#fff;border-radius:var(--radius);font-size:13px;font-family:inherit;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(139,92,246,0.15);margin-top:6px}
+.btn-generate:hover:not(:disabled){background:linear-gradient(135deg,rgba(139,92,246,0.6),rgba(59,130,246,0.5));box-shadow:0 4px 16px rgba(139,92,246,0.3);transform:translateY(-1px)}
+.btn-generate:disabled{opacity:0.6;cursor:wait}
+
+/* Results scroll area */
+.cache-results-area{flex:1;overflow-y:auto;padding:10px 12px}
+
+/* Results header */
+.results-header{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(0,0,0,0.2);border-radius:var(--radius);border:1px solid var(--border2);margin-bottom:6px}
+.results-header h3{margin:0;font-size:14px;border:none;color:var(--text);display:flex;align-items:center;gap:6px}
+.results-header h3 .hdr-icon{color:var(--accent)}
+.results-meta{font-size:11px;color:var(--text-dim)}
+
+/* Gold bar */
+.cache-gold-bar{display:flex;align-items:center;gap:10px;padding:7px 12px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:var(--radius);margin-bottom:6px}
+.gold-icon{color:rgba(218,165,32,0.5);font-size:12px}
+.coin-chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600}
+.coin-chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.coin-pp{color:#c0c8d8}.coin-pp .dot{background:#a8b8cc}
+.coin-gp{color:#c8a040}.coin-gp .dot{background:#c8a040}
+.coin-sp{color:#a0a8b0}.coin-sp .dot{background:#8890a0}
+.coin-cp{color:#a86840}.coin-cp .dot{background:#965830}
+
+/* Item sections */
+.cache-section{background:rgba(0,0,0,0.15);border-radius:var(--radius);border:1px solid var(--border2);overflow:hidden;margin-bottom:6px}
+.section-label{padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px}
+.weapon-label{color:#c0a060;background:rgba(192,160,96,0.08)}
+.scroll-label{color:#7b68ee;background:rgba(123,104,238,0.08)}
+.consumable-label{color:#3cb371;background:rgba(60,179,113,0.08)}
+.gemstone-label{color:#4fc3a1;background:rgba(79,195,161,0.08)}
+.treasure-label{color:#e8c97a;background:rgba(232,201,122,0.08)}
+.mundane-label{color:#cd853f;background:rgba(205,133,63,0.08)}
+
+/* Item rows */
+.cache-item-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-top:1px solid rgba(255,255,255,0.03);transition:background 0.15s}
+.cache-item-row:hover{background:rgba(255,255,255,0.03)}
+.cache-item-icon{flex:0 0 32px;width:32px;height:32px;border-radius:4px;background:rgba(0,0,0,0.3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px}
+.cache-item-info{flex:1;min-width:0}
+.cache-item-name{font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.qty-badge{display:inline-block;padding:0 5px;height:15px;line-height:15px;font-size:10px;font-weight:700;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:8px;color:rgba(200,180,255,0.9);vertical-align:middle;margin-left:3px}
+.cache-item-meta{font-size:10px;color:var(--text-dim)}
+.cache-item-price{font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap;padding:0 4px}
+.rarity-badge{font-size:10px;padding:1px 6px;border-radius:10px;white-space:nowrap}
+.rb-uncommon{background:rgba(34,197,94,0.1);color:#22c55e}
+.rb-rare{background:rgba(59,130,246,0.1);color:#3b82f6}
+.rb-very-rare{background:rgba(139,92,246,0.1);color:#a78bfa}
+.rb-legendary{background:rgba(245,158,11,0.1);color:#f59e0b}
+
+/* Right sidebar (narrow) */
+.right{padding:12px;background:var(--bg);overflow-y:auto;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--border)}
+
+/* Flavor */
+.cache-flavor-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.cache-flavor{font-style:italic;font-size:12px;color:rgba(255,255,255,0.65);border-left:2px solid var(--accent-border);padding-left:10px;line-height:1.6}
+
+/* Container card */
+.container-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.container-img-wrap{background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;height:80px;font-size:40px;border-bottom:1px solid var(--border)}
+.container-body{padding:12px}
+.container-name{font-size:14px;font-weight:600;margin-bottom:4px;color:var(--text)}
+.container-capacity{font-size:11px;color:var(--text-dim);margin-bottom:8px}
+.fill-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.fill-bar-inner{height:100%;background:var(--accent);border-radius:2px;transition:width 0.4s}
+.fill-label{font-size:10px;color:var(--text-dim)}
+
+/* Footer */
+.cache-footer{padding:8px 12px;border-top:1px solid var(--border);background:rgba(0,0,0,0.15);display:flex;align-items:center;gap:8px}
+.cache-total{flex:0 0 auto;display:flex;align-items:center;gap:5px;font-size:12px;color:#aaa;padding:3px 10px;background:rgba(0,0,0,0.2);border:1px solid var(--border2);border-radius:5px}
+.cache-total-val{color:rgba(139,92,246,0.9);font-weight:700}
+.btn-reroll{flex:1;height:32px;display:flex;align-items:center;justify-content:center;gap:5px;background:rgba(139,92,246,0.25);border:1px solid var(--accent-border);color:#fff;border-radius:var(--radius);font-size:12px;font-family:inherit;cursor:pointer;transition:all 0.2s}
+.btn-reroll:hover{background:rgba(139,92,246,0.45)}
+.btn-copy{flex:0 0 auto;height:32px;padding:0 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim);border-radius:var(--radius);font-size:12px;font-family:inherit;cursor:pointer;transition:all 0.2s}
+.btn-copy:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+
+/* Empty state */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-muted);text-align:center;padding:30px;gap:10px}
+.empty-state .emo{font-size:40px;opacity:0.4}
+
+/* Attribution */
+.attribution{font-size:10px;color:var(--text-muted);padding:10px 12px;border-top:1px solid var(--border2);line-height:1.5}
+.attribution a{color:rgba(139,92,246,0.7);text-decoration:none}
+
+/* Spinner */
+.spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Loot Art */
+.loot-art{width:100%;height:100%;object-fit:contain;border-radius:3px}
+.loot-art-lg{width:100%;height:100%;object-fit:cover;mask-image:linear-gradient(to bottom, black 50%, transparent 100%);-webkit-mask-image:linear-gradient(to bottom, black 50%, transparent 100%)}
+
+/* Responsive */
+/* Advisory panel (left sidebar placeholder) */
+.advisory{
+  position:relative;overflow:hidden;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+}
+.advisory-bg{
+  position:absolute;inset:0;
+  background:url('/img/hero-panel.png') center/cover no-repeat;
+  opacity:0.18;
+  filter:saturate(0.6) brightness(0.7);
+  pointer-events:none;
+}
+.advisory-content{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;overflow-y:auto}
+.advisory-header{
+  padding:10px 10px 8px;
+  border-bottom:1px solid rgba(139,92,246,0.2);
+  background:rgba(139,92,246,0.06);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.advisory-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(196,167,247,0.85);display:flex;align-items:center;gap:6px}
+.advisory-body{flex:1;padding:6px 0}
+.advisory-section{padding:4px 0;border-top:1px solid rgba(255,255,255,0.04)}
+.advisory-section-label{
+  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 10px 3px;display:flex;align-items:center;gap:5px;
+}
+.adv-label-sigs{color:rgba(218,165,32,0.7)}
+.adv-label-shelf{color:rgba(46,196,182,0.7)}
+.adv-label-cursed{color:rgba(248,113,113,0.6)}
+.advisory-placeholder-row{
+  display:flex;align-items:center;gap:8px;padding:4px 10px;
+  opacity:0.28;
+}
+.adv-avatar{
+  width:22px;height:22px;border-radius:3px;
+  background:rgba(255,255,255,0.08);flex-shrink:0;
+}
+.adv-text{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.adv-name{height:7px;background:rgba(255,255,255,0.15);border-radius:3px;width:70%}
+.adv-sub{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;width:90%;margin-top:2px}
+.advisory-foot{
+  padding:10px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  font-size:10px;color:rgba(255,255,255,0.2);font-style:italic;text-align:center;line-height:1.4;
+}
+@media(max-width:800px){
+  .app{grid-template-columns:1fr}
+  .advisory{display:none}
+  .right{border-left:none;border-top:1px solid var(--border)}
+}
+
+/* ── Auth wall ──────────────────────────────────────────────── */
+.auth-wall{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center}
+.auth-wall-bg{position:absolute;inset:0;background:rgba(8,8,18,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.auth-card{
+  position:relative;z-index:1;
+  background:rgba(22,22,38,0.96);
+  border:1px solid rgba(139,92,246,0.28);
+  border-radius:14px;padding:40px 44px 32px;
+  max-width:380px;width:calc(100% - 32px);
+  text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,0.65),0 0 0 1px rgba(255,255,255,0.04) inset;
+}
+.auth-card-glow{
+  position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(139,92,246,0.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.auth-card-icon{font-size:30px;margin-bottom:10px}
+.auth-card-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px}
+.auth-card-sub{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.65;margin-bottom:26px}
+.btn-google-signin{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;height:44px;
+  background:#fff;color:#3c4043;
+  border:none;border-radius:8px;
+  font-size:14px;font-weight:500;font-family:inherit;
+  cursor:pointer;transition:box-shadow 0.15s,opacity 0.15s;
+  margin-bottom:12px;
+}
+.btn-google-signin:hover{box-shadow:0 2px 18px rgba(0,0,0,0.35)}
+.btn-google-signin:disabled{opacity:0.6;cursor:wait}
+.auth-legal{font-size:10px;color:rgba(255,255,255,0.2);line-height:1.5;margin-top:4px}
+.auth-legal a{color:rgba(139,92,246,0.55);text-decoration:none}
+.auth-legal a:hover{color:var(--accent)}
+.auth-error{font-size:12px;color:#f87171;margin-top:8px;display:none}
+/* Nav user badge */
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-user{display:flex;align-items:center;gap:8px}
+.nav-avatar{width:26px;height:26px;border-radius:50%;border:1px solid var(--accent-border);object-fit:cover;vertical-align:middle}
+.nav-avatar-ph{width:26px;height:26px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:rgba(200,180,255,0.9)}
+.nav-username{font-size:12px;color:var(--text-muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-signout{font-size:11px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.btn-signout:hover{color:var(--text);border-color:rgba(255,255,255,0.2)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="/"><span class="nav-dot"></span>Ionrift Workshop</a>
+  <div class="nav-right">
+    <a class="nav-back" href="/">← Back to site</a>
+    <div class="nav-user" id="nav-user" style="display:none">
+      <div class="nav-avatar-ph" id="nav-avatar">?</div>
+      <span class="nav-username" id="nav-username"></span>
+      <button class="btn-signout" id="btn-signout">Sign out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Auth wall (shown when logged out) -->
+<div id="auth-wall" class="auth-wall">
+  <div class="auth-wall-bg"></div>
+  <div class="auth-card">
+    <div class="auth-card-glow"></div>
+    <div class="auth-card-icon">⚡</div>
+    <h1 class="auth-card-title">Loot Generator</h1>
+    <p class="auth-card-sub">Sign in to access the Ionrift Loot Generator.<br>Free to use - no account setup required.</p>
+    <button class="btn-google-signin" id="btn-signin">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908C16.658 14.251 17.64 11.943 17.64 9.2z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+        <path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 6.293C4.672 4.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+      </svg>
+      Sign in with Google
+    </button>
+    <p class="auth-legal">By signing in you agree to the <a href="/privacy" target="_blank">Privacy Policy</a>.</p>
+    <p class="auth-error" id="auth-error"></p>
+  </div>
+</div>
+
+<div class="app-wrap">
+<div class="app">
+  <!-- Advisory placeholder (left) -->
+  <div class="advisory">
+    <div class="advisory-bg"></div>
+    <div class="advisory-content">
+      <div class="advisory-header">
+        <div class="advisory-title">⚡ Progression Advisory</div>
+      </div>
+      <div class="advisory-body">
+        <div class="advisory-section">
+          <div class="advisory-section-label adv-label-sigs">★ Signatures</div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+        </div>
+        <div class="advisory-section">
+          <div class="advisory-section-label adv-label-shelf">≡ Party Shelf</div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+        </div>
+        <div class="advisory-section">
+          <div class="advisory-section-label adv-label-cursed">☠ Cursed Pool</div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+          <div class="advisory-placeholder-row"><div class="adv-avatar"></div><div class="adv-text"><div class="adv-name"></div><div class="adv-sub"></div></div></div>
+        </div>
+      </div>
+      <div class="advisory-foot">Party data available<br>in Foundry VTT</div>
+    </div>
+  </div>
+  <div class="left">
+    <div class="cache-controls">
+      <div class="app-title">⚡ Loot Cache Generator</div>
+
+      <!-- Tier + Terrain context strip -->
+      <div class="context-strip">
+        <div class="context-pill">
+          <span class="ctx-icon">⚔</span>
+          <select class="context-select" id="ctrl-tier">
+            <option value="1">T1 - Lv 1-4</option>
+            <option value="2">T2 - Lv 5-10</option>
+            <option value="3">T3 - Lv 11-16</option>
+            <option value="4">T4 - Lv 17-20</option>
+          </select>
+        </div>
+        <div class="context-divider"></div>
+        <div class="context-pill">
+          <span class="ctx-icon">🗺</span>
+          <select class="context-select" id="ctrl-terrain">
+            <option value="dungeon">Dungeon</option>
+            <option value="forest">Forest</option>
+            <option value="urban">Urban</option>
+            <option value="desert">Desert</option>
+            <option value="coastal">Coastal</option>
+            <option value="mountain">Mountain</option>
+            <option value="jungle">Jungle</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Owner / Cache Origin -->
+      <div class="owner-hero-group">
+        <div class="owner-hero-label">🏺 Cache Origin</div>
+        <select class="owner-hero-select" id="ctrl-owner">
+          <option value="unspecified">General Cache</option>
+          <option value="arcana">Arcana</option>
+          <option value="apothecary">Apothecary</option>
+          <option value="armaments">Armaments</option>
+          <option value="implements">Implements</option>
+          <option value="relics">Relics</option>
+          <option value="abandoned">Abandoned</option>
+        </select>
+        <div class="cache-type-guidance" id="owner-desc">A general cache. Balanced distribution.</div>
+      </div>
+
+      <button class="btn-generate" id="btn-generate" disabled>
+        <span class="spin" id="load-spin"></span> Loading…
+      </button>
+    </div>
+
+    <!-- Results scroll area -->
+    <div class="cache-results-area" id="results-area">
+      <div class="empty-state" id="empty-state">
+        <div class="emo">📦</div>
+        <div>Configure the cache and click <strong>Generate</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cache-footer" id="cache-footer" style="display:none">
+      <div class="cache-total">⚖ Est. Total: <span class="cache-total-val" id="total-val">—</span></div>
+      <button class="btn-reroll" id="btn-reroll">↺ Reroll Cache</button>
+      <button class="btn-copy" id="btn-copy">Copy</button>
+    </div>
+
+    <div class="attribution">
+      Items from the <a href="https://dnd.wizards.com/resources/systems-reference-document" target="_blank" rel="noopener">SRD 5.1</a> by Wizards of the Coast LLC, licensed <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank" rel="noopener">CC-BY-4.0</a>.
+    </div>
+  </div>
+
+  <!-- Right: flavor + container -->
+  <div class="right" id="right-panel">
+    <div class="empty-state">
+      <div class="emo">✨</div>
+      <div style="font-size:12px">Flavor text and container will appear here.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="module">
+import { createLootEngine }                          from '/js/loot-engine.js';
+import { initAuth, signIn, signOutUser, onAuthStateChange } from '/js/auth.js';
+
+let engine     = null;
+let ownerDescs = {};
+let lastResult = null;
+let engineReady = false;
+
+// ── Auth bootstrap ────────────────────────────────────────────
+initAuth();
+
+onAuthStateChange(user => {
+  const wall    = document.getElementById('auth-wall');
+  const navUser = document.getElementById('nav-user');
+
+  if (user) {
+    // ── Logged in ──────────────────────────────────────────
+    wall.style.display = 'none';
+    navUser.style.display = 'flex';
+
+    // Populate user badge
+    document.getElementById('nav-username').textContent =
+      user.displayName?.split(' ')[0] ?? user.email ?? 'User';
+    const avatarEl = document.getElementById('nav-avatar');
+    if (user.photoURL) {
+      const img = document.createElement('img');
+      img.className = 'nav-avatar';
+      img.id = 'nav-avatar';
+      img.src = user.photoURL;
+      img.alt = user.displayName ?? 'User';
+      img.referrerPolicy = 'no-referrer';
+      avatarEl.replaceWith(img);
+    } else {
+      avatarEl.textContent = (user.displayName?.[0] ?? '?').toUpperCase();
+    }
+
+    // Boot loot engine once
+    if (!engineReady) initEngine();
+  } else {
+    // ── Logged out ─────────────────────────────────────────
+    wall.style.display = 'flex';
+    navUser.style.display = 'none';
+  }
+});
+
+// Sign-in button
+document.getElementById('btn-signin').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-signin');
+  const errEl = document.getElementById('auth-error');
+  btn.disabled = true;
+  btn.childNodes[btn.childNodes.length - 1].textContent = ' Signing in…';
+  errEl.style.display = 'none';
+  try {
+    await signIn();
+  } catch (err) {
+    btn.disabled = false;
+    btn.childNodes[btn.childNodes.length - 1].textContent = ' Sign in with Google';
+    if (err.code !== 'auth/popup-closed-by-user') {
+      errEl.textContent = 'Sign-in failed. Please try again.';
+      errEl.style.display = 'block';
+    }
+  }
+});
+
+// Sign-out button
+document.getElementById('btn-signout').addEventListener('click', () => signOutUser());
+
+// ── Loot engine ───────────────────────────────────────────────
+async function initEngine() {
+  engineReady = true;
+  try {
+    engine = await createLootEngine('/data');
+    ownerDescs = Object.fromEntries(engine.getOwnerThemes().map(t => [t.id, t.desc]));
+  } catch(e) {
+    document.getElementById('btn-generate').textContent = 'Failed to load data';
+    return;
+  }
+  const btn = document.getElementById('btn-generate');
+  document.getElementById('load-spin')?.remove();
+  btn.disabled = false;
+  btn.textContent = 'Generate Cache';
+  btn.addEventListener('click', generate);
+  document.getElementById('btn-reroll').addEventListener('click', generate);
+  document.getElementById('btn-copy').addEventListener('click', () => lastResult && copyResult(lastResult));
+  document.getElementById('ctrl-owner').addEventListener('change', e => {
+    document.getElementById('owner-desc').textContent = ownerDescs[e.target.value] ?? '';
+  });
+}
+
+function opts() {
+  return {
+    tier: Number(document.getElementById('ctrl-tier').value),
+    theme: document.getElementById('ctrl-terrain').value,
+    ownerTheme: document.getElementById('ctrl-owner').value,
+  };
+}
+
+function generate() {
+  if (!engine) return;
+  lastResult = engine.generate(opts());
+  renderResult(lastResult);
+}
+
+const SECTION_MAP = {
+  mastercraft: { label: 'Weapons & Armour', cls: 'weapon-label' },
+  scroll:      { label: 'Spell Scrolls',    cls: 'scroll-label' },
+  consumable:  { label: 'Consumables',      cls: 'consumable-label' },
+  gemstone:    { label: 'Gemstones',        cls: 'gemstone-label' },
+  treasure:    { label: 'Trade Goods',      cls: 'treasure-label' },
+  mundane:     { label: 'Sundries',         cls: 'mundane-label' },
+  trinket:     { label: 'Sundries',         cls: 'mundane-label' },
+};
+
+const CONTAINER_EMOJI = { chest:'📦', coffer:'📦', trunk:'📦', basket:'🧺', sack:'👝', backpack:'🎒', roll:'📜', bundle:'🪢', crate:'🏗' };
+
+function containerEmoji(name) {
+  return '<img src="/img/loot/container.png" alt="" class="loot-art-lg">';
+}
+
+function typeEmoji(item) {
+  let icon = 'mundane';
+  if (item.spellLevel) icon = 'scroll';
+  else {
+    const s = item._slotType ?? '';
+    const n = (item.name ?? '').toLowerCase();
+    if (s === 'mastercraft') icon = n.includes('armor') || n.includes('shield') || n.includes('mail') ? 'armor' : 'weapon';
+    else if (s === 'gemstone') icon = 'gemstone';
+    else if (s === 'consumable' || n.includes('potion')) icon = 'potion';
+    else if (s === 'treasure') icon = 'treasure';
+    else if (s === 'trinket') icon = 'trinket';
+    else if (s === 'magic') icon = 'magic';
+  }
+  return `<img src="/img/loot/${icon}.png" alt="" class="loot-art">`;
+}
+
+function rarityBadge(rarity) {
+  const map = { uncommon:'rb-uncommon', rare:'rb-rare', 'very rare':'rb-very-rare', legendary:'rb-legendary' };
+  const r = (rarity ?? '').toLowerCase();
+  const cls = map[r];
+  return cls ? `<span class="rarity-badge ${cls}">${rarity}</span>` : '';
+}
+
+function renderResult(r) {
+  document.getElementById('empty-state')?.remove();
+  const area = document.getElementById('results-area');
+
+  // Group items by slot type
+  const groups = {};
+  for (const item of r.items) {
+    const key = item._slotType ?? 'mundane';
+    (groups[key] ??= []).push(item);
+  }
+
+  // Gold bar
+  const coin = r.coinage ?? {};
+  const coins = [
+    coin.pp > 0 ? `<span class="coin-chip coin-pp"><span class="dot"></span>${coin.pp} pp</span>` : '',
+    coin.gp > 0 ? `<span class="coin-chip coin-gp"><span class="dot"></span>${coin.gp} gp</span>` : '',
+    coin.sp > 0 ? `<span class="coin-chip coin-sp"><span class="dot"></span>${coin.sp} sp</span>` : '',
+  ].filter(Boolean).join('');
+
+  const goldBar = `<div class="cache-gold-bar"><span class="gold-icon">⚖</span>${coins || `<span class="coin-chip coin-gp"><span class="dot"></span>${r.gold} gp</span>`}</div>`;
+
+  // Item sections
+  const seen = new Set();
+  const sectionsHtml = Object.entries(groups).map(([key, items]) => {
+    const def = SECTION_MAP[key] ?? { label: 'Items', cls: 'mundane-label' };
+    const groupKey = def.label;
+    if (seen.has(groupKey)) return ''; // merge trinket+mundane into one Sundries block
+    seen.add(groupKey);
+    // Collect all items for this label
+    const allItems = r.items.filter(i => (SECTION_MAP[i._slotType ?? 'mundane'] ?? SECTION_MAP.mundane).label === groupKey);
+    const rows = allItems.map(item => {
+      const qty = item.quantity > 1 ? `<span class="qty-badge">×${item.quantity}</span>` : '';
+      const meta = item.spellLevel ? `Level ${item.spellLevel} spell` : (item.rarity && item.rarity !== 'none' ? '' : '');
+      const price = item.price > 0 ? `<span class="cache-item-price">${item.price} gp</span>` : '';
+      const rb = rarityBadge(item.rarity);
+      return `<div class="cache-item-row">
+        <div class="cache-item-icon">${typeEmoji(item)}</div>
+        <div class="cache-item-info">
+          <div class="cache-item-name">${item.name}${qty}</div>
+          ${meta ? `<div class="cache-item-meta">${meta}</div>` : ''}
+        </div>
+        ${rb}${price}
+      </div>`;
+    }).join('');
+    return `<div class="cache-section"><div class="section-label ${def.cls}">${def.label}</div>${rows}</div>`;
+  }).join('');
+
+  // Results header
+  const header = `<div class="results-header">
+    <h3><span class="hdr-icon">⚡</span>${r.meta.cacheLabel}</h3>
+    <span class="results-meta">${r.meta.tierLabel} · ${r.items.length} items</span>
+  </div>`;
+
+  area.innerHTML = header + goldBar + sectionsHtml;
+
+  // Footer
+  const footer = document.getElementById('cache-footer');
+  footer.style.display = 'flex';
+  const total = r.items.reduce((s, i) => s + (i.price ?? 0), 0) + r.gold;
+  document.getElementById('total-val').textContent = `${Math.round(total)} gp`;
+
+  // Right panel
+  const right = document.getElementById('right-panel');
+  const flavorHtml = r.meta.flavor
+    ? `<div class="cache-flavor-card"><div class="cache-flavor">${r.meta.flavor}</div></div>` : '';
+  const containerHtml = r.container ? `<div class="container-card">
+    <div class="container-img-wrap">${containerEmoji(r.container.name)}</div>
+    <div class="container-body">
+      <div class="container-name">${r.container.name}</div>
+      <div class="container-capacity">Empty: 0 lb | Cap: ${r.container.capacityLbs} lb</div>
+      <div class="fill-bar"><div class="fill-bar-inner" style="width:${r.container.fillPercent}%"></div></div>
+      <div class="fill-label">${r.container.contentWeightLbs.toFixed(1)} / ${r.container.capacityLbs} lb</div>
+    </div>
+  </div>` : '';
+  right.innerHTML = flavorHtml + containerHtml || '<div class="empty-state"><div class="emo">✨</div></div>';
+}
+
+function copyResult(r) {
+  const lines = [`## ${r.meta.cacheLabel} (${r.meta.tierLabel})`, ''];
+  if (r.meta.flavor) lines.push(`*${r.meta.flavor}*`, '');
+  lines.push(`**Gold:** ${r.gold} gp`, '', '**Items:**');
+  for (const item of r.items) {
+    const qty = item.quantity > 1 ? ` ×${item.quantity}` : '';
+    const rar = item.rarity && item.rarity !== 'none' ? ` (${item.rarity})` : '';
+    lines.push(`- ${item.name}${qty}${rar} — ${item.price} gp`);
+  }
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+</script>
+</body>
+</html>

@@ -17,7 +17,7 @@ Resonance's sounds have been carved out into their own pack.
 
 Up until now all the combat SFX shipped inside the module itself. That was simple and it worked - but the sounds are going to grow. Every new pack adds weight, and Forge is already taking half an hour just to pull an update. It wasn't going to scale.
 
-So the core sounds - hits, spells, creature calls, death cries, the lot - now live in a separate download that Resonance picks up at runtime. If you're already running Resonance, it'll detect the pack and wire everything in. No config changes, no re-mapping. I'll roll this out across a few versions to keep it as seamless as possible - **but you will need to download and install the sound pack before I pull the sounds form the module core.**
+So the core sounds - hits, spells, creature calls, death cries, the lot - now live in a separate download that Resonance picks up at runtime. If you're already running Resonance, it'll detect the pack and wire everything in. No config changes, no re-mapping. I'll roll this out across a few versions to keep it smooth - **but you will need to download and install the sound pack before I pull the sounds from the module core.**
 
 ![](https://c10.patreonusercontent.com/4/patreon-media/p/post/155877870/b2508d6745d44a0b9835974d426a5d5c/eyJhIjoxLCJ3Ijo4MjB9/1.png?token-hash=2ofviDwspHJ6q5zzIXtXVzV8Vf0Sy7ZJ0tS7TcLQxK8%3D&token-time=1778284800)
 
