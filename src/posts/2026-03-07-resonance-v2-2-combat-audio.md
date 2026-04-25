@@ -10,6 +10,8 @@ patreonId: "152446977"
 patreonContentHash: "sha256:43d817e2ec065f73"
 patreonUrl: "/posts/resonance-v2-2-152446977"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "https://www.youtube.com/embed/vRZeyZqYwxw"
+ogImage: "https://img.youtube.com/vi/vRZeyZqYwxw/maxresdefault.jpg"
 ---
 
 Dev log - finally got round to recording a proper action sequence running on DnD5e (Daggerheart is compatible and has specific sounds for resource uses e.g. hope/fear use - i'll do another video when I can)  
