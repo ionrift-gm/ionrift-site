@@ -742,9 +742,8 @@
         }
 
         .fvtt-btn-icon {
-            width: 16px;
-            height: 16px;
-            object-fit: contain;
+            height: 18px;
+            width: auto;
             flex-shrink: 0;
         }
 
