@@ -741,6 +741,13 @@
             transform: translateY(-1px);
         }
 
+        .fvtt-btn-icon {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
         .module-try {
             display: inline-flex;
             align-items: center;
