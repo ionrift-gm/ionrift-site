@@ -10,6 +10,7 @@ patreonId: "157161644"
 patreonContentHash: "sha256:88ce53b08592e171"
 patreonUrl: "/posts/resting-whats-at-157161644"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/resting-whats-at-camp-part-3-of-3/cover.png"
 ---
 
 Part 2 was about the spatial model: camp on the map, stations as interaction points, two clicks to get resting. This one is about what's actually sitting at the camp when the party arrives, and the two stations that changed the most.
