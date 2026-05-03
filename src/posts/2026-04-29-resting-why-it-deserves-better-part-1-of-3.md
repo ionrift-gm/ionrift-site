@@ -10,6 +10,7 @@ patreonId: "156763759"
 patreonContentHash: "sha256:1868cbb071e7ec5a"
 patreonUrl: "/posts/resting-why-it-1-156763759"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/resting-why-it-deserves-better-part-1-of-3/cover.png"
 ---
 
 In Fantasy Grounds there was a nice little long rest panel. The GM opened it, managed the rest, players waited. Simple, functional. When the rest happened, it happened because the GM pressed a button to 'officiate'.
