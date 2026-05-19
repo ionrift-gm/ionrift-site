@@ -10,6 +10,7 @@ patreonId: "158196713"
 patreonContentHash: "sha256:698f611b8e9519be"
 patreonUrl: "/posts/he-had-potion-158196713"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/he-had-a-potion/cover.png"
 ---
 
 There's a moment from a campaign I ran years back that's been sitting in my head for a while. End of OotA's final act. Two elite drow, poison weapons. The barbarian was getting wrecked but holding on. Damage resistance doing a lot of work, a handful of hit points left. Panic starting to set in at the table.
