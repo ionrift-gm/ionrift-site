@@ -10,6 +10,7 @@ patreonId: "161678002"
 patreonContentHash: "sha256:7088db784066165a"
 patreonUrl: "/Ionrift/posts/homebrew-recipe-161678002"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "/img/blog/2026/homebrew-recipe-editor/cover.mp4"
 ---
 
 Up till now, the cooking system in Respite has been fairly vestigial. Enough to prove the concept worked, make sure the crafting loop held together, but not really something you could make your own.
