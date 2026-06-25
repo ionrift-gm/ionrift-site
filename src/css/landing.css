@@ -1193,15 +1193,12 @@
             .post-cards { grid-template-columns: 1fr; }
             .cta-box { padding: 40px 24px; }
             .footer-inner { flex-direction: column; text-align: center; }
-            /* Only show one card on small screens */
-            .hero-card--mid,
-            .hero-card--bot { display: none; }
+            .hero-card { display: none; }
         }
 
         @media (max-width: 480px) {
             .hero-actions { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
-            .hero-card--top { min-width: unset; max-width: calc(100% - 40px); }
         }
 
         /* ═══ Scrollbar ═══ */
