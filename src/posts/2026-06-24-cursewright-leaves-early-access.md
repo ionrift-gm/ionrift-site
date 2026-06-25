@@ -10,6 +10,8 @@ patreonId: "161874966"
 patreonContentHash: "sha256:21eca06045caaa12"
 patreonUrl: "/Ionrift/posts/cursewright-161874966"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "https://www.youtube.com/embed/3C12IIHVs3M"
+ogImage: "https://img.youtube.com/vi/3C12IIHVs3M/maxresdefault.jpg"
 ---
 
 That was a Potion of Healing stack, but one of those in the stack was poisoned. Common rarity, the right red flask, the right wording on the sheet, regains 2d4+2. Aoth drank it mid-fight, already bleeding, expecting the obvious. It was poison.
