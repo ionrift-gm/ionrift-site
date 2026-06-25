@@ -201,7 +201,7 @@
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
+            min-height: 74vh;
             position: relative;
         }
 
@@ -210,7 +210,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 140px 60px 80px 0;
+            padding: 112px 60px 48px 0;
             padding-left: max(24px, calc((100vw - 1120px) / 2));
         }
 
@@ -307,16 +307,23 @@
         }
 
         .hero-scroll-hint {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 56px;
+            margin-top: 36px;
             color: var(--text-dim);
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
+            text-decoration: none;
+            width: fit-content;
+            transition: color 0.2s ease;
             animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        .hero-scroll-hint:hover {
+            color: var(--text-muted);
         }
 
         .hero-scroll-hint svg {
@@ -896,6 +903,102 @@
             flex-wrap: wrap;
         }
 
+        /* ── Membership / value block ── */
+        .value-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .value-card {
+            background: var(--void-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .value-card--patreon {
+            border-color: rgba(255, 66, 77, 0.2);
+            background: linear-gradient(135deg, rgba(255, 66, 77, 0.05), rgba(255, 66, 77, 0.02));
+        }
+
+        .value-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .value-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+        }
+
+        .value-tag--patreon {
+            background: rgba(255, 66, 77, 0.12);
+            color: #ff6b73;
+            border-color: rgba(255, 66, 77, 0.25);
+        }
+
+        .value-name {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .value-lead {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .value-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .value-list li {
+            position: relative;
+            padding-left: 22px;
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .value-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 7px;
+            height: 7px;
+            border-radius: 2px;
+            background: var(--accent);
+        }
+
+        .value-card--patreon .value-list li::before {
+            background: #ff6b73;
+        }
+
+        .value-foot {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         /* ═══ Footer ═══ */
         .footer {
             padding: 40px 0;
@@ -992,6 +1095,7 @@
             .nav-links { display: none; }
             .ethos-grid { grid-template-columns: 1fr; }
             .module-grid { grid-template-columns: 1fr; }
+            .value-grid { grid-template-columns: 1fr; }
             .cta-box { padding: 40px 24px; }
             .footer-inner { flex-direction: column; text-align: center; }
             /* Only show one card on small screens */
