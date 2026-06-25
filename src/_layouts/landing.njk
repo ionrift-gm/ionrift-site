@@ -26,7 +26,7 @@
 
     <link rel="canonical" href="{{ canonical | default(site.url) }}">
 
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow{% endif %}">
     <meta name="keywords" content="foundry vtt, foundry vtt modules, ttrpg tools, gm tools, rest module, soundscape module, settlement generator, tabletop rpg">
 
     <script type="application/ld+json">

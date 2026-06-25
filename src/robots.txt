@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /cartographer/app/
 
 Sitemap: https://ionrift.cloud/sitemap.xml

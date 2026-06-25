@@ -1,6 +1,7 @@
 {
   "status": "stub",
   "hostedAppUrl": null,
+  "dogfoodAppUrl": "https://ionrift-cartographer-994779779459.us-central1.run.app",
   "name": "Cartographer",
   "tagline": "Battle maps from a description",
   "accent": "#10B981",

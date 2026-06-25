@@ -1,0 +1,63 @@
+---
+layout: landing.njk
+title: Cartographer (private build) | Ionrift Workshop
+description: Private build of Cartographer for dogfooding.
+canonical: https://ionrift.cloud/cartographer/app/
+noindex: true
+eleventyExcludeFromCollections: true
+draft: true
+bodyClass: page-cartographer
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main module-detail page-cartographer">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ cartographer.name }}</span>
+            <span aria-hidden="true">/</span>
+            <span>Private build</span>
+        </nav>
+
+        <header class="module-detail-header" style="--module-color: {{ cartographer.accent }}; --module-icon-color: {{ cartographer.iconAccent or cartographer.accent }};">
+            <div class="module-detail-icon">
+                <img src="{{ cartographer.icon }}" alt="">
+            </div>
+            <div class="module-detail-intro">
+                <span class="module-pill pill-ea">Private build</span>
+                <h1 class="module-detail-title">{{ cartographer.name }}</h1>
+                <p class="module-detail-tag" style="color: {{ cartographer.accent }};">{{ cartographer.tagline }}</p>
+            </div>
+        </header>
+
+        <div class="module-detail-body ionrift-window">
+            <p class="module-detail-desc">An unlisted entry point for testing the hosted app before early access. Sign-in is gated to Patreon, Acolyte tier and above.</p>
+
+            <div class="module-detail-copy">
+                <p>Generation runs against a monthly credit allowance. Failed generations are not charged. Finished maps are kept for 30 days, then removed, so download anything worth keeping.</p>
+            </div>
+
+            <div class="module-detail-disclosure">
+                <p>{{ cartographer.disclosure }}</p>
+            </div>
+
+            <div class="module-detail-actions">
+{% if cartographer.dogfoodAppUrl %}
+                <a href="{{ cartographer.dogfoodAppUrl }}" target="_blank" rel="noopener" class="btn btn-primary module-detail-cta">Launch Cartographer</a>
+{% else %}
+                <span class="btn btn-ghost module-detail-cta module-detail-cta--disabled">Not configured</span>
+{% endif %}
+            </div>
+
+            <p class="module-install-note">Unlisted on purpose. This page is not linked from the site and is excluded from search.</p>
+        </div>
+
+        <p class="page-back">
+            <a href="/">&larr; Home</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
