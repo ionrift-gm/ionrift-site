@@ -14,4 +14,7 @@ export default {
       "https://storage.googleapis.com/ionrift-media"
     );
   },
+  get year() {
+    return new Date().getFullYear();
+  },
 };
