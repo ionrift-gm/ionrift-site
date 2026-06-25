@@ -10,6 +10,7 @@ patreonId: "159373428"
 patreonContentHash: "sha256:995e3f860c9759e4"
 patreonUrl: "/Ionrift/posts/quartermaster-159373428"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/quartermaster-core-items/cover.png"
 ---
 
 Quartermaster Core. The base content overlay for Quartermaster. ~60 items across three categories, to flavor your loot caches - no tier required.
