@@ -6,100 +6,42 @@
                     <h2 class="section-title">What we build</h2>
                 </div>
                 <div class="module-grid">
-
-                    <div class="module-card" style="--module-color: #E4CFAA;">
-                        <div class="module-icon" style="background: rgba(228, 207, 170, 0.08); border-color: rgba(228, 207, 170, 0.15);"><img src="/img/modules/respite.png" alt="Respite"></div>
-                        <div class="module-name">Respite</div>
-                        <div class="module-tag" style="color: #E4CFAA;">Rest &amp; Downtime</div>
-                        <p class="module-desc">Structured rest phases with terrain-aware events, campfire rituals, forage tables, and profession crafting. Keeps the GM in the narrative, not the bookkeeping.</p>
+{% for m in modules %}
+{% set pillClass = "pill-released" %}
+{% set pillText = "Released" %}
+{% if m.status == "ea" %}{% set pillClass = "pill-ea" %}{% set pillText = "Early Access" %}{% endif %}
+{% if m.status == "roadmap" %}{% set pillClass = "pill-dev" %}{% set pillText = "Roadmap" %}{% endif %}
+{% if m.pillLabel %}{% set pillText = m.pillLabel %}{% endif %}
+                    <div class="module-card{% if m.status == 'roadmap' %} module-card--soon{% endif %}" style="--module-color: {{ m.accent }};">
+                        <div class="module-icon" style="background: {{ m.accent }}14; border-color: {{ m.accent }}26;"><img src="{{ m.icon }}" alt="{{ m.name }}"></div>
+                        <div class="module-name">{{ m.name }}</div>
+                        <div class="module-tag" style="color: {{ m.accent }};">{{ m.tagline }}</div>
+                        <p class="module-desc">{{ m.description }}</p>
                         <div class="module-footer">
                             <div class="module-links-row">
-                                <a href="https://github.com/ionrift-gm/ionrift-respite" target="_blank" rel="noopener" class="module-cta" id="mod-respite-foundry">
+{% if m.install.method == "foundry" %}
+                                <a href="{{ m.links.github }}" target="_blank" rel="noopener" class="module-cta" id="mod-{{ m.id }}-foundry">
                                     <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
-                                    Foundry Module
+                                    {{ m.install.label }}
                                 </a>
-                            </div>
-                            <span class="module-pill pill-released">Released</span>
-                        </div>
-                    </div>
-
-                    <div class="module-card" style="--module-color: #4A6FD9;">
-                        <div class="module-icon" style="background: rgba(74, 111, 217, 0.08); border-color: rgba(74, 111, 217, 0.15);"><img src="/img/modules/resonance.png" alt="Resonance"></div>
-                        <div class="module-name">Resonance</div>
-                        <div class="module-tag" style="color: #4A6FD9;">Soundscapes</div>
-                        <p class="module-desc">Context-sensitive ambient sound. Crit stingers, weapon hits, voice cues, and Daggerheart fear/hope triggers - automatically synced to combat and dice rolls.</p>
-                        <div class="module-footer">
-                            <div class="module-links-row">
-                                <a href="https://github.com/ionrift-gm/ionrift-resonance" target="_blank" rel="noopener" class="module-cta" id="mod-resonance-foundry">
-                                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
-                                    Foundry Module
+{% elif m.install.method == "patreon-cloud" %}
+                                <a href="{{ m.links.patreon }}" target="_blank" rel="noopener" class="module-cta" id="mod-{{ m.id }}-patreon">
+                                    {{ m.install.label }}
                                 </a>
-                                <a href="/tools/soundboard/" class="module-try" id="mod-resonance-try">🔊 Try Soundboard →</a>
+{% endif %}
+{% if m.try %}
+                                <a href="{{ m.try.href }}" class="module-try" id="mod-{{ m.id }}-try">{{ m.try.label }} &rarr;</a>
+{% endif %}
                             </div>
-                            <span class="module-pill pill-released">Released</span>
-                        </div>
-                    </div>
-
-                    <div class="module-card" style="--module-color: #C0392B;">
-                        <div class="module-icon" style="background: rgba(192, 57, 43, 0.08); border-color: rgba(192, 57, 43, 0.15);"><img src="/img/modules/quartermaster.png" alt="Quartermaster"></div>
-                        <div class="module-name">Quartermaster</div>
-                        <div class="module-tag" style="color: #C0392B;">Inventory &amp; Loot</div>
-                        <p class="module-desc">Tier-tuned loot cache generation, signature item tracking, curse progression, and content pack delivery - all in one GM panel.</p>
-                        <div class="module-footer">
-                            <div class="module-links-row">
-                                <a href="https://github.com/ionrift-gm/ionrift-quartermaster" target="_blank" rel="noopener" class="module-cta" id="mod-qm-foundry">
-                                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
-                                    Foundry Module
-                                </a>
-                                <a href="/tools/loot-generator/" class="module-try" id="mod-qm-try">⚡ Try Loot Generator →</a>
+                            <div class="module-pill-row">
+                                <span class="module-pill {{ pillClass }}">{{ pillText }}</span>
+{% if m.accessLabel %}
+                                <span class="module-pill pill-premium">{{ m.accessLabel }}</span>
+{% endif %}
                             </div>
-                            <span class="module-pill pill-ea">Early Access</span>
                         </div>
                     </div>
-
-
-                    <div class="module-card" style="--module-color: #0EA5E9;">
-                        <div class="module-icon" style="background: rgba(14, 165, 233, 0.08); border-color: rgba(14, 165, 233, 0.15);"><img src="/img/modules/waterline.png" alt="Waterline"></div>
-                        <div class="module-name">Waterline</div>
-                        <div class="module-tag" style="color: #0EA5E9;">Map FX &amp; Walls</div>
-                        <p class="module-desc">Click on water in your map to generate animated caustics with live-tunable speed, distortion, and opacity. Also generates procedural border walls to make map boundaries feel organic.</p>
-                        <div class="module-footer">
-                            <div class="module-links-row">
-                                <a href="https://github.com/ionrift-gm/ionrift-waterline" target="_blank" rel="noopener" class="module-cta" id="mod-waterline-foundry">
-                                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
-                                    Foundry Module
-                                </a>
-                            </div>
-                            <span class="module-pill pill-released">Released</span>
-                        </div>
-                    </div>
-
-                    <div class="module-card" style="--module-color: #22d3ee;">
-                        <div class="module-icon" style="background: rgba(34, 211, 238, 0.08); border-color: rgba(34, 211, 238, 0.15);"><img src="/img/modules/dh-animator.png" alt="Daggerheart Animator"></div>
-                        <div class="module-name">Daggerheart Animator</div>
-                        <div class="module-tag" style="color: #22d3ee;">Combat VFX</div>
-                        <p class="module-desc">Bridges Daggerheart monster attacks to Automated Animations. Generates temporary weapon items during rolls so animation hooks fire for claws, bites, and ranged abilities. No configuration needed.</p>
-                        <div class="module-footer">
-                            <div class="module-links-row">
-                                <a href="https://github.com/ionrift-gm/ionrift-daggerheart-animator" target="_blank" rel="noopener" class="module-cta" id="mod-dha-foundry">
-                                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
-                                    Foundry Module
-                                </a>
-                            </div>
-                            <span class="module-pill pill-released">Released</span>
-                        </div>
-                    </div>
-
-                    <div class="module-card" style="--module-color: #8B5CF6; pointer-events: none; opacity: 0.6;">
-                        <div class="module-icon" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.1);"><img src="/img/modules/roadmap.png" alt=""></div>
-                        <div class="module-name">More on the way</div>
-                        <div class="module-tag" style="color: #6b6b80;">In development</div>
-                        <p class="module-desc">More modules and standalone web tools are in progress. Join Discord or Patreon to follow along and shape what gets built next.</p>
-                        <div class="module-footer">
-                            <span class="module-pill pill-dev">Roadmap</span>
-                        </div>
-                    </div>
-
+{% endfor %}
                 </div>
             </div>
         </section>
