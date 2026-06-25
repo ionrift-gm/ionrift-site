@@ -1,0 +1,30 @@
+<!-- ═══ From the workshop ═══ -->
+        <section class="section" id="workshop">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Latest</div>
+                    <h2 class="section-title">From the workshop</h2>
+                </div>
+                <div class="post-cards">
+{% for post in collections.posts %}
+{% if loop.index0 < 3 %}
+                    <a class="post-card" href="{{ post.url }}">
+                        <div class="post-card-thumb">
+{% if post.data.ogImage %}
+                            <img src="{{ post.data.ogImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
+{% endif %}
+                        </div>
+                        <div class="post-card-body">
+                            <div class="post-card-date">{{ post.date | htmlDateString }}</div>
+                            <div class="post-card-title">{{ post.data.title }}</div>
+                            <p class="post-card-excerpt">{{ post.data.description }}</p>
+                        </div>
+                    </a>
+{% endif %}
+{% endfor %}
+                </div>
+                <div class="post-cards-foot">
+                    <a href="/blog/" class="btn btn-ghost">Read the blog</a>
+                </div>
+            </div>
+        </section>

@@ -825,11 +825,93 @@
             text-shadow: 0 0 12px var(--module-color, var(--accent));
         }
 
-        /* ═══ Ethos Section ═══ */
-        .ethos-grid {
+        /* ═══ From the workshop (blog cards) ═══ */
+        .post-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+        }
+
+        .post-card {
+            background: var(--void-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .post-card-thumb {
+            aspect-ratio: 16 / 9;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+        }
+
+        .post-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .post-card:hover .post-card-thumb img {
+            transform: scale(1.04);
+        }
+
+        .post-card-body {
+            padding: 20px 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .post-card-date {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+        }
+
+        .post-card-title {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .post-card-excerpt {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-cards-foot {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        /* ═══ Ethos Section ═══ */
+        .ethos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 760px;
+            margin: 0 auto;
         }
 
         .ethos-card {
@@ -1105,6 +1187,7 @@
             .ethos-grid { grid-template-columns: 1fr; }
             .module-grid { grid-template-columns: 1fr; }
             .value-grid { grid-template-columns: 1fr; }
+            .post-cards { grid-template-columns: 1fr; }
             .cta-box { padding: 40px 24px; }
             .footer-inner { flex-direction: column; text-align: center; }
             /* Only show one card on small screens */
