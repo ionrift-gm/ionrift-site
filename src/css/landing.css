@@ -762,11 +762,105 @@
             margin-bottom: 12px;
         }
 
+        .module-roadmap-stage {
+            position: relative;
+        }
+
+        .module-roadmap-stack {
+            overflow: hidden;
+            max-height: calc(64px + 12px + 20px);
+        }
+
+        .module-roadmap-edge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 34%;
+            height: 64px;
+            pointer-events: none;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(10, 10, 18, 0.25) 45%,
+                rgba(10, 10, 18, 0.72) 100%
+            );
+        }
+
         .module-roadmap-row {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
             align-items: stretch;
+        }
+
+        .module-roadmap-row--ghost {
+            filter: blur(9px);
+            opacity: 0.2;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .module-roadmap-ghost {
+            min-height: 64px;
+            border-radius: var(--radius);
+            background: rgba(20, 20, 32, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .module-roadmap-cell {
+            min-width: 0;
+            position: relative;
+        }
+
+        .module-roadmap-cell--fade::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            left: 42%;
+            border-radius: var(--radius);
+            pointer-events: none;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(10, 10, 18, 0.35) 35%,
+                rgba(10, 10, 18, 0.82) 100%
+            );
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .module-roadmap-cell--blur {
+            filter: blur(5px);
+            opacity: 0.32;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .module-roadmap-cell--fade,
+        .module-roadmap-cell--blur {
+            pointer-events: none;
+        }
+
+        .module-roadmap-cell--fade .module-card,
+        .module-roadmap-cell--blur .module-card {
+            pointer-events: none;
+        }
+
+        .module-roadmap-cell--clear {
+            z-index: 1;
+        }
+
+        .module-roadmap-cell--fade .module-card:hover,
+        .module-roadmap-cell--blur .module-card:hover {
+            opacity: 0.75;
+            box-shadow: none;
+            border-color: rgba(255, 255, 255, 0.06);
+            background: var(--void-card);
+        }
+
+        .module-roadmap-cell--fade .module-card:hover::before,
+        .module-roadmap-cell--blur .module-card:hover::before {
+            opacity: 0;
         }
 
         .module-card--roadmap {
@@ -1982,6 +2076,23 @@
         @media (max-width: 900px) {
             .module-hero-grid { grid-template-columns: 1fr; }
             .module-roadmap-row { grid-template-columns: 1fr; }
+            .module-roadmap-stack {
+                max-height: none;
+                overflow: visible;
+            }
+            .module-roadmap-edge,
+            .module-roadmap-row--ghost { display: none; }
+            .module-roadmap-cell--fade::after { display: none; }
+            .module-roadmap-cell--blur {
+                filter: none;
+                opacity: 1;
+            }
+            .module-roadmap-cell--fade,
+            .module-roadmap-cell--blur,
+            .module-roadmap-cell--fade .module-card,
+            .module-roadmap-cell--blur .module-card {
+                pointer-events: auto;
+            }
         }
 
         @media (max-width: 768px) {
