@@ -1,0 +1,73 @@
+---
+layout: landing.njk
+title: Cartographer | Ionrift Workshop
+description: Describe an outdoor area and export a finished battle map. Cartographer early access is in preparation.
+canonical: https://ionrift.cloud/cartographer/
+ogTitle: Cartographer
+ogDescription: Battle maps from a description. Early access in preparation.
+bodyClass: page-cartographer
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main module-detail page-cartographer">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ cartographer.name }}</span>
+        </nav>
+
+        <header class="module-detail-header" style="--module-color: {{ cartographer.accent }};">
+            <div class="module-detail-icon">
+                <img src="{{ cartographer.icon }}" alt="">
+            </div>
+            <div class="module-detail-intro">
+                <span class="module-pill pill-ea">Early Access soon</span>
+                <h1 class="module-detail-title">{{ cartographer.name }}</h1>
+                <p class="module-detail-tag" style="color: {{ cartographer.accent }};">{{ cartographer.tagline }}</p>
+            </div>
+        </header>
+
+        <div class="module-trailer">
+            <div class="module-trailer-placeholder">
+                <span>Preview coming with early access</span>
+            </div>
+        </div>
+
+        <div class="module-detail-body ionrift-window">
+            <p class="module-detail-desc">{{ cartographer.lead }}</p>
+
+{% if cartographer.detailBody and cartographer.detailBody.length %}
+            <div class="module-detail-copy">
+{% for para in cartographer.detailBody %}
+                <p>{{ para }}</p>
+{% endfor %}
+            </div>
+{% endif %}
+
+            <div class="module-detail-disclosure">
+                <p>{{ cartographer.disclosure }}</p>
+            </div>
+
+            <div class="module-detail-actions">
+{% if cartographer.hostedAppUrl %}
+                <a href="{{ cartographer.hostedAppUrl }}" target="_blank" rel="noopener" class="btn btn-primary module-detail-cta">{{ cartographer.ctaLabel }}</a>
+{% else %}
+                <span class="btn btn-ghost module-detail-cta module-detail-cta--disabled">{{ cartographer.ctaLabel }}</span>
+{% endif %}
+                <a href="{{ cartographer.patreonUrl }}" target="_blank" rel="noopener" class="btn btn-patreon module-detail-cta">See tiers on Patreon</a>
+            </div>
+
+{% if not cartographer.hostedAppUrl %}
+            <p class="module-install-note">The hosted app link goes live with early access. Patreon subscribers will get access when it opens.</p>
+{% endif %}
+        </div>
+
+        <p class="page-back">
+            <a href="/#modules">&larr; All modules</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}

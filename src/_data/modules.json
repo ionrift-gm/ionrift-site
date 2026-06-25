@@ -9,7 +9,7 @@
     "status": "released",
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-respite/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-respite", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-respite", "foundryPackage": "https://foundryvtt.com/packages/ionrift-respite", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
     "trailer": null,
     "preview": null,
@@ -17,7 +17,11 @@
     "highlights": ["Terrain events", "Campfire rituals", "Profession crafting"],
     "systems": ["dnd5e", "pf2e"],
     "detail": true,
-    "order": 10
+    "order": 10,
+    "detailBody": [
+      "Make Camp places a full rest scene on the map: campfire, workbench, forage station, and profession hooks tied to the party's location.",
+      "Terrain-aware events, cooking, and identification run through the same panel so the GM stays in the scene instead of flipping between spreadsheets and journals."
+    ]
   },
   {
     "id": "resonance",
@@ -29,7 +33,7 @@
     "status": "released",
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-resonance/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-resonance", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-resonance", "foundryPackage": "https://foundryvtt.com/packages/ionrift-resonance", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": { "href": "/tools/soundboard/", "label": "Try Soundboard" },
     "trailer": null,
     "preview": null,
@@ -37,7 +41,11 @@
     "highlights": ["550+ sound effects", "Combat-synced", "13 systems"],
     "systems": ["dnd5e", "daggerheart", "pf2e"],
     "detail": true,
-    "order": 20
+    "order": 20,
+    "detailBody": [
+      "Ambience follows the scene: forest beds under travel, combat stingers on crits and fumbles, weapon hits matched to the attack type.",
+      "The soundboard at ionrift.cloud is a slice of the same library. Install the full module for automatic combat sync and Daggerheart fear and hope triggers."
+    ]
   },
   {
     "id": "quartermaster",
@@ -49,7 +57,7 @@
     "status": "ga",
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-quartermaster/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-quartermaster", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-quartermaster", "foundryPackage": "https://foundryvtt.com/packages/ionrift-quartermaster", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": { "href": "/tools/loot-generator/", "label": "Try Loot Generator" },
     "trailer": null,
     "preview": null,
@@ -57,7 +65,11 @@
     "highlights": ["Tier-tuned caches", "Signature items", "Content packs"],
     "systems": ["dnd5e", "pf2e"],
     "detail": true,
-    "order": 30
+    "order": 30,
+    "detailBody": [
+      "Generate tier-tuned loot caches with terrain-themed containers, track signature items across the campaign, and compile content pack overlays from one panel.",
+      "Curse progression hooks into the same inventory view when Cursewright is installed. The loot generator on ionrift.cloud previews cache generation without Foundry."
+    ]
   },
   {
     "id": "cursewright",
@@ -77,7 +89,11 @@
     "highlights": ["Escalating curses", "Combat intervention", "Handcrafted items"],
     "systems": ["dnd5e"],
     "detail": true,
-    "order": 40
+    "order": 40,
+    "detailBody": [
+      "Curses escalate across sessions with GM activation gates, combat intervention, and handcrafted items designed for discovery rather than stat sticks.",
+      "Install through the Patreon cloud manifest. Premium tier unlocks the module and its growing library of cursed items."
+    ]
   },
   {
     "id": "waterline",
@@ -89,7 +105,7 @@
     "status": "released",
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-waterline/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-waterline", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-waterline", "foundryPackage": "https://foundryvtt.com/packages/ionrift-waterline", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
     "trailer": null,
     "preview": null,
@@ -97,7 +113,11 @@
     "highlights": ["Animated caustics", "Live-tunable", "Procedural walls"],
     "systems": [],
     "detail": true,
-    "order": 50
+    "order": 50,
+    "detailBody": [
+      "Click water on a map to flood-fill its shape, then tune animated caustics: speed, distortion, opacity, all live on the canvas.",
+      "Procedural border walls trace map edges so outdoor scenes feel less rectangular without hand-drawing every segment."
+    ]
   },
   {
     "id": "daggerheart-animator",
@@ -109,7 +129,7 @@
     "status": "released",
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-daggerheart-animator/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-daggerheart-animator", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-daggerheart-animator", "foundryPackage": "https://foundryvtt.com/packages/ionrift-daggerheart-animator", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
     "trailer": null,
     "preview": null,
@@ -117,7 +137,11 @@
     "highlights": ["Auto weapon items", "Animation hooks", "No config"],
     "systems": ["daggerheart"],
     "detail": true,
-    "order": 60
+    "order": 60,
+    "detailBody": [
+      "Monster attacks in Daggerheart often lack weapon items for Automated Animations to hook into. This module generates temporary weapons during the roll so claws, bites, and breath weapons animate without configuration.",
+      "Works alongside the Daggerheart system and Automated Animations modules. No per-monster setup required."
+    ]
   },
   {
     "id": "cartographer",
@@ -130,7 +154,7 @@
     "pillLabel": "Coming soon",
     "tier": "free",
     "install": null,
-    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift", "landing": "/cartographer/" },
     "try": null,
     "trailer": null,
     "preview": null,

@@ -1433,6 +1433,55 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
         }
 
+        .module-detail-lead {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .module-detail-copy {
+            margin-bottom: 20px;
+        }
+
+        .module-detail-copy p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .module-detail-copy p:last-child {
+            margin-bottom: 0;
+        }
+
+        .module-detail-disclosure {
+            margin-bottom: 24px;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .module-detail-disclosure p {
+            color: var(--text-dim);
+            font-size: 13px;
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .module-detail-cta--disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .module-card--roadmap {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .module-detail-desc {
             color: var(--text-muted);
             font-size: 16px;
@@ -1451,6 +1500,20 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .module-detail-icon-inline {
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+
+        .module-install-note a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+
+        .module-install-note a:hover {
+            color: var(--text-main);
         }
 
         .module-install-note {

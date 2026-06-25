@@ -1,0 +1,16 @@
+{
+  "status": "stub",
+  "hostedAppUrl": null,
+  "name": "Cartographer",
+  "tagline": "Battle maps from a description",
+  "accent": "#10B981",
+  "icon": "/img/modules/roadmap.png",
+  "lead": "Describe an outdoor area, pick a layout sketch, and export a finished battle map. Early access is in preparation.",
+  "detailBody": [
+    "Cartographer is a web tool, not a Foundry module in v1. Describe forest clearings, shorelines, ruins in the open, and the tool returns layout options before rendering a high-resolution map you can drop into any VTT.",
+    "Early access will run through Patreon. The hosted app handles generation; this page is the public entry point once hosting is live."
+  ],
+  "disclosure": "Map images are produced with generative AI. Draft sketches use a fast model; final renders use a higher-quality pass. We disclose this up front so you can decide whether it fits your table.",
+  "ctaLabel": "Open Cartographer",
+  "patreonUrl": "https://www.patreon.com/c/Ionrift"
+}

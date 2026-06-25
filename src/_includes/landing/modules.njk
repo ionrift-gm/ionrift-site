@@ -62,11 +62,19 @@
                     <p class="module-roadmap-label">In the workshop</p>
                     <div class="module-roadmap-row">
 {% for m in catalogue.roadmap %}
+{% if m.links.landing %}
+                        <a href="{{ m.links.landing }}" class="module-card module-card--roadmap" style="--module-color: {{ m.accent }};">
+{% else %}
                         <div class="module-card module-card--roadmap" style="--module-color: {{ m.accent }};">
+{% endif %}
                             <div class="module-icon module-icon--sm"><img src="{{ m.icon }}" alt=""></div>
                             <span class="module-roadmap-name">{{ m.name }}</span>
                             <span class="module-pill pill-dev">{{ m.pillLabel | default("Coming soon") }}</span>
+{% if m.links.landing %}
+                        </a>
+{% else %}
                         </div>
+{% endif %}
 {% endfor %}
                     </div>
                 </div>
