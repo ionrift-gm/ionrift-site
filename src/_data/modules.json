@@ -44,7 +44,7 @@
     "name": "Quartermaster",
     "tagline": "Inventory & Loot",
     "description": "Tier-tuned loot cache generation, signature item tracking, curse progression, and content pack delivery, all in one GM panel.",
-    "accent": "#C0392B",
+    "accent": "#8b5cf6",
     "icon": "/img/modules/quartermaster.png",
     "status": "ga",
     "tier": "free",
