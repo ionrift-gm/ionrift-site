@@ -69,7 +69,7 @@
 {% endif %}
                             <div class="module-icon module-icon--sm"><img src="{{ m.icon }}" alt=""></div>
                             <span class="module-roadmap-name">{{ m.name }}</span>
-                            <span class="module-pill pill-dev">{{ m.pillLabel | default("Coming soon") }}</span>
+                            <span class="module-pill pill-roadmap">{{ m.pillLabel | default("Coming soon") }}</span>
 {% if m.links.landing %}
                         </a>
 {% else %}

@@ -804,15 +804,15 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: var(--module-color, var(--accent));
+            background: var(--module-icon-color, var(--module-color, var(--accent)));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .module-card:hover {
-            background: color-mix(in srgb, var(--module-color, var(--accent)) 5%, rgba(25, 25, 40, 0.85));
-            border-color: color-mix(in srgb, var(--module-color, var(--accent)) 32%, rgba(255, 255, 255, 0.08));
-            box-shadow: 0 12px 36px color-mix(in srgb, var(--module-color, var(--accent)) 22%, transparent);
+            background: color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 5%, rgba(25, 25, 40, 0.85));
+            border-color: color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 32%, rgba(255, 255, 255, 0.08));
+            box-shadow: 0 12px 36px color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 22%, transparent);
         }
 
         .module-card:not(.module-card--roadmap):hover {
@@ -826,7 +826,7 @@
         .module-card:hover::before {
             opacity: 1;
             height: 3px;
-            box-shadow: 0 0 14px color-mix(in srgb, var(--module-color, var(--accent)) 45%, transparent);
+            box-shadow: 0 0 14px color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 45%, transparent);
         }
 
         /* Variants must follow base .module-card flex column */
@@ -871,7 +871,7 @@
         .module-card.module-card--roadmap:hover {
             opacity: 0.95;
             transform: none;
-            box-shadow: 0 0 20px color-mix(in srgb, var(--module-color, var(--accent)) 12%, transparent);
+            box-shadow: 0 0 20px color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 12%, transparent);
         }
 
         .module-card.module-card--compact .module-icon,
@@ -992,6 +992,12 @@
             background: rgba(250, 204, 21, 0.08);
             color: #facc15;
             border: 1px solid rgba(250, 204, 21, 0.15);
+        }
+
+        .pill-roadmap {
+            background: color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 10%, transparent);
+            color: var(--module-icon-color, var(--module-color, var(--accent-light)));
+            border: 1px solid color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 28%, transparent);
         }
 
         .pill-premium {
