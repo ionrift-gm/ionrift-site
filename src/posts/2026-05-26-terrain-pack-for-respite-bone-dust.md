@@ -10,6 +10,7 @@ patreonId: "159315188"
 patreonContentHash: "sha256:50725acd168efcff"
 patreonUrl: "/Ionrift/posts/terrain-pack-for-159315188"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/terrain-pack-for-respite-bone-dust/cover.png"
 ---
 
 New terrain pack for Respite - Bone & Dust
