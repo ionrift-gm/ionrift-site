@@ -1,0 +1,119 @@
+---
+layout: landing.njk
+pagination:
+  data: collections.moduleDetails
+  size: 1
+  alias: module
+permalink: "/modules/{{ module.id }}/"
+eleventyComputed:
+  title: "{{ module.name }} | Ionrift Workshop"
+  description: "{{ module.description }}"
+  canonical: "{{ site.url }}/modules/{{ module.id }}/"
+  ogTitle: "{{ module.name }}"
+  ogDescription: "{{ module.description }}"
+  ogImage: "{{ site.url }}{{ module.icon }}"
+  bodyClass: "page-module-detail"
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main module-detail">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="/#modules">Modules</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ module.name }}</span>
+        </nav>
+
+        <header class="module-detail-header" style="--module-color: {{ module.accent }};">
+            <div class="module-detail-icon">
+                <img src="{{ module.icon }}" alt="">
+            </div>
+            <div class="module-detail-intro">
+                <div class="module-detail-pills">
+{% set pillClass = "pill-released" %}
+{% set pillText = "Released" %}
+{% if module.status == "ea" %}{% set pillClass = "pill-ea" %}{% set pillText = "Early Access" %}{% endif %}
+{% if module.status == "ga" %}{% set pillText = "Released" %}{% endif %}
+                    <span class="module-pill {{ pillClass }}">{{ pillText }}</span>
+{% if module.accessLabel %}
+                    <span class="module-pill pill-premium">{{ module.accessLabel }}</span>
+{% endif %}
+                </div>
+                <h1 class="module-detail-title">{{ module.name }}</h1>
+                <p class="module-detail-tag" style="color: {{ module.accent }};">{{ module.tagline }}</p>
+{% if module.systems and module.systems.length %}
+                <div class="module-systems">
+{% for s in module.systems %}
+                    <span class="module-system">{{ s | systemLabel }}</span>
+{% endfor %}
+                </div>
+{% endif %}
+            </div>
+        </header>
+
+        <div class="module-trailer">
+{% if module.trailer %}
+            <div class="module-trailer-embed">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/{{ module.trailer }}"
+                    title="{{ module.name }} trailer"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                ></iframe>
+            </div>
+{% elif module.preview %}
+            <div class="module-trailer-preview">
+                <img src="{{ module.preview }}" alt="{{ module.name }} preview" loading="lazy">
+            </div>
+{% else %}
+            <div class="module-trailer-placeholder">
+                <span>Trailer coming soon</span>
+            </div>
+{% endif %}
+        </div>
+
+        <div class="module-detail-body ionrift-window">
+            <p class="module-detail-desc">{{ module.description }}</p>
+
+{% if module.highlights and module.highlights.length %}
+            <div class="module-highlights">
+{% for h in module.highlights %}
+                <span class="module-chip">{{ h }}</span>
+{% endfor %}
+            </div>
+{% endif %}
+
+            <div class="module-detail-actions">
+{% if module.install and module.install.method == "foundry" %}
+                <a href="{{ module.links.github }}" target="_blank" rel="noopener" class="btn btn-ghost module-detail-cta">
+                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
+                    {{ module.install.label }}
+                </a>
+{% elif module.install and module.install.method == "patreon-cloud" %}
+                <a href="{{ module.links.patreon }}" target="_blank" rel="noopener" class="btn btn-patreon module-detail-cta">
+                    {{ module.install.label }}
+                </a>
+{% endif %}
+{% if module.try %}
+                <a href="{{ module.try.href }}" class="btn btn-primary module-detail-cta">{{ module.try.label }}</a>
+{% endif %}
+            </div>
+
+{% if module.install and module.install.method == "patreon-cloud" %}
+            <p class="module-install-note">Subscribe on Patreon, then paste the cloud manifest URL into Foundry's module installer.</p>
+{% elif module.install and module.install.method == "foundry" and module.links.github %}
+            <p class="module-install-note">Install from the Foundry module browser, or grab the manifest from GitHub.</p>
+{% endif %}
+        </div>
+
+        <p class="page-back">
+            <a href="/#modules">&larr; All modules</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}

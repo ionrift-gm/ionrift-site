@@ -48,4 +48,15 @@
             el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             observer.observe(el);
         });
+
+        // Reveal cards already in view on load (avoids blank peek zone)
+        requestAnimationFrame(() => {
+            document.querySelectorAll('.module-card').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        });
 </script>

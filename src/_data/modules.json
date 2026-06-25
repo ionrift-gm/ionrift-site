@@ -64,7 +64,7 @@
     "name": "Cursewright",
     "tagline": "Curse Engine",
     "description": "Escalating curses with combat intervention, GM activation gates, and a growing library of handcrafted cursed items. The dread your loot table has been missing.",
-    "accent": "#7C3AED",
+    "accent": "#8b5cf6",
     "icon": "/img/modules/cursewright.png",
     "status": "ga",
     "tier": "premium",

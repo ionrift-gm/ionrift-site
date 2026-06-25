@@ -1,8 +1,21 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
+import modules from "./src/_data/modules.json" with { type: "json" };
+
+function buildCatalogue() {
+  const sorted = [...modules].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const shippable = sorted.filter((m) => m.status !== "roadmap");
+  return {
+    hero: shippable.slice(0, 3),
+    compact: shippable.slice(3),
+    roadmap: sorted.filter((m) => m.status === "roadmap"),
+  };
+}
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(rssPlugin);
+
+  eleventyConfig.addGlobalData("catalogue", buildCatalogue);
 
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/img");
@@ -32,6 +45,19 @@ export default function (eleventyConfig) {
     const s = p.replace(/\\/g, "/");
     const i = s.lastIndexOf("/");
     return i === -1 ? s : s.slice(i + 1);
+  });
+
+  eleventyConfig.addCollection("moduleDetails", () =>
+    modules.filter((m) => m.detail),
+  );
+
+  eleventyConfig.addFilter("systemLabel", (id) => {
+    const labels = {
+      dnd5e: "D&D 5e",
+      pf2e: "Pathfinder 2e",
+      daggerheart: "Daggerheart",
+    };
+    return labels[id] || id;
   });
 
   return {

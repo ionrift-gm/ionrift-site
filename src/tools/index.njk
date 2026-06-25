@@ -1,0 +1,42 @@
+---
+layout: landing.njk
+title: Tools | Ionrift Workshop
+description: Free browser tools from the Ionrift workshop. Try the soundboard and loot generator without Foundry.
+canonical: https://ionrift.cloud/tools/
+ogTitle: Tools
+ogDescription: Free browser tools from the Ionrift workshop. Try the soundboard and loot generator without Foundry.
+bodyClass: page-tools
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main">
+    <div class="container">
+        <header class="page-header">
+            <div class="section-label">Browser tools</div>
+            <h1 class="section-title">Try it in the browser</h1>
+            <p class="section-lead">Standalone versions of workshop features. No install, no account.</p>
+        </header>
+
+        <div class="tool-grid">
+            <a href="/tools/soundboard/" class="tool-card">
+                <div class="tool-card-label">Resonance</div>
+                <h2 class="tool-card-title">Soundboard</h2>
+                <p class="tool-card-desc">Crit and fumble stingers, weapon hits, PC voices, and Daggerheart fear and hope sounds.</p>
+                <span class="tool-card-link">Open soundboard &rarr;</span>
+            </a>
+            <a href="/tools/loot-generator/" class="tool-card">
+                <div class="tool-card-label">Quartermaster</div>
+                <h2 class="tool-card-title">Loot Generator</h2>
+                <p class="tool-card-desc">Tier-tuned loot caches with terrain-themed containers. A slice of the full Quartermaster panel.</p>
+                <span class="tool-card-link">Open loot generator &rarr;</span>
+            </a>
+        </div>
+
+        <p class="page-back">
+            <a href="/#modules">&larr; See the full module lineup</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
