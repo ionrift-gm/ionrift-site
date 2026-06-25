@@ -55,11 +55,17 @@
             </header>
             <ul class="post-list">
                 {% for post in collections.posts %}
+                {% set localVideo = post.data.coverVideo if (post.data.coverVideo and post.data.coverVideo[0] == "/") else null %}
+                {% set hasThumb = post.data.ogImage or localVideo %}
                 <li>
-                    <a class="post-row{% if post.data.ogImage %} post-row--has-thumb{% endif %}" href="{{ post.url }}">
+                    <a class="post-row{% if hasThumb %} post-row--has-thumb{% endif %}" href="{{ post.url }}">
                         {% if post.data.ogImage %}
                         <div class="post-row-thumb">
                             <img src="{{ post.data.ogImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
+                        </div>
+                        {% elif localVideo %}
+                        <div class="post-row-thumb">
+                            <video class="post-thumb-video" src="{{ localVideo }}" muted playsinline preload="metadata" aria-hidden="true"></video>
                         </div>
                         {% endif %}
                         <div class="post-row-body">

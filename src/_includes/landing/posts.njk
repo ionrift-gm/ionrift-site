@@ -8,10 +8,13 @@
                 <div class="post-cards">
 {% for post in collections.posts %}
 {% if loop.index0 < 3 %}
+{% set localVideo = post.data.coverVideo if (post.data.coverVideo and post.data.coverVideo[0] == "/") else null %}
                     <a class="post-card" href="{{ post.url }}">
                         <div class="post-card-thumb">
 {% if post.data.ogImage %}
                             <img src="{{ post.data.ogImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
+{% elif localVideo %}
+                            <video class="post-thumb-video" src="{{ localVideo }}" muted playsinline preload="metadata" aria-hidden="true"></video>
 {% endif %}
                         </div>
                         <div class="post-card-body">

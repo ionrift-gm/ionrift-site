@@ -4,7 +4,8 @@
   "name": "Cartographer",
   "tagline": "Battle maps from a description",
   "accent": "#10B981",
-  "icon": "/img/modules/roadmap.png",
+  "iconAccent": "#D4A853",
+  "icon": "/img/modules/cartographer.png",
   "lead": "Describe an outdoor area, pick a layout sketch, and export a finished battle map. Early access is in preparation.",
   "detailBody": [
     "Cartographer is a web tool, not a Foundry module in v1. Describe forest clearings, shorelines, ruins in the open, and the tool returns layout options before rendering a high-resolution map you can drop into any VTT.",

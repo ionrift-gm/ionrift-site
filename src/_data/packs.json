@@ -1,36 +1,51 @@
 [
   {
     "id": "core-cooking",
+    "catalogKey": "respite-cooking-overlay",
     "name": "Core Cooking Pack",
     "tier": "Free",
-    "modules": ["Respite"],
+    "modules": [
+      "Respite"
+    ],
     "description": "Recipes, ingredients, and campfire cooking hooks for long rests.",
     "status": "available",
     "order": 10
   },
   {
     "id": "frost-stone",
+    "catalogKey": "frost-stone-data",
     "name": "Frost & Stone",
-    "tier": "Core",
-    "modules": ["Respite", "Quartermaster"],
+    "tier": "Initiate",
+    "modules": [
+      "Respite",
+      "Quartermaster"
+    ],
     "description": "Arctic and mountain terrain events, forage tables, and loot containers.",
     "status": "available",
     "order": 20
   },
   {
     "id": "wanderers",
+    "catalogKey": "wanderers-data",
     "name": "Wanderer's Pack",
-    "tier": "Follower",
-    "modules": ["Respite"],
+    "tier": "Free",
+    "modules": [
+      "Respite"
+    ],
     "description": "Extra forage tables and travel events for overland play.",
     "status": "available",
     "order": 30
   },
   {
     "id": "welcome",
+    "catalogKey": "respite-core-overlay",
     "name": "Welcome Pack",
     "tier": "Free",
-    "modules": ["Respite", "Quartermaster", "Resonance"],
+    "modules": [
+      "Respite",
+      "Quartermaster",
+      "Resonance"
+    ],
     "description": "Starter overlays to try content packs in a first session.",
     "status": "available",
     "order": 40

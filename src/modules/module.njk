@@ -27,7 +27,7 @@ eleventyComputed:
             <span>{{ module.name }}</span>
         </nav>
 
-        <header class="module-detail-header" style="--module-color: {{ module.accent }};">
+        <header class="module-detail-header" style="--module-color: {{ module.accent }}; --module-icon-color: {{ module.iconAccent or module.accent }};">
             <div class="module-detail-icon">
                 <img src="{{ module.icon }}" alt="">
             </div>
@@ -66,9 +66,15 @@ eleventyComputed:
                 ></iframe>
             </div>
 {% elif module.preview %}
-            <div class="module-trailer-preview">
-                <img src="{{ module.preview }}" alt="{{ module.name }} preview" loading="lazy">
-            </div>
+            <figure class="module-trailer-preview">
+                <div class="module-trailer-preview-label">Preview</div>
+                <div class="module-trailer-preview-frame">
+                    <img src="{{ module.preview }}" alt="{{ module.previewAlt or (module.name + ' preview') }}" loading="lazy">
+                </div>
+{% if module.previewCaption %}
+                <figcaption class="module-trailer-preview-caption">{{ module.previewCaption }}</figcaption>
+{% endif %}
+            </figure>
 {% else %}
             <div class="module-trailer-placeholder">
                 <span>Trailer coming soon</span>

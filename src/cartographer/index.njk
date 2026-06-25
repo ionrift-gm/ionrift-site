@@ -18,7 +18,7 @@ bodyClass: page-cartographer
             <span>{{ cartographer.name }}</span>
         </nav>
 
-        <header class="module-detail-header" style="--module-color: {{ cartographer.accent }};">
+        <header class="module-detail-header" style="--module-color: {{ cartographer.accent }}; --module-icon-color: {{ cartographer.iconAccent or cartographer.accent }};">
             <div class="module-detail-icon">
                 <img src="{{ cartographer.icon }}" alt="">
             </div>

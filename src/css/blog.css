@@ -194,12 +194,14 @@
   overflow: hidden;
 }
 
-.post-row-thumb img {
+.post-row-thumb img,
+.post-row-thumb video.post-thumb-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
+  pointer-events: none;
 }
 
 .post-row-body {
