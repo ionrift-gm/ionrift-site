@@ -2,6 +2,10 @@
 layout: blog-list.njk
 title: Devlog
 description: Workshop notes and dev logs from Foundry sessions, tools, and systems.
-permalink: /blog/
 date: 2026-04-24
+pagination:
+  data: collections.posts
+  size: 10
+  alias: posts
+permalink: "/blog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}"
 ---

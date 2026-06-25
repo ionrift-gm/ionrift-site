@@ -258,3 +258,39 @@
   margin-bottom: 2rem;
   font-weight: 500;
 }
+
+.blog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.blog-pagination-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-light, #a78bfa);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.35);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.blog-pagination-link:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.blog-pagination-link--disabled {
+  color: var(--text-dim, #6b6b80);
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.blog-pagination-status {
+  font-size: 13px;
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  color: var(--text-dim, #6b6b80);
+}

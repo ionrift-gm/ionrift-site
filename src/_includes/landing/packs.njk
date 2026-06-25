@@ -1,47 +1,51 @@
-<!-- ═══ Content packs ═══ -->
+<!-- ═══ Content packs (teaser) ═══ -->
         <section class="section section-packs" id="packs">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-label">Content packs</div>
-                    <h2 class="section-title">Overlays for the table</h2>
-                    <p class="section-lead">Compendium overlays that extend the free modules with recipes, terrain events, loot tables, and sound. One subscription unlocks the library; install from the Patreon Library in Ionrift Library.</p>
-                </div>
-
-                <div class="pack-how">
-                    <div class="pack-how-step">
-                        <span class="pack-how-num">1</span>
-                        <span>Subscribe on Patreon</span>
-                    </div>
-                    <div class="pack-how-step">
-                        <span class="pack-how-num">2</span>
-                        <span>Open the Patreon Library in Ionrift Library</span>
-                    </div>
-                    <div class="pack-how-step">
-                        <span class="pack-how-num">3</span>
-                        <span>Install packs for the modules you run</span>
+            <div class="section-packs-stage">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Overlays for the table</h2>
+                        <p class="section-lead">Compendium overlays that extend the free modules with recipes, terrain events, loot tables, and sound. One subscription unlocks the library; install from the Patreon Library in Ionrift Library.</p>
                     </div>
                 </div>
 
-                <div class="pack-grid">
-{% for pack in packs %}
-                    <div class="pack-card">
-                        <div class="pack-card-top">
-                            <h3 class="pack-name">{{ pack.name }}</h3>
-                            <span class="pack-tier pack-tier--{{ pack.tier | lower }}">{{ pack.tierLabel }}</span>
-                        </div>
-                        <p class="pack-desc">{{ pack.description }}</p>
-                        <div class="pack-modules">
+                <div class="container">
+                    <div class="pack-grid pack-grid--landing">
+{% for pack in packShowcase.landing %}
+                        <a href="/overlays/" class="pack-card" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
+                            <div class="pack-card-media">
+                                <img src="{{ pack.image }}" alt="" loading="lazy">
+{% if pack.preview %}
+                                <span class="pack-flag">Taking shape</span>
+{% endif %}
+                            </div>
+                            <div class="pack-card-body">
+                                <div class="pack-card-top">
+                                    <h3 class="pack-name">{{ pack.name }}</h3>
+                                    <span class="pack-tier pack-tier--{{ pack.tier | lower }}">{{ pack.tierLabel }}</span>
+                                </div>
+                                <p class="pack-desc">{{ pack.description }}</p>
+                                <div class="pack-modules">
 {% for mod in pack.modules %}
-                            <span class="pack-module-tag">{{ mod }}</span>
+                                    <span class="pack-module-tag">{{ mod }}</span>
 {% endfor %}
-                        </div>
+                                </div>
+                            </div>
+                        </a>
+{% endfor %}
                     </div>
-{% endfor %}
+
+                    <div class="pack-more-row">
+                        <a href="/overlays/" class="pack-more-pill">
+                            <span class="pack-more-count">+{{ packShowcase.moreCount }} more</span>
+                            <span class="pack-more-label">Browse all {{ packShowcase.total }} overlays</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="pack-footer">
-                    <p class="pack-footer-note">More packs ship with module updates. Keep what you install, even if you cancel.</p>
-                    <a href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener" class="btn btn-primary">Browse the Patreon library</a>
+                <div class="container">
+                    <div class="pack-footer">
+                        <p class="pack-footer-note">More packs ship with module updates. Keep what you install, even if you cancel.</p>
+                    </div>
                 </div>
             </div>
         </section>

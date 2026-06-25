@@ -1,18 +1,137 @@
 [
   {
-    "id": "core-cooking",
+    "id": "qm-core",
     "catalogKeys": [
-      "respite-cooking-overlay"
+      "quartermaster-core-overlay"
     ],
-    "name": "Core Cooking",
+    "name": "Quartermaster Core",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "modules": [
+      "Quartermaster"
+    ],
+    "accent": "#8b5cf6",
+    "iconAccent": "#8b5cf6",
+    "description": "Treasure and trinkets for Quartermaster cache generation",
+    "category": "treasure",
+    "image": "/img/packs/qm-core.png",
+    "featured": true,
+    "landing": true,
+    "preview": false,
+    "status": "available",
+    "order": 10
+  },
+  {
+    "id": "resonance-core",
+    "catalogKeys": [
+      "resonance-core-overlay"
+    ],
+    "name": "Resonance Core",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "modules": [
+      "Resonance"
+    ],
+    "accent": "#4A6FD9",
+    "iconAccent": "#4A6FD9",
+    "description": "Combat, spell, and creature sound effects for D&D 5e, Pathfinder 2e, and Daggerheart.",
+    "category": "sound",
+    "image": "/img/packs/resonance-core.jpg",
+    "featured": true,
+    "landing": true,
+    "preview": false,
+    "status": "available",
+    "order": 20
+  },
+  {
+    "id": "respite-core-art",
+    "catalogKeys": [
+      "respite-core-overlay"
+    ],
+    "name": "Respite Core Art",
     "tier": "Free",
     "tierLabel": "Subscriber",
     "modules": [
       "Respite"
     ],
-    "description": "Cooking profession plugin, terrain forage, hunt yields, and 17 campfire recipes. Does not include tailoring, brewing, or other craft professions.",
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Terrain art, station tokens, and camp phase images for Ionrift Respite",
+    "category": "terrain",
+    "image": "/img/packs/respite-core-art.png",
+    "featured": false,
+    "landing": false,
+    "preview": false,
     "status": "available",
-    "order": 10
+    "order": 25
+  },
+  {
+    "id": "wanderers",
+    "catalogKeys": [
+      "respite-wanderers-overlay"
+    ],
+    "name": "Wanderer's",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "modules": [
+      "Respite"
+    ],
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "33 camp events across core terrains for Ionrift Respite",
+    "category": "events",
+    "image": "/img/packs/wanderers.jpg",
+    "featured": true,
+    "landing": true,
+    "preview": false,
+    "status": "available",
+    "order": 30
+  },
+  {
+    "id": "authoring-kit",
+    "catalogKeys": [
+      "respite-authoring-kit"
+    ],
+    "name": "Authoring Kit",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "modules": [
+      "Respite"
+    ],
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Schema reference, authoring guide, and importable example packs for custom Respite rest events.",
+    "category": "events",
+    "image": "/img/packs/authoring-kit.jpg",
+    "featured": true,
+    "landing": true,
+    "preview": false,
+    "status": "available",
+    "order": 40
+  },
+  {
+    "id": "dust-bone",
+    "catalogKeys": [
+      "respite-bone-dust-overlay",
+      "quartermaster-bone-dust-overlay"
+    ],
+    "name": "Dust & Bone",
+    "tier": "Initiate",
+    "tierLabel": "Initiate",
+    "modules": [
+      "Respite",
+      "Quartermaster"
+    ],
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Catacombs and ruins terrains and camp events for Respite, with matching containers, gems, and treasure for Quartermaster.",
+    "category": "treasure",
+    "image": "/img/packs/dust-bone.png",
+    "featured": false,
+    "landing": false,
+    "preview": false,
+    "status": "available",
+    "order": 50
   },
   {
     "id": "frost-stone",
@@ -27,23 +146,59 @@
       "Respite",
       "Quartermaster"
     ],
-    "description": "Mountain and arctic terrains, terrain art, camp events, and disasters for Ionrift Respite Arctic and mountain containers for Quartermaster cache generation",
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Mountain and arctic terrains, camp events, and disasters for Respite, plus matching cache containers for Quartermaster.",
+    "category": "terrain",
+    "image": "/img/packs/frost-stone.jpg",
+    "featured": false,
+    "landing": false,
+    "preview": false,
     "status": "available",
-    "order": 20
+    "order": 60
   },
   {
-    "id": "wanderers",
+    "id": "craft-professions",
     "catalogKeys": [
-      "respite-wanderers-overlay"
+      "respite-craft-professions-overlay"
     ],
-    "name": "Wanderer's",
-    "tier": "Free",
-    "tierLabel": "Subscriber",
+    "name": "Craft Professions",
+    "tier": "Initiate",
+    "tierLabel": "Initiate",
     "modules": [
       "Respite"
     ],
-    "description": "33 camp events across core terrains for Ionrift Respite",
-    "status": "available",
-    "order": 30
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Tailoring, brewing, and other non-cooking craft profession plugins and recipes. Requires Core Cooking Pack for shared reagents.",
+    "category": "cooking",
+    "image": "/img/packs/craft-professions.jpg",
+    "featured": false,
+    "landing": false,
+    "preview": true,
+    "status": "preview",
+    "order": 80
+  },
+  {
+    "id": "cursewright-archetypes",
+    "catalogKeys": [
+      "cursewright-core-overlay"
+    ],
+    "name": "Curse Archetypes",
+    "tier": "Acolyte",
+    "tierLabel": "Acolyte",
+    "modules": [
+      "Cursewright"
+    ],
+    "accent": "#8b5cf6",
+    "iconAccent": "#6de896",
+    "description": "Curse archetype plugins for Ionrift Cursewright, weight shift, parasitic drain, and more",
+    "category": "curse",
+    "image": "/img/packs/cursewright.jpg",
+    "featured": false,
+    "landing": false,
+    "preview": true,
+    "status": "preview",
+    "order": 90
   }
 ]

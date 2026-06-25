@@ -17,4 +17,7 @@ export default {
   get year() {
     return new Date().getFullYear();
   },
+  patreonUrl: "https://www.patreon.com/c/Ionrift",
+  patreonPackCollectionUrl:
+    "https://www.patreon.com/collection/2079931?view=expanded",
 };

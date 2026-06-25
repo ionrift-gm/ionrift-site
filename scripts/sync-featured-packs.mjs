@@ -1,5 +1,8 @@
 /**
- * Build src/_data/packs.json from packs.featured.json + registry + PACK_CATALOG.
+ * Build src/_data/packs.json from packs.catalog.json + registry + PACK_CATALOG.
+ * The catalog file is a thin curation layer: product groupings, category,
+ * featured flag, order, and optional name/description overrides. Tier, modules,
+ * description, and preview status are derived from the registry and catalog.
  * Run after catalog or registry changes: npm run sync:packs
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -9,8 +12,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const siteRoot = path.resolve(__dirname, "..");
-const featuredPath = path.join(siteRoot, "src", "_data", "packs.featured.json");
+const catalogInputPath = path.join(siteRoot, "src", "_data", "packs.catalog.json");
 const outputPath = path.join(siteRoot, "src", "_data", "packs.json");
+const modulesPath = path.join(siteRoot, "src", "_data", "modules.json");
 
 const catalogPath = path.resolve(
   siteRoot,
@@ -92,8 +96,29 @@ function displayPackName(packLabel) {
   return packLabel.replace(/\s+pack$/i, "").trim();
 }
 
-function buildFeaturedPack(featured, registry) {
-  const entries = featured.catalogKeys.map((key) => {
+// Public copy must not carry em/en dashes or arrows (brand tone rules).
+function sanitizeCopy(text) {
+  if (!text) return text;
+  return text
+    .replace(/\s*[—–]\s*/g, ", ")
+    .replace(/\s*->\s*/g, ", ")
+    .replace(/\s*<-\s*/g, ", ")
+    .replace(/,\s*,/g, ", ")
+    .trim();
+}
+
+function moduleAccentForPack(moduleNames, moduleByName) {
+  const primary = moduleNames[0];
+  const mod = primary ? moduleByName[primary] : null;
+  const accent = mod?.accent || "#8b5cf6";
+  return {
+    accent,
+    iconAccent: mod?.iconAccent || accent,
+  };
+}
+
+function buildPack(product, registry, moduleByName) {
+  const entries = product.catalogKeys.map((key) => {
     const reg = registryEntry(registry, key);
     if (!reg) {
       throw new Error(`Registry entry missing for ${key}`);
@@ -102,38 +127,59 @@ function buildFeaturedPack(featured, registry) {
   });
 
   const tier = highestTier(entries.map((entry) => entry.tier));
+
   const labels = entries.map((entry) => displayPackName(entry.reg.packLabel)).filter(Boolean);
   const uniqueLabels = [...new Set(labels)];
-  const name = uniqueLabels.length === 1 ? uniqueLabels[0] : uniqueLabels.join(" · ") || featured.id;
+  const derivedName = uniqueLabels.length === 1
+    ? uniqueLabels[0]
+    : uniqueLabels.join(" · ") || product.id;
+  const name = sanitizeCopy(product.name || derivedName);
 
   const modules = [
     ...new Set(entries.map((entry) => moduleLabel(entry.reg.moduleId)).filter(Boolean)),
   ];
 
-  const description = entries
+  const derivedDescription = entries
     .map((entry) => entry.reg.description?.trim())
     .filter(Boolean)
     .join(" ");
+  const description = sanitizeCopy(product.description || derivedDescription);
+
+  // A product is a preview only when none of its parts have shipped yet.
+  const preview = entries.every((entry) => entry.reg.preview === true);
+  const { accent, iconAccent } = moduleAccentForPack(modules, moduleByName);
 
   return {
-    id: featured.id,
-    catalogKeys: featured.catalogKeys,
+    id: product.id,
+    catalogKeys: product.catalogKeys,
     name,
     tier,
     tierLabel: TIER_LABELS[tier] || tier,
     modules,
+    accent,
+    iconAccent,
     description,
-    status: "available",
-    order: featured.order,
+    category: product.category || null,
+    image: product.image || null,
+    featured: product.featured === true,
+    landing: product.landing === true,
+    preview,
+    status: preview ? "preview" : "available",
+    order: product.order || 0,
   };
 }
 
-const featured = JSON.parse(readFileSync(featuredPath, "utf8"));
+const catalog = JSON.parse(readFileSync(catalogInputPath, "utf8"));
+const modulesData = JSON.parse(readFileSync(modulesPath, "utf8"));
+const moduleByName = Object.fromEntries(modulesData.map((mod) => [mod.name, mod]));
 const registry = await loadRegistry();
-const packs = featured
+const packs = catalog
   .slice()
   .sort((a, b) => (a.order || 0) - (b.order || 0))
-  .map((item) => buildFeaturedPack(item, registry));
+  .map((item) => buildPack(item, registry, moduleByName));
 
 writeFileSync(outputPath, `${JSON.stringify(packs, null, 2)}\n`);
-console.log(`Wrote ${packs.length} featured pack(s) to src/_data/packs.json`);
+const featuredCount = packs.filter((pack) => pack.featured).length;
+console.log(
+  `Wrote ${packs.length} pack(s) (${featuredCount} featured) to src/_data/packs.json`,
+);

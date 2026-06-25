@@ -60,38 +60,26 @@
 {% if catalogue.roadmap.length %}
                 <div class="module-roadmap">
                     <p class="module-roadmap-label">In the workshop</p>
-                    <div class="module-roadmap-stage">
-                        <div class="module-roadmap-stack">
-                            <div class="module-roadmap-row module-roadmap-row--primary">
+                    <div class="module-roadmap-row">
 {% for m in catalogue.roadmap %}
-{% set reveal = 'clear' %}
-{% if loop.index == 2 %}{% set reveal = 'fade' %}{% endif %}
-{% if loop.index > 2 %}{% set reveal = 'blur' %}{% endif %}
-                                <div class="module-roadmap-cell module-roadmap-cell--{{ reveal }}">
+                            <div class="module-roadmap-cell">
 {% if m.links.landing %}
-                                    <a href="{{ m.links.landing }}" class="module-card module-card--roadmap" style="--module-color: {{ m.accent }}; --module-icon-color: {{ m.iconAccent or m.accent }};">
+                                <a href="{{ m.links.landing }}" class="module-card module-card--roadmap" style="--module-color: {{ m.accent }}; --module-icon-color: {{ m.iconAccent or m.accent }};">
 {% else %}
-                                    <div class="module-card module-card--roadmap" style="--module-color: {{ m.accent }}; --module-icon-color: {{ m.iconAccent or m.accent }};">
+                                <div class="module-card module-card--roadmap" style="--module-color: {{ m.accent }}; --module-icon-color: {{ m.iconAccent or m.accent }};">
 {% endif %}
-                                        <div class="module-icon module-icon--sm"><img src="{{ m.icon }}" alt=""></div>
-                                        <span class="module-roadmap-name">{{ m.name }}</span>
-                                        <span class="module-pill pill-roadmap">{{ m.pillLabel | default("Coming soon") }}</span>
+                                    <div class="module-icon module-icon--sm"><img src="{{ m.icon }}" alt=""></div>
+                                    <span class="module-roadmap-name">{{ m.name }}</span>
+                                    <span class="module-pill pill-roadmap">{{ m.pillLabel | default("Taking shape") }}</span>
 {% if m.links.landing %}
-                                    </a>
+                                </a>
 {% else %}
-                                    </div>
-{% endif %}
                                 </div>
+{% endif %}
+                            </div>
 {% endfor %}
-                            </div>
-                            <div class="module-roadmap-row module-roadmap-row--ghost" aria-hidden="true">
-                                <div class="module-roadmap-ghost"></div>
-                                <div class="module-roadmap-ghost"></div>
-                                <div class="module-roadmap-ghost"></div>
-                            </div>
-                        </div>
-                        <div class="module-roadmap-edge" aria-hidden="true"></div>
                     </div>
+                    <div class="module-roadmap-horizon">More past this horizon</div>
                 </div>
 {% endif %}
             </div>

@@ -1,0 +1,85 @@
+---
+layout: landing.njk
+title: Content Pack Overlays | Ionrift Workshop
+description: Compendium overlays that extend the free Ionrift modules with recipes, terrain events, loot tables, sound, and curses. One Patreon subscription unlocks the library.
+canonical: https://ionrift.cloud/overlays/
+ogTitle: Overlays for the table
+ogDescription: Recipes, terrain events, loot tables, sound, and curses. One subscription unlocks the library, install from the Patreon Library in Ionrift Library.
+ogImage: https://ionrift.cloud/img/packs/_header.jpg
+bodyClass: page-overlays
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main page-overlays">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>Overlays</span>
+        </nav>
+
+        <header class="overlays-hero" style="--overlays-hero-img: url('/img/packs/_header.jpg');">
+            <div class="overlays-hero-shade"></div>
+            <div class="overlays-hero-inner">
+                <div class="section-label">Content packs</div>
+                <h1 class="overlays-hero-title">Overlays for the table</h1>
+                <p class="overlays-hero-lead">Compendium overlays extend the free modules with recipes, terrain events, loot tables, sound, and curses. They drop straight into the modules you already run. One subscription unlocks the whole library.</p>
+            </div>
+        </header>
+
+        <div class="overlays-how">
+            <div class="pack-how">
+                <div class="pack-how-step">
+                    <span class="pack-how-num">1</span>
+                    <a href="{{ site.patreonPackCollectionUrl }}" target="_blank" rel="noopener">Subscribe on Patreon</a>
+                </div>
+                <div class="pack-how-step">
+                    <span class="pack-how-num">2</span>
+                    <span>Open the Patreon Library in Ionrift Library</span>
+                </div>
+                <div class="pack-how-step">
+                    <span class="pack-how-num">3</span>
+                    <span>Install packs for the modules you run</span>
+                </div>
+            </div>
+            <p class="overlays-tier-legend">The badge on each pack shows the membership tier it needs. <span class="pack-tier pack-tier--free">Subscriber</span> covers any tier; <span class="pack-tier pack-tier--initiate">Initiate</span> and <span class="pack-tier pack-tier--acolyte">Acolyte</span> need that level or higher.</p>
+        </div>
+
+        <div class="pack-grid pack-grid--full">
+{% for pack in packs %}
+            <article class="pack-card" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
+                <div class="pack-card-media">
+                    <img src="{{ pack.image }}" alt="" loading="lazy">
+{% if pack.preview %}
+                    <span class="pack-flag">Taking shape</span>
+{% endif %}
+                </div>
+                <div class="pack-card-body">
+                    <div class="pack-card-top">
+                        <h3 class="pack-name">{{ pack.name }}</h3>
+                        <span class="pack-tier pack-tier--{{ pack.tier | lower }}">{{ pack.tierLabel }}</span>
+                    </div>
+                    <p class="pack-desc">{{ pack.description }}</p>
+                    <div class="pack-modules">
+{% for mod in pack.modules %}
+                        <span class="pack-module-tag">{{ mod }}</span>
+{% endfor %}
+                    </div>
+                </div>
+            </article>
+{% endfor %}
+        </div>
+
+        <div class="pack-footer">
+            <p class="pack-footer-note">More packs ship with module updates. Keep what you install, even if you cancel.</p>
+            <a href="{{ site.patreonPackCollectionUrl }}" target="_blank" rel="noopener" class="btn btn-primary">Browse the Patreon library</a>
+        </div>
+
+        <p class="page-back">
+            <a href="/#packs">&larr; Back to the workshop</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}

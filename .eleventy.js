@@ -1,5 +1,11 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
+import { readFileSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import modules from "./src/_data/modules.json" with { type: "json" };
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const packsPath = path.join(__dirname, "src", "_data", "packs.json");
 
 function buildCatalogue() {
   const sorted = [...modules].sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -11,11 +17,24 @@ function buildCatalogue() {
   };
 }
 
+function buildPackShowcase() {
+  const packs = JSON.parse(readFileSync(packsPath, "utf8"));
+  const landing = packs
+    .filter((pack) => pack.landing)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+  return {
+    landing,
+    total: packs.length,
+    moreCount: Math.max(0, packs.length - landing.length),
+  };
+}
+
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(rssPlugin);
 
   eleventyConfig.addGlobalData("catalogue", buildCatalogue);
+  eleventyConfig.addGlobalData("packShowcase", buildPackShowcase);
 
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/img");
