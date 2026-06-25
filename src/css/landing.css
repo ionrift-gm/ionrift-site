@@ -201,7 +201,7 @@
         .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 74vh;
+            min-height: 70vh;
             position: relative;
         }
 
@@ -588,6 +588,15 @@
         .section-header {
             text-align: center;
             margin-bottom: 56px;
+        }
+
+        /* Lift the module grid so card tops tease above the fold instead of a text title */
+        #modules {
+            padding-top: 32px;
+        }
+
+        #modules .section-header {
+            margin-bottom: 28px;
         }
 
         .section-label {
