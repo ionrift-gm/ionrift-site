@@ -10,6 +10,8 @@ patreonId: "159627407"
 patreonContentHash: "sha256:e2c7d9e629ea965a"
 patreonUrl: "/Ionrift/posts/ionrift-is-live-159627407"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "https://www.youtube.com/embed/DBLM4srxaGE"
+ogImage: "https://img.youtube.com/vi/DBLM4srxaGE/maxresdefault.jpg"
 ---
 
 Quartermaster has been quietly available for about a week now, but I wanted the core item pack and the install pipeline solid before making noise about it. That's done. Here's what it is.
