@@ -124,7 +124,7 @@ eleventyComputed:
             </div>
 
 {% if module.install and module.install.method == "patreon-cloud" %}
-            <p class="module-install-note">Subscribe on Patreon, then paste the cloud manifest URL into Foundry's module installer.</p>
+            <p class="module-install-note">Subscribe on Patreon, then open the Patreon Library in Ionrift Library and install from there. Not listed in the public Foundry browser.</p>
 {% elif module.install and module.install.method == "foundry" %}
             <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}" target="_blank" rel="noopener">GitHub</a>.</p>
 {% endif %}
