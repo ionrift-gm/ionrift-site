@@ -10,6 +10,7 @@ patreonId: "161227392"
 patreonContentHash: "sha256:51ba577b254c49f9"
 patreonUrl: "/Ionrift/posts/cursewright-161227392"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/cursewright/cover.png"
 ---
 
 For those who haven't seen it: Cursewright is a cursed item system for Foundry VTT. Mechanical curses that use what the platform can actually do. The inventory system, item sheets, combat hooks, rest cycles. The goal is to capture the intent behind each curse in a way that pen-and-paper never could.
