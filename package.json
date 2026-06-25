@@ -6,7 +6,7 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "sync:packs": "node scripts/sync-pack-tiers.mjs"
+    "sync:packs": "node scripts/sync-featured-packs.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
