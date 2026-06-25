@@ -10,6 +10,8 @@ patreonId: "160348160"
 patreonContentHash: "sha256:a012ada01a8c9876"
 patreonUrl: "/Ionrift/posts/respite-v3-pick-160348160"
 patreonLabel: "Ionrift on Patreon"
+coverVideo: "https://www.youtube.com/embed/nKByCDttG3M"
+ogImage: "https://img.youtube.com/vi/nKByCDttG3M/maxresdefault.jpg"
 ---
 
 This was supposed to be a light touch update. Once I got stuck in, It turned into a huge revamp of every UI system and took a lot of testing to get to this point. It feels like a real evolution. Respite is finally in a place I'm happy with.
