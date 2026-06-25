@@ -684,7 +684,8 @@
         }
 
         .module-card--hero:hover .module-card-cta {
-            color: var(--text-main);
+            color: var(--module-color, var(--accent-light));
+            filter: brightness(1.12);
         }
 
         /* ── Compact row (rest of lineup) ── */
@@ -805,14 +806,16 @@
         }
 
         .module-card:hover {
-            background: rgba(25, 25, 40, 0.8);
-            border-color: rgba(255, 255, 255, 0.1);
+            background: color-mix(in srgb, var(--module-color, var(--accent)) 5%, rgba(25, 25, 40, 0.85));
+            border-color: color-mix(in srgb, var(--module-color, var(--accent)) 32%, rgba(255, 255, 255, 0.08));
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 36px color-mix(in srgb, var(--module-color, var(--accent)) 22%, transparent);
         }
 
         .module-card:hover::before {
             opacity: 1;
+            height: 3px;
+            box-shadow: 0 0 14px color-mix(in srgb, var(--module-color, var(--accent)) 45%, transparent);
         }
 
         /* Variants must follow base .module-card flex column */
@@ -842,9 +845,9 @@
         }
 
         .module-card.module-card--roadmap:hover {
-            opacity: 0.9;
+            opacity: 0.95;
             transform: none;
-            box-shadow: none;
+            box-shadow: 0 0 20px color-mix(in srgb, var(--module-color, var(--accent)) 12%, transparent);
         }
 
         .module-card.module-card--compact .module-icon,
