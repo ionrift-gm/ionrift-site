@@ -699,6 +699,7 @@
             font-size: 14px;
             line-height: 1.6;
             flex: 1;
+            margin-bottom: 18px;
         }
 
         /* ── Card Footer (pinned to bottom) ── */
@@ -715,8 +716,9 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            justify-content: center;
             gap: 8px;
-            min-height: 56px;
+            min-height: 74px;
         }
 
         .module-links-primary {
