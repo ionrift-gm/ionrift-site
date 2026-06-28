@@ -1,0 +1,113 @@
+{% set canonical = site.url + (page.url | url) %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if pagination.pageNumber > 0 %}{{ title }} (page {{ pagination.pageNumber + 1 }}){% else %}{{ title }}{% endif %} | Ionrift Workshop</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="theme-color" content="#14141e">
+
+    <link rel="icon" href="/img/favicon-48.png" type="image/png" sizes="48x48">
+    <link rel="icon" href="/img/favicon-180.png" type="image/png" sizes="180x180">
+    <link rel="apple-touch-icon" href="/img/favicon-180.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:site_name" content="Ionrift Workshop">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+
+    <link rel="canonical" href="{{ canonical }}">
+{% if pagination.href.previous %}
+    <link rel="prev" href="{{ site.url }}{{ pagination.href.previous | url }}">
+{% endif %}
+{% if pagination.href.next %}
+    <link rel="next" href="{{ site.url }}{{ pagination.href.next | url }}">
+{% endif %}
+
+    <meta name="robots" content="index, follow">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65B9N0FZC0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-65B9N0FZC0');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/blog.css">
+</head>
+<body class="blog-shell blog-index">
+
+    <div class="atmosphere"></div>
+    <div class="noise"></div>
+
+    <div class="wrapper">
+        {% include "landing/nav.njk" %}
+        <main class="blog-main">
+            <header>
+                <h1 class="blog-title">{{ title }}</h1>
+                <p class="rss-pill">RSS: <a href="/blog/feed.xml">feed.xml</a>{% if pagination.pages.length > 1 %} · Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}{% endif %}</p>
+            </header>
+            <ul class="post-list">
+                {% for post in posts %}
+                {% set localVideo = post.data.coverVideo if (post.data.coverVideo and post.data.coverVideo[0] == "/") else null %}
+                {% set hasThumb = post.data.ogImage or localVideo %}
+                <li>
+                    <a class="post-row{% if hasThumb %} post-row--has-thumb{% endif %}" href="{{ post.url }}">
+                        {% if post.data.ogImage %}
+                        <div class="post-row-thumb">
+                            <img src="{{ post.data.ogImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
+                        </div>
+                        {% elif localVideo %}
+                        <div class="post-row-thumb">
+                            <video class="post-thumb-video" src="{{ localVideo }}" muted playsinline preload="metadata" aria-hidden="true"></video>
+                        </div>
+                        {% endif %}
+                        <div class="post-row-body">
+                            <div class="post-row-title">{{ post.data.title }}</div>
+                            <p class="post-row-excerpt">{{ post.data.description }}</p>
+                            <div class="post-row-date">{{ post.date | htmlDateString }}</div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+{% if pagination.pages.length > 1 %}
+            <nav class="blog-pagination" aria-label="Devlog pages">
+{% if pagination.href.previous %}
+                <a class="blog-pagination-link" href="{{ pagination.href.previous | url }}">Newer posts</a>
+{% else %}
+                <span class="blog-pagination-link blog-pagination-link--disabled">Newer posts</span>
+{% endif %}
+                <span class="blog-pagination-status">{{ pagination.pageNumber + 1 }} / {{ pagination.pages.length }}</span>
+{% if pagination.href.next %}
+                <a class="blog-pagination-link" href="{{ pagination.href.next | url }}">Older posts</a>
+{% else %}
+                <span class="blog-pagination-link blog-pagination-link--disabled">Older posts</span>
+{% endif %}
+            </nav>
+{% endif %}
+            {{ content | safe }}
+        </main>
+        {% include "landing/footer.njk" %}
+    </div>
+
+    <script>
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+    </script>
+</body>
+</html>

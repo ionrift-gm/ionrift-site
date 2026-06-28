@@ -1,0 +1,90 @@
+[
+  {
+    "id": "authoring-kit",
+    "catalogKeys": ["respite-authoring-kit"],
+    "category": "events",
+    "image": "/img/packs/authoring-kit.jpg",
+    "featured": true,
+    "name": "Authoring Kit",
+    "description": "Schema reference, authoring guide, and importable example packs for custom Respite rest events.",
+    "landing": true,
+    "order": 40
+  },
+  {
+    "id": "resonance-core",
+    "catalogKeys": ["resonance-core-overlay"],
+    "category": "sound",
+    "image": "/img/packs/resonance-core.jpg",
+    "featured": true,
+    "name": "Resonance Core",
+    "description": "Combat, spell, and creature sound effects for D&D 5e, Pathfinder 2e, and Daggerheart.",
+    "landing": true,
+    "order": 20
+  },
+  {
+    "id": "frost-stone",
+    "catalogKeys": ["respite-frost-stone-overlay", "quartermaster-frost-stone-overlay"],
+    "category": "terrain",
+    "image": "/img/packs/frost-stone.jpg",
+    "featured": false,
+    "name": "Frost & Stone",
+    "description": "Mountain and arctic terrains, camp events, and disasters for Respite, plus matching cache containers for Quartermaster.",
+    "order": 60
+  },
+  {
+    "id": "wanderers",
+    "catalogKeys": ["respite-wanderers-overlay"],
+    "category": "events",
+    "image": "/img/packs/wanderers.jpg",
+    "featured": true,
+    "landing": true,
+    "order": 30
+  },
+  {
+    "id": "qm-core",
+    "catalogKeys": ["quartermaster-core-overlay"],
+    "category": "treasure",
+    "image": "/img/packs/qm-core.png",
+    "featured": true,
+    "name": "Quartermaster Core",
+    "landing": true,
+    "order": 10
+  },
+  {
+    "id": "dust-bone",
+    "catalogKeys": ["respite-bone-dust-overlay", "quartermaster-bone-dust-overlay"],
+    "category": "treasure",
+    "image": "/img/packs/dust-bone.png",
+    "featured": false,
+    "name": "Dust & Bone",
+    "description": "Catacombs and ruins terrains and camp events for Respite, with matching containers, gems, and treasure for Quartermaster.",
+    "order": 50
+  },
+  {
+    "id": "respite-core-art",
+    "catalogKeys": ["respite-core-overlay"],
+    "category": "terrain",
+    "image": "/img/packs/respite-core-art.png",
+    "featured": false,
+    "name": "Respite Core Art",
+    "order": 25
+  },
+  {
+    "id": "craft-professions",
+    "catalogKeys": ["respite-craft-professions-overlay"],
+    "category": "cooking",
+    "image": "/img/packs/craft-professions.jpg",
+    "featured": false,
+    "name": "Craft Professions",
+    "order": 80
+  },
+  {
+    "id": "cursewright-archetypes",
+    "catalogKeys": ["cursewright-core-overlay"],
+    "category": "curse",
+    "image": "/img/packs/cursewright.jpg",
+    "featured": false,
+    "name": "Curse Archetypes",
+    "order": 90
+  }
+]
