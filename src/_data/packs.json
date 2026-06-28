@@ -7,6 +7,7 @@
     "name": "Quartermaster Core",
     "tier": "Free",
     "tierLabel": "Public",
+    "tierBadge": "public",
     "modules": [
       "Quartermaster"
     ],
@@ -29,6 +30,7 @@
     "name": "Resonance Core",
     "tier": "Free",
     "tierLabel": "Public",
+    "tierBadge": "public",
     "modules": [
       "Resonance"
     ],
@@ -51,6 +53,7 @@
     "name": "Respite Core Art",
     "tier": "Free",
     "tierLabel": "Public",
+    "tierBadge": "public",
     "modules": [
       "Respite"
     ],
@@ -73,6 +76,7 @@
     "name": "Wanderer's",
     "tier": "Free",
     "tierLabel": "Subscriber",
+    "tierBadge": "subscriber",
     "modules": [
       "Respite"
     ],
@@ -95,6 +99,7 @@
     "name": "Authoring Kit",
     "tier": "Free",
     "tierLabel": "Subscriber",
+    "tierBadge": "subscriber",
     "modules": [
       "Respite"
     ],
@@ -118,6 +123,7 @@
     "name": "Dust & Bone",
     "tier": "Initiate",
     "tierLabel": "Initiate",
+    "tierBadge": "initiate",
     "modules": [
       "Respite",
       "Quartermaster"
@@ -142,6 +148,7 @@
     "name": "Frost & Stone",
     "tier": "Free",
     "tierLabel": "Subscriber",
+    "tierBadge": "subscriber",
     "modules": [
       "Respite",
       "Quartermaster"
@@ -165,6 +172,7 @@
     "name": "Craft Professions",
     "tier": "Initiate",
     "tierLabel": "Initiate",
+    "tierBadge": "initiate",
     "modules": [
       "Respite"
     ],
@@ -187,6 +195,7 @@
     "name": "Curse Archetypes",
     "tier": "Acolyte",
     "tierLabel": "Acolyte",
+    "tierBadge": "acolyte",
     "modules": [
       "Cursewright"
     ],

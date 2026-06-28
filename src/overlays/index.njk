@@ -43,7 +43,24 @@ bodyClass: page-overlays
                     <span>Install packs for the modules you run</span>
                 </div>
             </div>
-            <p class="overlays-tier-legend">The badge on each pack shows how to get it. <span class="pack-tier pack-tier--free">Public</span> packs install without a subscription; <span class="pack-tier pack-tier--free">Subscriber</span> needs any Patreon tier; <span class="pack-tier pack-tier--initiate">Initiate</span> and <span class="pack-tier pack-tier--acolyte">Acolyte</span> need that level or higher.</p>
+            <ul class="overlays-tier-key" aria-label="Pack access tiers">
+                <li class="overlays-tier-key-item">
+                    <span class="pack-tier pack-tier--public">Public</span>
+                    <span class="overlays-tier-key-note">No subscription</span>
+                </li>
+                <li class="overlays-tier-key-item">
+                    <span class="pack-tier pack-tier--subscriber">Subscriber</span>
+                    <span class="overlays-tier-key-note">Any Patreon tier</span>
+                </li>
+                <li class="overlays-tier-key-item">
+                    <span class="pack-tier pack-tier--initiate">Initiate</span>
+                    <span class="overlays-tier-key-note">Initiate or higher</span>
+                </li>
+                <li class="overlays-tier-key-item">
+                    <span class="pack-tier pack-tier--acolyte">Acolyte</span>
+                    <span class="overlays-tier-key-note">Acolyte or higher</span>
+                </li>
+            </ul>
         </div>
 
         <div class="pack-grid pack-grid--full">
@@ -58,7 +75,7 @@ bodyClass: page-overlays
                 <div class="pack-card-body">
                     <div class="pack-card-top">
                         <h3 class="pack-name">{{ pack.name }}</h3>
-                        <span class="pack-tier pack-tier--{{ pack.tier | lower }}">{{ pack.tierLabel }}</span>
+                        <span class="pack-tier pack-tier--{{ pack.tierBadge }}">{{ pack.tierLabel }}</span>
                     </div>
                     <p class="pack-desc">{{ pack.description }}</p>
                     <div class="pack-modules">
