@@ -118,9 +118,6 @@ eleventyComputed:
                     {{ module.install.label }}
                 </a>
 {% endif %}
-{% if module.try %}
-                <a href="{{ module.try.href }}" class="btn btn-primary module-detail-cta">{{ module.try.label }}</a>
-{% endif %}
             </div>
 
 {% if module.install and module.install.method == "patreon-cloud" %}

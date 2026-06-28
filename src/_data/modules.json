@@ -32,7 +32,7 @@
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-resonance/releases/latest/download/module.json", "label": "Foundry Module" },
     "links": { "github": "https://github.com/ionrift-gm/ionrift-resonance", "foundryPackage": "https://foundryvtt.com/packages/ionrift-resonance", "patreon": "https://www.patreon.com/c/Ionrift" },
-    "try": { "href": "/tools/soundboard/", "label": "Try Soundboard" },
+    "try": null,
     "trailer": "vRZeyZqYwxw",
     "accessLabel": null,
     "highlights": ["550+ sound effects", "Combat-synced", "13 systems"],
@@ -41,7 +41,7 @@
     "order": 20,
     "detailBody": [
       "Ambience follows the scene: forest beds under travel, combat stingers on crits and fumbles, weapon hits matched to the attack type.",
-      "The soundboard at ionrift.cloud is a slice of the same library. Install the full module for automatic combat sync and Daggerheart fear and hope triggers."
+      "Install the full module for automatic combat sync and Daggerheart fear and hope triggers at the table."
     ]
   },
   {
@@ -55,7 +55,7 @@
     "tier": "free",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-quartermaster/releases/latest/download/module.json", "label": "Foundry Module" },
     "links": { "github": "https://github.com/ionrift-gm/ionrift-quartermaster", "foundryPackage": "https://foundryvtt.com/packages/ionrift-quartermaster", "patreon": "https://www.patreon.com/c/Ionrift" },
-    "try": { "href": "/tools/loot-generator/", "label": "Try Loot Generator" },
+    "try": null,
     "trailer": "DBLM4srxaGE",
     "highlights": ["Loot caches", "Signature items", "Content packs"],
     "systems": ["dnd5e", "pf2e"],
@@ -63,7 +63,7 @@
     "order": 30,
     "detailBody": [
       "Generate tier-tuned loot caches with terrain-themed containers, track signature items across the campaign, and compile content pack overlays from one panel.",
-      "Curse progression hooks into the same inventory view when Cursewright is installed. The loot generator on ionrift.cloud previews cache generation without Foundry."
+      "Curse progression hooks into the same inventory view when Cursewright is installed."
     ]
   },
   {

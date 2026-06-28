@@ -6,7 +6,7 @@
     ],
     "name": "Quartermaster Core",
     "tier": "Free",
-    "tierLabel": "Subscriber",
+    "tierLabel": "Public",
     "modules": [
       "Quartermaster"
     ],
@@ -28,7 +28,7 @@
     ],
     "name": "Resonance Core",
     "tier": "Free",
-    "tierLabel": "Subscriber",
+    "tierLabel": "Public",
     "modules": [
       "Resonance"
     ],
@@ -50,7 +50,7 @@
     ],
     "name": "Respite Core Art",
     "tier": "Free",
-    "tierLabel": "Subscriber",
+    "tierLabel": "Public",
     "modules": [
       "Respite"
     ],

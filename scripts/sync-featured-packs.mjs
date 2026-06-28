@@ -58,16 +58,24 @@ async function loadRegistry() {
   return res.json();
 }
 
-function catalogTier(catalogKey) {
+function catalogLatest(catalogKey) {
   const versions = PACK_CATALOG[catalogKey];
   if (!versions) {
     throw new Error(`Unknown catalog key: ${catalogKey}`);
   }
-  const latest = Object.values(versions).at(-1);
+  return Object.values(versions).at(-1);
+}
+
+function catalogTier(catalogKey) {
+  const latest = catalogLatest(catalogKey);
   if (!latest?.tier) {
     throw new Error(`No tier on catalog entry: ${catalogKey}`);
   }
   return latest.tier;
+}
+
+function catalogPublicDownload(catalogKey) {
+  return catalogLatest(catalogKey)?.publicDownload === true;
 }
 
 function highestTier(tiers) {
@@ -127,6 +135,9 @@ function buildPack(product, registry, moduleByName) {
   });
 
   const tier = highestTier(entries.map((entry) => entry.tier));
+  const tierLabel = entries.every((entry) => catalogPublicDownload(entry.key))
+    ? "Public"
+    : (TIER_LABELS[tier] || tier);
 
   const labels = entries.map((entry) => displayPackName(entry.reg.packLabel)).filter(Boolean);
   const uniqueLabels = [...new Set(labels)];
@@ -154,7 +165,7 @@ function buildPack(product, registry, moduleByName) {
     catalogKeys: product.catalogKeys,
     name,
     tier,
-    tierLabel: TIER_LABELS[tier] || tier,
+    tierLabel,
     modules,
     accent,
     iconAccent,
