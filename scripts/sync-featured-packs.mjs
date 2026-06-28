@@ -138,6 +138,9 @@ function buildPack(product, registry, moduleByName) {
   const tierLabel = entries.every((entry) => catalogPublicDownload(entry.key))
     ? "Public"
     : (TIER_LABELS[tier] || tier);
+  const tierBadge = tierLabel === "Public"
+    ? "public"
+    : (tier === "Free" ? "subscriber" : tier.toLowerCase());
 
   const labels = entries.map((entry) => displayPackName(entry.reg.packLabel)).filter(Boolean);
   const uniqueLabels = [...new Set(labels)];
@@ -166,6 +169,7 @@ function buildPack(product, registry, moduleByName) {
     name,
     tier,
     tierLabel,
+    tierBadge,
     modules,
     accent,
     iconAccent,
