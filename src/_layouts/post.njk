@@ -1,0 +1,124 @@
+{% set canonical = site.url + page.url %}
+{% set og = (site.url + ogImage) if ogImage and ogImage[0] == "/" else ogImage %}
+{% set videoSrc = (site.url + coverVideo) if coverVideo and coverVideo[0] == "/" else coverVideo %}
+{% set videoMime = 'video/webm' if (coverVideo and '.webm' in coverVideo) else 'video/mp4' %}
+{% set isYouTube = coverVideo and ('youtube.com/embed' in coverVideo) %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Ionrift Workshop</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="theme-color" content="#14141e">
+
+    <link rel="icon" href="/img/favicon-48.png" type="image/png" sizes="48x48">
+    <link rel="icon" href="/img/favicon-180.png" type="image/png" sizes="180x180">
+    <link rel="apple-touch-icon" href="/img/favicon-180.png">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:site_name" content="Ionrift Workshop">
+    <meta property="og:locale" content="en_GB">
+    {% if og %}<meta property="og:image" content="{{ og }}">{% endif %}
+    <meta property="article:published_time" content="{{ page.date | dateToRfc3339 }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    {% if og %}<meta name="twitter:image" content="{{ og }}">{% endif %}
+
+    <link rel="canonical" href="{{ canonical }}">
+
+    <meta name="robots" content="index, follow">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": {{ title | jsonEncode | safe }},
+      "description": {{ description | jsonEncode | safe }},
+      "datePublished": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
+      "dateModified": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
+      "url": {{ canonical | jsonEncode | safe }},
+      {% if og %}"image": {{ og | jsonEncode | safe }},{% endif %}
+      "author": {
+        "@type": "Person",
+        "name": {{ site.author.name | jsonEncode | safe }},
+        "url": {{ site.author.url | jsonEncode | safe }}
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": {{ "Ionrift Workshop" | jsonEncode | safe }},
+        "url": {{ site.url | jsonEncode | safe }}
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": {{ canonical | jsonEncode | safe }}
+      }
+    }
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65B9N0FZC0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-65B9N0FZC0');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/blog.css">
+</head>
+<body class="blog-shell">
+
+    <div class="atmosphere"></div>
+    <div class="noise"></div>
+
+    <div class="wrapper">
+        {% include "landing/nav.njk" %}
+        <article class="blog-main">
+            <header>
+                <h1 class="blog-title">{{ title }}</h1>
+                <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
+            </header>
+            {% if coverVideo and videoSrc %}
+            {% if isYouTube %}
+            <div class="blog-hero blog-hero--youtube">
+                <iframe class="blog-hero-yt" src="{{ videoSrc }}?rel=0" title="{{ title }}" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+            </div>
+            {% else %}
+            <div class="blog-hero blog-hero--video">
+                <video class="blog-hero-video" controls playsinline preload="metadata"{% if ogImage and og %} poster="{{ og }}"{% endif %} aria-label="{{ title }}">
+                    <source src="{{ videoSrc }}" type="{{ videoMime }}">
+                </video>
+            </div>
+            {% endif %}
+            {% elif ogImage and og %}
+            <div class="blog-hero">
+                <img src="{{ og }}" alt="{{ title }}" class="blog-hero-img" loading="eager" decoding="async">
+            </div>
+            {% endif %}
+            <div class="blog-prose">
+                {{ content | safe }}
+            </div>
+            <div class="patreon-callout">
+                Originally posted on Patreon: <a href="{{ patreonUrl }}" rel="noopener">{{ patreonLabel | default("Ionrift on Patreon") }}</a>
+            </div>
+        </article>
+        {% include "landing/footer.njk" %}
+    </div>
+
+    <script>
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+    </script>
+</body>
+</html>

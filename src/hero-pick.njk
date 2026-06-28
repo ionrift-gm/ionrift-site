@@ -1,0 +1,233 @@
+---
+layout: null
+permalink: /hero-pick/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Pick — Ionrift</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0a12;
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 8px;
+    }
+    p { color: #6b6b80; font-size: 13px; margin-bottom: 40px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(139, 92, 246, 0.2);
+      background: #14141e;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(139, 92, 246, 0.7);
+      transform: translateY(-4px);
+    }
+    .card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .card-label {
+      padding: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #a0a0b8;
+      letter-spacing: 0.5px;
+    }
+    .card-label strong {
+      display: block;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    /* Full preview overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .overlay.active { display: flex; }
+    .overlay img {
+      max-height: 92vh;
+      max-width: 60vw;
+      border-radius: 12px;
+      box-shadow: 0 0 80px rgba(139,92,246,0.4);
+    }
+
+    /* Live preview strip */
+    .preview-bar {
+      max-width: 1400px;
+      margin: 40px auto 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(139,92,246,0.2);
+    }
+    .preview-bar h2 {
+      padding: 16px 24px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #a78bfa;
+      border-bottom: 1px solid rgba(139,92,246,0.15);
+    }
+    .preview-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 520px;
+    }
+    .preview-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 48px;
+      background: #0a0a12;
+    }
+    .preview-left .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 50px;
+      background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
+      color: #a78bfa; font-size: 12px; font-weight: 600; margin-bottom: 24px; width: fit-content;
+    }
+    .preview-left .dot { width: 6px; height: 6px; border-radius: 50%; background: #22d3ee; }
+    .preview-left h3 { font-size: clamp(32px, 4vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 16px; }
+    .preview-left h3 span { background: linear-gradient(135deg, #a78bfa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .preview-left p { font-size: 15px; color: #a0a0b8; max-width: 380px; line-height: 1.7; margin-bottom: 28px; }
+    .preview-left .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; background: #FF424D; color: #fff; text-decoration: none; width: fit-content; }
+    .preview-right {
+      position: relative;
+      overflow: hidden;
+      transition: background-image 0.4s;
+    }
+    .preview-right .art {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center top;
+    }
+    .preview-right .art-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, #0a0a12 0%, transparent 18%),
+        linear-gradient(to top, #0a0a12 0%, transparent 15%);
+    }
+
+    .btn-row {
+      display: flex; gap: 12px; margin: 24px auto 0;
+      max-width: 1400px; justify-content: center;
+    }
+    .pick-btn {
+      padding: 10px 28px; border-radius: 50px; font-size: 13px; font-weight: 700;
+      border: 1px solid rgba(139,92,246,0.3); background: rgba(139,92,246,0.1);
+      color: #a78bfa; cursor: pointer; letter-spacing: 0.5px; transition: all 0.2s;
+    }
+    .pick-btn:hover, .pick-btn.active {
+      background: rgba(139,92,246,0.3); border-color: rgba(139,92,246,0.7); color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hero Panel — Pick a Winner</h1>
+  <p>Click any card to full-preview. Use the buttons below the mock to swap the image into the live hero layout.</p>
+
+  <div class="grid">
+    <div class="card" onclick="openOverlay('/img/hero-a.png')">
+      <img src="/img/hero-a.png" alt="Option A">
+      <div class="card-label">
+        <strong>A — Columns + Portal</strong>
+        Rift dominating far wall, candelabras, torch warmth vs purple cold
+      </div>
+    </div>
+    <div class="card" onclick="openOverlay('/img/hero-b.png')">
+      <img src="/img/hero-b.png" alt="Option B">
+      <div class="card-label">
+        <strong>B — Ritual Chamber</strong>
+        Rift above raised dais, runic sigils on floor, stalactites overhead
+      </div>
+    </div>
+    <div class="card" onclick="openOverlay('/img/hero-c.png')">
+      <img src="/img/hero-c.png" alt="Option C">
+      <div class="card-label">
+        <strong>C — Vaulted Hall Vortex</strong>
+        Rift cracking the far wall, single torch, longest shadows
+      </div>
+    </div>
+  </div>
+
+  <!-- Live mock preview -->
+  <div class="preview-bar">
+    <h2>Live Hero Mock — <span id="active-label">Option A</span></h2>
+    <div class="preview-hero">
+      <div class="preview-left">
+        <div class="badge"><span class="dot"></span> Pack services online</div>
+        <h3>Less bookkeeping.<br><span>More story.</span></h3>
+        <p>GM tools that handle the mechanical overhead: rest systems, soundscapes, settlement generation, inventory management. Built for Foundry VTT.</p>
+        <a href="#" class="btn">Support on Patreon</a>
+      </div>
+      <div class="preview-right">
+        <div class="art" id="preview-art" style="background-image: url('/img/hero-a.png')"></div>
+        <div class="art-overlay"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="pick-btn active" id="btn-a" onclick="setPreview('a', 'Option A', this)">Preview A</button>
+    <button class="pick-btn" id="btn-b" onclick="setPreview('b', 'Option B', this)">Preview B</button>
+    <button class="pick-btn" id="btn-c" onclick="setPreview('c', 'Option C', this)">Preview C</button>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" onclick="closeOverlay()">
+    <img id="overlay-img" src="" alt="">
+  </div>
+
+  <script>
+    function openOverlay(src) {
+      document.getElementById('overlay-img').src = src;
+      document.getElementById('overlay').classList.add('active');
+    }
+    function closeOverlay() {
+      document.getElementById('overlay').classList.remove('active');
+    }
+    function setPreview(key, label, btn) {
+      document.getElementById('preview-art').style.backgroundImage = `url('/img/hero-${key}.png')`;
+      document.getElementById('active-label').textContent = label;
+      document.querySelectorAll('.pick-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
