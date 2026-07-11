@@ -7,10 +7,10 @@
   "accent": "#10B981",
   "iconAccent": "#D4A853",
   "icon": "/img/modules/cartographer.png",
-  "lead": "Describe an outdoor area, pick a layout sketch, and export a finished battle map. Early access is in preparation.",
+  "lead": "Describe an outdoor area, pick among layout sketches, refine if you want, then finish as a flat map or table-ready layers. Early access opens when hosting is live.",
   "detailBody": [
-    "Cartographer is a web tool, not a Foundry module in v1. Describe forest clearings, shorelines, ruins in the open, and the tool returns layout options before rendering a high-resolution map you can drop into any VTT.",
-    "Early access will run through Patreon. The hosted app handles generation; this page is the public entry point once hosting is live."
+    "Cartographer is a web tool, not a Foundry module in v1. Describe forest clearings, shorelines, or ruins in the open. The tool returns layout options, then a finished battle map you can drop into any VTT.",
+    "Table-ready layers split ground and canopy so tokens can pass under cover. Early access runs through Patreon; the hosted app handles generation while this page is the public entry."
   ],
   "disclosure": "Map images are produced with generative AI. Draft sketches use a fast model; final renders use a higher-quality pass. We disclose this up front so you can decide whether it fits your table.",
   "ctaLabel": "Open Cartographer",
