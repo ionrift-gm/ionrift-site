@@ -67,6 +67,29 @@
     ]
   },
   {
+    "id": "monstrous-feast",
+    "name": "Monstrous Feast",
+    "tagline": "Monster Hunting & Cooking",
+    "description": "Butcher and cook the monsters you kill. Turn slain creatures into ingredients, cook them at camp, and feed the party. Monster hunting and creature cooking for Foundry VTT, in the spirit of delicious dungeon crawling.",
+    "accent": "#9b59b6",
+    "icon": "/img/modules/monstrous-feast.png",
+    "status": "ea",
+    "tier": "premium",
+    "install": { "method": "patreon-cloud", "manifest": "https://api.ionrift.cloud/manifest/ionrift-monstrous-feast", "label": "Get on Patreon" },
+    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "try": null,
+    "trailer": null,
+    "accessLabel": "Premium, on Patreon",
+    "highlights": ["Monster butchering", "Campfire cooking", "Respite integration"],
+    "systems": ["dnd5e", "pf2e"],
+    "detail": true,
+    "order": 35,
+    "detailBody": [
+      "Butcher monsters post-combat to harvest culinary components. Drag ingredients into the party's shared cookbook, inscribe new recipes, and cook meals over the campfire.",
+      "Subscribe on Patreon to install through the Patreon Library within Ionrift Library. Crossover integration automatically bridges cooking and ingredient spoilage with Respite."
+    ]
+  },
+  {
     "id": "cursewright",
     "name": "Cursewright",
     "tagline": "Curse Engine",
