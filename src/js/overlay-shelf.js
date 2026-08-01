@@ -1,7 +1,6 @@
 /**
- * Overlay Shelf (layout A): tile grid by module, install teaching, status macro.
+ * Overlay Shelf (layout A): tile grid by module, thumbs from packs.json art map.
  * Free overlays use /packs/public/{id}/latest. Paid rows link to Patreon.
- * Combined overlays-only zip is not wired yet; selection is ready for it.
  */
 
 const API_BASE = "https://api.ionrift.cloud";
@@ -19,6 +18,19 @@ const MODULE_LABELS = {
 /** @type {Set<string>} */
 const selectedIds = new Set();
 
+/** @type {Record<string, { image?: string|null, name?: string|null }>} */
+let artMap = {};
+
+function readArtMap() {
+  const el = document.getElementById("shelf-art-map");
+  if (!el) return {};
+  try {
+    return JSON.parse(el.textContent || "{}");
+  } catch (_) {
+    return {};
+  }
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -33,6 +45,18 @@ function includeOptionalIcons() {
 
 function moduleLabel(moduleId) {
   return MODULE_LABELS[moduleId] || moduleId || "Other";
+}
+
+function artFor(id) {
+  return artMap[id] || {};
+}
+
+function displayName(row) {
+  const art = artFor(row.id);
+  if (art.name) return art.name;
+  if (row.label && row.label.length < 48) return row.label;
+  if (row.packLabel) return row.packLabel;
+  return row.id;
 }
 
 function visibleOverlays(overlays) {
@@ -66,8 +90,9 @@ function renderOverlayTile(row) {
   const selectable = row.publicDownload === true;
   const selected = selectable && selectedIds.has(row.id);
   const tier = row.tier || "Free";
-  const title = row.label || row.id;
-  const metaBits = [`${tier} · v${row.latest}`];
+  const title = displayName(row);
+  const art = artFor(row.id);
+  const metaBits = [tier, `v${row.latest}`];
   if (row.optionalCompanion) metaBits.push("optional");
 
   let action = "";
@@ -86,23 +111,27 @@ function renderOverlayTile(row) {
       </label>`
     : "";
 
+  const media = art.image
+    ? `<div class="shelf-tile-media"><img src="${escapeHtml(art.image)}" alt="" loading="lazy" width="320" height="180"></div>`
+    : `<div class="shelf-tile-media shelf-tile-media--empty" aria-hidden="true"></div>`;
+
   const tileClass = [
     "shelf-tile",
     selected ? "shelf-tile--selected" : "",
     !selectable ? "shelf-tile--gated" : "",
   ].filter(Boolean).join(" ");
 
-  const pathHint = row.installPath
-    ? `<p class="shelf-tile-path"><code>${escapeHtml(row.installPath)}</code></p>`
-    : "";
+  const pathTitle = row.installPath ? ` title="${escapeHtml(row.installPath)}"` : "";
 
   return `
-    <article class="${tileClass}" data-pack-id="${escapeHtml(row.id)}">
+    <article class="${tileClass}" data-pack-id="${escapeHtml(row.id)}"${pathTitle}>
       ${select}
-      <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
-      <p class="shelf-tile-meta">${escapeHtml(metaBits.join(" · "))}</p>
-      ${pathHint}
-      ${action}
+      ${media}
+      <div class="shelf-tile-body">
+        <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
+        <p class="shelf-tile-meta">${escapeHtml(metaBits.join(" · "))}</p>
+        ${action}
+      </div>
     </article>
   `;
 }
@@ -194,6 +223,8 @@ async function loadStatus() {
 }
 
 function wireUi() {
+  artMap = readArtMap();
+
   document.getElementById("include-optional-icons")?.addEventListener("change", () => {
     const data = window.__ionriftStatus;
     if (!data) return loadStatus();
