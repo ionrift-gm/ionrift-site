@@ -182,4 +182,5 @@ bodyClass: page-overlay-shelf
 
 {% include "landing/footer.njk" %}
 
+<script type="application/json" id="shelf-art-map">{{ overlayShelfArt | jsonEncode | safe }}</script>
 <script type="module" src="/js/overlay-shelf.js"></script>
