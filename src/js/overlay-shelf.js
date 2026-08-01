@@ -1,16 +1,23 @@
 /**
- * Overlay Shelf (layout A): tile grid by module, thumbs from packs.json art map.
- * Open overlays use /packs/public/{id}/latest. Paid rows link to Patreon.
+ * Overlay Shelf: tile grid by module, open + entitled downloads, Patreon login.
  */
 
 import {
-  isGenerativePack,
+  isSelectablePack,
   defaultSelectedIds,
   applyGenerativeSelection as applyGenerativeSelectionPure,
 } from "./overlay-shelf-selection.js";
+import {
+  getSession,
+  connectPatreon,
+  clearToken,
+  downloadEntitledPack,
+  onSessionChange,
+} from "./overlay-shelf-auth.js";
 
 const API_BASE = "https://api.ionrift.cloud";
 const PUBLIC_LATEST = (id) => `${API_BASE}/packs/public/${id}/latest`;
+const PATREON_HOME = "https://www.patreon.com/c/Ionrift";
 
 /** Local Eleventy builds serve workspace registry+catalog; production uses the API. */
 function statusUrl() {
@@ -45,6 +52,8 @@ let openModuleIds = null;
 
 /** Hero toggle: when false, generative packs stay out of the default selection. */
 let includeGenerative = false;
+
+let statusLoadGeneration = 0;
 
 function readJsonMap(id) {
   const el = document.getElementById(id);
@@ -113,7 +122,6 @@ function comparePackRows(a, b) {
   const coreA = isPrimaryCorePack(a) ? 0 : 1;
   const coreB = isPrimaryCorePack(b) ? 0 : 1;
   if (coreA !== coreB) return coreA - coreB;
-  // Companions after their peers of the same rank.
   const compA = a.optionalCompanion ? 1 : 0;
   const compB = b.optionalCompanion ? 1 : 0;
   if (compA !== compB) return compA - compB;
@@ -152,7 +160,6 @@ function captureOpenModules() {
 function defaultOpenModules(groups) {
   const open = new Set();
   if (!groups.length) return open;
-  // First module open; also open any with 3+ packs. Single-pack modules stay closed.
   open.add(groups[0][0]);
   for (const [moduleId, rows] of groups) {
     if (rows.length >= 3) open.add(moduleId);
@@ -161,20 +168,22 @@ function defaultOpenModules(groups) {
 }
 
 function moduleSelectionSummary(rows) {
-  const selectable = rows.filter((r) => r.publicDownload);
+  const selectable = rows.filter((r) => isSelectablePack(r));
   const selected = selectable.filter((r) => selectedIds.has(r.id)).length;
   const total = rows.length;
   if (selectable.length) {
     return `${selected} selected · ${total} pack${total === 1 ? "" : "s"}`;
   }
-  return `${total} pack${total === 1 ? "" : "s"} · Patreon`;
+  return `${total} pack${total === 1 ? "" : "s"}`;
 }
 
 function tierLabel(row) {
-  if (row.publicDownload) return "Open";
+  if (row.downloadMode === "public" || row.publicDownload) return "Open";
+  if (row.audience === "member" || (!row.tier || /^free$/i.test(String(row.tier)))) {
+    return "Member";
+  }
   const tier = String(row.tier || "").trim();
-  if (!tier || /^free$/i.test(tier)) return "Patreon";
-  return tier;
+  return tier || "Patreon";
 }
 
 function generativeBadge(row) {
@@ -187,20 +196,23 @@ function generativeBadge(row) {
 }
 
 function renderOverlayTile(row) {
-  const selectable = row.publicDownload === true;
+  const selectable = isSelectablePack(row);
   const selected = selectable && selectedIds.has(row.id);
   const title = displayName(row);
   const art = artFor(row.id);
   const metaBits = [tierLabel(row), `v${row.latest}`];
-  // Companions are disclosed via checkbox + generative badge, not an "optional" chip.
 
   let action = "";
-  if (row.publicDownload) {
+  if (row.downloadMode === "public" || (row.publicDownload && row.canDownload !== false)) {
     action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener">Download</a>`;
-  } else if (row.browserHandoff) {
-    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.browserHandoff)}" target="_blank" rel="noopener">Patreon</a>`;
+  } else if (row.downloadMode === "entitled" || (row.canDownload && !row.publicDownload)) {
+    action = `<button type="button" class="btn btn-secondary btn-sm" data-entitled-download="${escapeHtml(row.id)}">Download</button>`;
+  } else if (row.downloadMode === "login" || row.audience === "member") {
+    action = `<button type="button" class="btn btn-secondary btn-sm" data-shelf-connect>Connect Patreon</button>`;
   } else {
-    action = `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon</a>`;
+    const href = row.browserHandoff || PATREON_HOME;
+    const label = row.downloadMode === "upgrade" ? "Upgrade on Patreon" : "Patreon";
+    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
   }
 
   const select = selectable
@@ -222,7 +234,6 @@ function renderOverlayTile(row) {
   ].filter(Boolean).join(" ");
 
   const pathTitle = row.installPath ? ` title="${escapeHtml(row.installPath)}"` : "";
-
   const badge = generativeBadge(row);
 
   return `
@@ -271,14 +282,13 @@ function renderOverlayGroups(overlays) {
 }
 
 function renderModules(modules) {
-  // Unreleased modules: hide even if an older status API still lists them.
   const HIDDEN_MODULE_IDS = new Set(["ionrift-cartographer"]);
   const rows = (modules || []).filter((row) => !HIDDEN_MODULE_IDS.has(row.id));
   if (!rows.length) {
-    return `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon modules</a>`;
+    return `<a class="btn btn-secondary btn-sm" href="${PATREON_HOME}" target="_blank" rel="noopener">Patreon modules</a>`;
   }
   return rows.map((row) => {
-    const href = row.browserHandoff || "https://www.patreon.com/c/Ionrift";
+    const href = row.browserHandoff || PATREON_HOME;
     return `<a class="btn btn-secondary btn-sm" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(row.id)}</a>`;
   }).join(" ");
 }
@@ -297,7 +307,7 @@ function updateSelectedHint() {
   const n = selectedIds.size;
   if (hint) {
     hint.textContent = n
-      ? `${n} open pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
+      ? `${n} pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
       : "Per-pack Download works now. A single overlays-only zip for your selection is next.";
   }
   if (btn) {
@@ -307,7 +317,7 @@ function updateSelectedHint() {
 }
 
 function pruneSelection(overlays) {
-  const visible = new Set(visibleOverlays(overlays).filter((r) => r.publicDownload).map((r) => r.id));
+  const visible = new Set(visibleOverlays(overlays).filter((r) => isSelectablePack(r)).map((r) => r.id));
   for (const id of [...selectedIds]) {
     if (!visible.has(id)) selectedIds.delete(id);
   }
@@ -326,17 +336,63 @@ function applyGenerativeSelection(overlays) {
   for (const id of next) selectedIds.add(id);
 }
 
-async function loadStatus() {
+function renderAuthChrome(session = getSession()) {
+  const slot = document.getElementById("shelf-auth-slot");
+  if (!slot) return;
+  if (session.authenticated) {
+    slot.innerHTML = `
+      <span class="shelf-auth-chip" id="shelf-auth-chip">
+        <span class="shelf-auth-tier">Connected · ${escapeHtml(session.tier || "Free")}</span>
+        <button type="button" class="btn btn-secondary btn-sm" id="shelf-disconnect-btn">Disconnect</button>
+      </span>`;
+  } else {
+    slot.innerHTML = `
+      <button type="button" class="btn btn-secondary" id="shelf-connect-btn">Connect Patreon</button>`;
+  }
+}
+
+async function runConnect() {
+  const connectBtn = document.getElementById("shelf-connect-btn");
+  if (connectBtn instanceof HTMLButtonElement) {
+    connectBtn.disabled = true;
+    connectBtn.textContent = "Waiting for Patreon...";
+  }
+  const result = await connectPatreon();
+  if (!result.ok) {
+    if (result.error === "popup-blocked" && result.authUrl) {
+      window.open(result.authUrl, "_blank", "noopener");
+    }
+    if (connectBtn instanceof HTMLButtonElement) {
+      connectBtn.disabled = false;
+      connectBtn.textContent = "Connect Patreon";
+    }
+    return;
+  }
+  await loadStatus({ resetSelection: true });
+}
+
+async function loadStatus(opts = {}) {
   const overlaysEl = document.getElementById("shelf-overlays");
   const modulesEl = document.getElementById("shelf-modules");
   if (!overlaysEl) return;
 
+  const generation = ++statusLoadGeneration;
+  const session = getSession();
+  renderAuthChrome(session);
+
   try {
-    const res = await fetch(statusUrl(), { cache: "no-store" });
+    const headers = {};
+    if (session.authenticated) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    // Localhost status.json is anonymous; production uses API with optional Bearer.
+    const res = await fetch(statusUrl(), { cache: "no-store", headers });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    window.__ionriftStatus = data;
+    if (generation !== statusLoadGeneration) return;
 
+    window.__ionriftStatus = data;
+    if (opts.resetSelection) selectedIds.clear();
     defaultSelectOpen(data.overlays || []);
     pruneSelection(data.overlays || []);
     overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
@@ -361,6 +417,7 @@ function rerenderOverlays() {
 function wireUi() {
   artMap = readArtMap();
   moduleMap = readModuleMap();
+  renderAuthChrome();
 
   const generativeToggle = document.getElementById("include-generative-toggle");
   if (generativeToggle instanceof HTMLInputElement) {
@@ -374,13 +431,59 @@ function wireUi() {
     });
   }
 
+  document.getElementById("shelf-auth-slot")?.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.id === "shelf-connect-btn" || target.closest("#shelf-connect-btn")) {
+      await runConnect();
+      return;
+    }
+    if (target.id === "shelf-disconnect-btn" || target.closest("#shelf-disconnect-btn")) {
+      clearToken();
+      selectedIds.clear();
+      await loadStatus({ resetSelection: true });
+    }
+  });
+
+  document.getElementById("shelf-overlays")?.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    if (target.hasAttribute("data-shelf-connect") || target.closest("[data-shelf-connect]")) {
+      await runConnect();
+      return;
+    }
+
+    const dl = target.closest("[data-entitled-download]");
+    if (dl instanceof HTMLElement) {
+      const packId = dl.getAttribute("data-entitled-download");
+      if (!packId) return;
+      if (dl instanceof HTMLButtonElement) {
+        dl.disabled = true;
+        dl.textContent = "Starting...";
+      }
+      try {
+        await downloadEntitledPack(packId);
+      } catch (err) {
+        console.warn("Overlay Shelf: entitled download failed", err);
+        if (String(err?.message) === "unauthorized" || String(err?.message) === "not-authenticated") {
+          await runConnect();
+        }
+      } finally {
+        if (dl instanceof HTMLButtonElement) {
+          dl.disabled = false;
+          dl.textContent = "Download";
+        }
+      }
+    }
+  });
+
   document.getElementById("shelf-overlays")?.addEventListener("change", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement) || !target.hasAttribute("data-select-id")) return;
     syncSelectionFromDom();
     const tile = target.closest(".shelf-tile");
     if (tile) tile.classList.toggle("shelf-tile--selected", target.checked);
-    // Refresh accordion summaries without collapsing open sections.
     rerenderOverlays();
   });
 
@@ -432,10 +535,13 @@ function wireUi() {
       console.warn("Overlay Shelf: copy macro failed", err);
       copyBtn.textContent = "Copy failed";
       setTimeout(() => { copyBtn.textContent = "Copy macro"; }, 2000);
-      // Reveal the source so the user can select it manually.
       const details = document.querySelector(".shelf-macro-details");
       if (details instanceof HTMLDetailsElement) details.open = true;
     }
+  });
+
+  onSessionChange(() => {
+    renderAuthChrome();
   });
 }
 

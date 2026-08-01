@@ -10,8 +10,15 @@ export function isGenerativePack(row) {
   );
 }
 
+/** Packs the GM can select / download in the current session. */
+export function isSelectablePack(row) {
+  if (row?.canDownload === true) return true;
+  if (row?.canDownload === false) return false;
+  return row?.publicDownload === true;
+}
+
 /**
- * Default zip selection: open data packs only unless generative is opted in.
+ * Default zip selection: downloadable data packs only unless generative is opted in.
  * @param {object[]} overlays
  * @param {{ includeGenerative?: boolean }} [opts]
  * @returns {Set<string>}
@@ -20,7 +27,7 @@ export function defaultSelectedIds(overlays, opts = {}) {
   const includeGenerative = opts.includeGenerative === true;
   const selected = new Set();
   for (const row of overlays || []) {
-    if (!row?.publicDownload) continue;
+    if (!isSelectablePack(row)) continue;
     if (isGenerativePack(row) && !includeGenerative) continue;
     if (row.id) selected.add(row.id);
   }
@@ -37,7 +44,7 @@ export function defaultSelectedIds(overlays, opts = {}) {
 export function applyGenerativeSelection(selected, overlays, includeGenerative) {
   const next = new Set(selected);
   for (const row of overlays || []) {
-    if (!row?.publicDownload || !isGenerativePack(row) || !row.id) continue;
+    if (!isSelectablePack(row) || !isGenerativePack(row) || !row.id) continue;
     if (includeGenerative) next.add(row.id);
     else next.delete(row.id);
   }
