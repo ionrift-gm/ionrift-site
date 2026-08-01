@@ -373,13 +373,79 @@ function updateSelectedHint() {
   const n = selectedIds.size;
   if (hint) {
     hint.textContent = n
-      ? `${n} pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
-      : "Per-pack Download works now. A single overlays-only zip for your selection is next.";
+      ? `${n} pack${n === 1 ? "" : "s"} selected. Download selected starts each zip in turn.`
+      : "Select one or more packs, then Download selected, or use Download on a single tile.";
   }
   if (btn) {
-    btn.disabled = true;
+    btn.disabled = n === 0;
     btn.textContent = n ? `Download selected overlays (${n})` : "Download selected overlays";
   }
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function triggerPublicDownload(packId) {
+  const a = document.createElement("a");
+  a.href = PUBLIC_LATEST(packId);
+  a.rel = "noopener";
+  a.download = "";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+async function downloadSelectedOverlays() {
+  const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
+  const byId = new Map(overlays.map((row) => [row.id, row]));
+  const ids = [...selectedIds].filter((id) => {
+    const row = byId.get(id);
+    return row && isSelectablePack(row);
+  });
+  if (!ids.length) return;
+
+  const btn = document.getElementById("download-selected-btn");
+  const hint = document.getElementById("download-selected-hint");
+  if (btn instanceof HTMLButtonElement) {
+    btn.disabled = true;
+    btn.textContent = `Downloading 0 / ${ids.length}...`;
+  }
+
+  let done = 0;
+  let failed = 0;
+  for (const id of ids) {
+    const row = byId.get(id);
+    try {
+      if (row.publicDownload || row.downloadMode === "public") {
+        triggerPublicDownload(id);
+      } else {
+        await downloadEntitledPack(id);
+      }
+      done += 1;
+    } catch (err) {
+      failed += 1;
+      console.warn(`Overlay Shelf: selected download failed for ${id}`, err);
+      if (String(err?.message) === "unauthorized" || String(err?.message) === "not-authenticated") {
+        if (hint) hint.textContent = "Connect Patreon, then try Download selected again.";
+        await runConnect();
+        updateSelectedHint();
+        return;
+      }
+    }
+    if (btn instanceof HTMLButtonElement) {
+      btn.textContent = `Downloading ${done} / ${ids.length}...`;
+    }
+    // Give the browser a beat between zip starts so multiple downloads are not dropped.
+    if (done + failed < ids.length) await sleep(450);
+  }
+
+  if (hint) {
+    hint.textContent = failed
+      ? `Started ${done} of ${ids.length} downloads (${failed} failed). Check the browser download bar.`
+      : `Started ${done} download${done === 1 ? "" : "s"}. Check the browser download bar, then unzip into ionrift-data.`;
+  }
+  updateSelectedHint();
 }
 
 function pruneSelection(overlays) {
@@ -503,6 +569,10 @@ function wireUi() {
       updateSelectedHint();
     });
   }
+
+  document.getElementById("download-selected-btn")?.addEventListener("click", async () => {
+    await downloadSelectedOverlays();
+  });
 
   document.getElementById("shelf-auth-slot")?.addEventListener("click", async (event) => {
     const target = event.target;
