@@ -2455,6 +2455,23 @@
             gap: 12px;
         }
 
+        .shelf-auth-slot {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .shelf-auth-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .shelf-auth-tier {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
         .shelf-check--inline {
             margin: 0;
             align-items: center;
