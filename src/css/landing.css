@@ -2271,31 +2271,31 @@
             .btn { width: 100%; justify-content: center; }
         }
 
-        /* ═══ My Content ═══ */
-        .page-my-content .my-content-hero {
+        /* ═══ Overlay Shelf ═══ */
+        .page-overlay-shelf .shelf-hero {
             margin: 32px 0 28px;
             max-width: 720px;
         }
 
-        .my-content-title {
+        .shelf-title {
             font-size: clamp(2rem, 4vw, 2.75rem);
             margin: 8px 0 12px;
             letter-spacing: -0.02em;
         }
 
-        .my-content-lead,
-        .my-content-note {
+        .shelf-lead,
+        .shelf-note {
             color: var(--text-muted);
             max-width: 640px;
         }
 
-        .my-content-h2 {
+        .shelf-h2 {
             font-size: 1.25rem;
             margin: 0 0 10px;
         }
 
-        .my-content-config,
-        .my-content-section {
+        .shelf-config,
+        .shelf-section {
             margin: 36px 0;
             padding: 20px 22px;
             border: 1px solid var(--glass-border);
@@ -2303,7 +2303,7 @@
             background: var(--void-card);
         }
 
-        .my-content-check {
+        .shelf-check {
             display: flex;
             gap: 12px;
             align-items: flex-start;
@@ -2312,18 +2312,18 @@
             cursor: pointer;
         }
 
-        .my-content-check input {
+        .shelf-check input {
             margin-top: 4px;
         }
 
-        .my-content-list {
+        .shelf-list {
             display: flex;
             flex-direction: column;
             gap: 14px;
             margin-top: 16px;
         }
 
-        .my-content-row {
+        .shelf-row {
             display: flex;
             gap: 16px;
             justify-content: space-between;
@@ -2334,7 +2334,7 @@
             background: rgba(10, 10, 18, 0.45);
         }
 
-        .my-content-row-top {
+        .shelf-row-top {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -2342,29 +2342,29 @@
             margin-bottom: 6px;
         }
 
-        .my-content-row-title {
+        .shelf-row-title {
             font-size: 1.05rem;
             margin: 0;
         }
 
-        .my-content-row-id,
-        .my-content-row-desc,
-        .my-content-row-path,
-        .my-content-row-meta {
+        .shelf-row-id,
+        .shelf-row-desc,
+        .shelf-row-path,
+        .shelf-row-meta {
             color: var(--text-muted);
             font-size: 0.92rem;
             margin: 4px 0;
         }
 
-        .my-content-row-path code,
-        .my-content-row-id code,
-        .my-content-note code {
+        .shelf-row-path code,
+        .shelf-row-id code,
+        .shelf-note code {
             font-family: var(--font-mono);
             font-size: 0.85em;
             color: var(--accent-light);
         }
 
-        .my-content-row-actions {
+        .shelf-row-actions {
             flex-shrink: 0;
         }
 
@@ -2373,7 +2373,7 @@
             font-size: 0.9rem;
         }
 
-        .my-content-macro {
+        .shelf-macro {
             margin: 14px 0;
             padding: 14px 16px;
             overflow: auto;
@@ -2388,24 +2388,24 @@
             white-space: pre-wrap;
         }
 
-        .my-content-loading,
-        .my-content-empty,
-        .my-content-error {
+        .shelf-loading,
+        .shelf-empty,
+        .shelf-error {
             color: var(--text-muted);
         }
 
-        .my-content-error {
+        .shelf-error {
             color: #f87171;
         }
 
         @media (max-width: 768px) {
-            .my-content-row {
+            .shelf-row {
                 flex-direction: column;
             }
-            .my-content-row-actions {
+            .shelf-row-actions {
                 width: 100%;
             }
-            .my-content-row-actions .btn {
+            .shelf-row-actions .btn {
                 width: 100%;
                 justify-content: center;
             }
