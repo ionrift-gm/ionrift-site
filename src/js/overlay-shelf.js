@@ -423,18 +423,21 @@ async function runConnect() {
     connectBtn.disabled = true;
     connectBtn.textContent = "Waiting for Patreon...";
   }
-  const result = await connectPatreon();
-  if (!result.ok) {
-    if (result.error === "popup-blocked" && result.authUrl) {
-      window.open(result.authUrl, "_blank", "noopener");
+  try {
+    const result = await connectPatreon();
+    if (!result.ok) {
+      if (result.error === "popup-blocked" && result.authUrl) {
+        window.open(result.authUrl, "_blank", "noopener");
+      }
+      // Rebuild the slot so a cancelled/timeout wait never leaves a stuck disabled button.
+      renderAuthChrome(getSession());
+      return;
     }
-    if (connectBtn instanceof HTMLButtonElement) {
-      connectBtn.disabled = false;
-      connectBtn.textContent = "Connect Patreon";
-    }
-    return;
+    await loadStatus({ resetSelection: true });
+  } catch (err) {
+    console.warn("Overlay Shelf: Connect Patreon failed", err);
+    renderAuthChrome(getSession());
   }
-  await loadStatus({ resetSelection: true });
 }
 
 async function loadStatus(opts = {}) {
