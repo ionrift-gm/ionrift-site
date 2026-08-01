@@ -18,6 +18,9 @@ const MODULE_LABELS = {
 /** @type {Set<string>} */
 const selectedIds = new Set();
 
+/** @type {Set<string>|null} null = use defaults on first paint */
+let openModuleIds = null;
+
 /** @type {Record<string, { image?: string|null, name?: string|null }>} */
 let artMap = {};
 
@@ -25,8 +28,10 @@ function readArtMap() {
   const el = document.getElementById("shelf-art-map");
   if (!el) return {};
   try {
-    return JSON.parse(el.textContent || "{}");
-  } catch (_) {
+    const raw = el.textContent || "{}";
+    return JSON.parse(raw);
+  } catch (err) {
+    console.warn("Overlay Shelf: art map parse failed", err);
     return {};
   }
 }
@@ -86,6 +91,35 @@ function groupByModule(overlays) {
   });
 }
 
+function captureOpenModules() {
+  const open = new Set();
+  document.querySelectorAll("details.shelf-module-block[data-module-id][open]").forEach((el) => {
+    open.add(el.getAttribute("data-module-id"));
+  });
+  return open;
+}
+
+function defaultOpenModules(groups) {
+  const open = new Set();
+  if (!groups.length) return open;
+  // First module open; also open any with 3+ packs. Single-pack modules stay closed.
+  open.add(groups[0][0]);
+  for (const [moduleId, rows] of groups) {
+    if (rows.length >= 3) open.add(moduleId);
+  }
+  return open;
+}
+
+function moduleSelectionSummary(rows) {
+  const selectable = rows.filter((r) => r.publicDownload);
+  const selected = selectable.filter((r) => selectedIds.has(r.id)).length;
+  const total = rows.length;
+  if (selectable.length) {
+    return `${selected} selected · ${total} pack${total === 1 ? "" : "s"}`;
+  }
+  return `${total} pack${total === 1 ? "" : "s"} · Patreon`;
+}
+
 function renderOverlayTile(row) {
   const selectable = row.publicDownload === true;
   const selected = selectable && selectedIds.has(row.id);
@@ -111,8 +145,9 @@ function renderOverlayTile(row) {
       </label>`
     : "";
 
-  const media = art.image
-    ? `<div class="shelf-tile-media"><img src="${escapeHtml(art.image)}" alt="" loading="lazy" width="320" height="180"></div>`
+  const imgSrc = art.image || "";
+  const media = imgSrc
+    ? `<div class="shelf-tile-media"><img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" width="84" height="84"></div>`
     : `<div class="shelf-tile-media shelf-tile-media--empty" aria-hidden="true"></div>`;
 
   const tileClass = [
@@ -142,14 +177,27 @@ function renderOverlayGroups(overlays) {
     return `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
   }
 
-  return groupByModule(visible).map(([moduleId, rows]) => `
-    <div class="shelf-module-block">
-      <h3 class="shelf-module-label">${escapeHtml(moduleLabel(moduleId))}</h3>
+  const groups = groupByModule(visible);
+  if (openModuleIds === null) {
+    openModuleIds = defaultOpenModules(groups);
+  }
+
+  return groups.map(([moduleId, rows]) => {
+    const isOpen = openModuleIds.has(moduleId);
+    return `
+    <details class="shelf-module-block" data-module-id="${escapeHtml(moduleId)}"${isOpen ? " open" : ""}>
+      <summary class="shelf-module-summary">
+        <span class="shelf-module-summary-text">
+          <span class="shelf-module-label">${escapeHtml(moduleLabel(moduleId))}</span>
+          <span class="shelf-module-count">${escapeHtml(moduleSelectionSummary(rows))}</span>
+        </span>
+      </summary>
       <div class="shelf-tile-grid">
         ${rows.map(renderOverlayTile).join("")}
       </div>
-    </div>
-  `).join("");
+    </details>
+  `;
+  }).join("");
 }
 
 function renderModules(modules) {
@@ -222,16 +270,21 @@ async function loadStatus() {
   }
 }
 
+function rerenderOverlays() {
+  const data = window.__ionriftStatus;
+  const overlaysEl = document.getElementById("shelf-overlays");
+  if (!data || !overlaysEl) return;
+  openModuleIds = captureOpenModules();
+  pruneSelection(data.overlays || []);
+  overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
+  updateSelectedHint();
+}
+
 function wireUi() {
   artMap = readArtMap();
 
   document.getElementById("include-optional-icons")?.addEventListener("change", () => {
-    const data = window.__ionriftStatus;
-    if (!data) return loadStatus();
-    pruneSelection(data.overlays || []);
-    const overlaysEl = document.getElementById("shelf-overlays");
-    if (overlaysEl) overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
-    updateSelectedHint();
+    rerenderOverlays();
   });
 
   document.getElementById("shelf-overlays")?.addEventListener("change", (event) => {
@@ -240,7 +293,19 @@ function wireUi() {
     syncSelectionFromDom();
     const tile = target.closest(".shelf-tile");
     if (tile) tile.classList.toggle("shelf-tile--selected", target.checked);
+    // Refresh accordion summaries without collapsing open sections.
+    rerenderOverlays();
   });
+
+  document.getElementById("shelf-overlays")?.addEventListener("toggle", (event) => {
+    const el = event.target;
+    if (!(el instanceof HTMLDetailsElement) || !el.classList.contains("shelf-module-block")) return;
+    if (openModuleIds === null) openModuleIds = new Set();
+    const id = el.getAttribute("data-module-id");
+    if (!id) return;
+    if (el.open) openModuleIds.add(id);
+    else openModuleIds.delete(id);
+  }, true);
 
   const copyBtn = document.getElementById("copy-macro-btn");
   const macroEl = document.getElementById("shelf-macro-source");
