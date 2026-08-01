@@ -1,5 +1,5 @@
 /**
- * My Content page: load /packs/status and render download / handoff rows.
+ * Overlay Shelf page: load /packs/status and render download / handoff rows.
  * Free overlays use the public browser URL pattern. Paid rows link to Patreon.
  */
 
@@ -49,22 +49,22 @@ function renderOverlayRow(row) {
   }
 
   const companionNote = row.optionalCompanion
-    ? `<p class="my-content-row-meta">Optional companion for ${escapeHtml(row.companionFor || "a core pack")}</p>`
+    ? `<p class="shelf-row-meta">Optional companion for ${escapeHtml(row.companionFor || "a core pack")}</p>`
     : "";
 
   return `
-    <article class="my-content-row" data-pack-id="${escapeHtml(row.id)}">
-      <div class="my-content-row-main">
-        <div class="my-content-row-top">
-          <h3 class="my-content-row-title">${escapeHtml(row.label || row.id)}</h3>
+    <article class="shelf-row" data-pack-id="${escapeHtml(row.id)}">
+      <div class="shelf-row-main">
+        <div class="shelf-row-top">
+          <h3 class="shelf-row-title">${escapeHtml(row.label || row.id)}</h3>
           <span class="pack-tier ${tierClass(tier)}">${escapeHtml(tier)}</span>
         </div>
-        <p class="my-content-row-id"><code>${escapeHtml(row.id)}</code> · v${escapeHtml(row.latest)}</p>
-        ${row.description ? `<p class="my-content-row-desc">${escapeHtml(row.description)}</p>` : ""}
+        <p class="shelf-row-id"><code>${escapeHtml(row.id)}</code> · v${escapeHtml(row.latest)}</p>
+        ${row.description ? `<p class="shelf-row-desc">${escapeHtml(row.description)}</p>` : ""}
         ${companionNote}
-        <p class="my-content-row-path">Unzip to <code>${escapeHtml(path)}</code></p>
+        <p class="shelf-row-path">Unzip to <code>${escapeHtml(path)}</code></p>
       </div>
-      <div class="my-content-row-actions">${action}</div>
+      <div class="shelf-row-actions">${action}</div>
     </article>
   `;
 }
@@ -76,24 +76,24 @@ function renderModuleRow(row) {
     : `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon</a>`;
 
   return `
-    <article class="my-content-row" data-module-id="${escapeHtml(row.id)}">
-      <div class="my-content-row-main">
-        <div class="my-content-row-top">
-          <h3 class="my-content-row-title">${escapeHtml(row.id)}</h3>
+    <article class="shelf-row" data-module-id="${escapeHtml(row.id)}">
+      <div class="shelf-row-main">
+        <div class="shelf-row-top">
+          <h3 class="shelf-row-title">${escapeHtml(row.id)}</h3>
           <span class="pack-tier ${tierClass(tier)}">${escapeHtml(tier)}</span>
         </div>
-        <p class="my-content-row-id">v${escapeHtml(row.latest)}</p>
-        ${row.description ? `<p class="my-content-row-desc">${escapeHtml(row.description)}</p>` : ""}
-        <p class="my-content-row-path">${escapeHtml(row.installHint || "Foundry Add-on Modules")}</p>
+        <p class="shelf-row-id">v${escapeHtml(row.latest)}</p>
+        ${row.description ? `<p class="shelf-row-desc">${escapeHtml(row.description)}</p>` : ""}
+        <p class="shelf-row-path">${escapeHtml(row.installHint || "Foundry Add-on Modules")}</p>
       </div>
-      <div class="my-content-row-actions">${action}</div>
+      <div class="shelf-row-actions">${action}</div>
     </article>
   `;
 }
 
 async function loadStatus() {
-  const overlaysEl = document.getElementById("my-content-overlays");
-  const modulesEl = document.getElementById("my-content-modules");
+  const overlaysEl = document.getElementById("shelf-overlays");
+  const modulesEl = document.getElementById("shelf-modules");
   if (!overlaysEl || !modulesEl) return;
 
   try {
@@ -103,15 +103,15 @@ async function loadStatus() {
     window.__ionriftStatus = data;
 
     const overlayHtml = (data.overlays || []).map(renderOverlayRow).filter(Boolean).join("")
-      || `<p class="my-content-empty">No overlays in the status listing yet.</p>`;
+      || `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
     overlaysEl.innerHTML = overlayHtml;
 
     const moduleHtml = (data.modules || []).map(renderModuleRow).join("")
-      || `<p class="my-content-empty">No gated modules in the status listing yet.</p>`;
+      || `<p class="shelf-empty">No gated modules in the status listing yet.</p>`;
     modulesEl.innerHTML = moduleHtml;
   } catch (err) {
-    console.error("My Content: status load failed", err);
-    overlaysEl.innerHTML = `<p class="my-content-error">Could not load the pack list. Try again later, or use the Patreon collection links.</p>`;
+    console.error("Overlay Shelf: status load failed", err);
+    overlaysEl.innerHTML = `<p class="shelf-error">Could not load the pack list. Try again later, or use the Patreon collection links.</p>`;
     modulesEl.innerHTML = "";
   }
 }
@@ -121,13 +121,13 @@ function wireUi() {
   opt?.addEventListener("change", () => {
     const data = window.__ionriftStatus;
     if (!data) return loadStatus();
-    const overlaysEl = document.getElementById("my-content-overlays");
+    const overlaysEl = document.getElementById("shelf-overlays");
     if (!overlaysEl) return;
     overlaysEl.innerHTML = (data.overlays || []).map(renderOverlayRow).filter(Boolean).join("");
   });
 
   const copyBtn = document.getElementById("copy-macro-btn");
-  const macroEl = document.getElementById("my-content-macro-source");
+  const macroEl = document.getElementById("shelf-macro-source");
   copyBtn?.addEventListener("click", async () => {
     const text = macroEl?.innerText || "";
     try {

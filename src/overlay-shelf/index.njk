@@ -1,0 +1,141 @@
+---
+layout: landing.njk
+title: Overlay Shelf | Ionrift Workshop
+description: Download Ionrift overlays and find Patreon module zips. Browser download, then unzip into ionrift-data.
+canonical: https://ionrift.cloud/overlay-shelf/
+ogTitle: Overlay Shelf
+ogDescription: Download overlays for your table. Optional icons on or off. Patreon links for gated packs and modules.
+ogImage: https://ionrift.cloud/img/packs/_header.jpg
+bodyClass: page-overlay-shelf
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main page-overlay-shelf">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>Overlay Shelf</span>
+        </nav>
+
+        <header class="shelf-hero">
+            <div class="section-label">Downloads</div>
+            <h1 class="shelf-title">Overlay Shelf</h1>
+            <p class="shelf-lead">
+                Download overlays in the browser, then unzip them into your Foundry Data folder.
+                Patreon posts link here. Nothing on this page installs files from inside Foundry.
+            </p>
+        </header>
+
+        <section class="shelf-config" aria-labelledby="shelf-config-heading">
+            <h2 id="shelf-config-heading" class="shelf-h2">Options</h2>
+            <label class="shelf-check">
+                <input type="checkbox" id="include-optional-icons" checked>
+                <span>Include optional cooking item icons pack when downloading Free cooking content</span>
+            </label>
+            <p class="shelf-note">
+                Icons are optional. Without them, Respite uses default Foundry icons for those items.
+                Turn this off if you prefer defaults only.
+            </p>
+        </section>
+
+        <section class="shelf-section" aria-labelledby="shelf-overlays-heading">
+            <h2 id="shelf-overlays-heading" class="shelf-h2">Overlays</h2>
+            <p class="shelf-note">
+                Unzip so <code>overlay-manifest.json</code> sits in the path shown on each row, then reload the world.
+            </p>
+            <div id="shelf-overlays" class="shelf-list" aria-live="polite">
+                <p class="shelf-loading">Loading pack list…</p>
+            </div>
+        </section>
+
+        <section class="shelf-section" aria-labelledby="shelf-modules-heading">
+            <h2 id="shelf-modules-heading" class="shelf-h2">Modules (Patreon / early access)</h2>
+            <p class="shelf-note">
+                These are Foundry module zips. Install through Foundry Add-on Modules, not under <code>ionrift-data</code>.
+            </p>
+            <div id="shelf-modules" class="shelf-list" aria-live="polite">
+                <p class="shelf-loading">Loading module list…</p>
+            </div>
+        </section>
+
+        <section class="shelf-section" aria-labelledby="shelf-macro-heading">
+            <h2 id="shelf-macro-heading" class="shelf-h2">Check what is on disk</h2>
+            <p class="shelf-note">
+                Paste this as a Foundry macro (script). It is not shipped inside any Ionrift module.
+                It reads a status listing, compares local overlay manifests, and prints a diff to the browser console (F12).
+            </p>
+            <pre class="shelf-macro" id="shelf-macro-source"><code>/* Ionrift overlay status check
+ * Paste as a Script macro. Open F12 console for output.
+ * Not part of any Foundry module package.
+ */
+(async () => {
+  const STATUS_URL = "https://api.ionrift.cloud/packs/status";
+  const compare = (a, b) => {
+    const pa = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
+    const pb = String(b || "0").split(".").map((n) => parseInt(n, 10) || 0);
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i++) {
+      const d = (pa[i] || 0) - (pb[i] || 0);
+      if (d) return d < 0 ? -1 : 1;
+    }
+    return 0;
+  };
+
+  let listing;
+  try {
+    const res = await fetch(STATUS_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    listing = await res.json();
+  } catch (err) {
+    console.error("Ionrift status: failed to fetch listing", err);
+    ui.notifications?.error?.("Ionrift status: could not reach the status listing.");
+    return;
+  }
+
+  const overlays = listing.overlays || [];
+  console.group("Ionrift overlay status");
+  for (const row of overlays) {
+    const path = row.installPath;
+    if (!path) {
+      console.log(`${row.id}: no install path in listing`);
+      continue;
+    }
+    let local = null;
+    try {
+      const manifestPath = `${path}overlay-manifest.json`.replace(/\\/g, "/");
+      const res = await fetch(manifestPath, { cache: "no-store" });
+      if (!res.ok) throw new Error(String(res.status));
+      const raw = await res.json();
+      local = raw?.version || raw?.overlayVersion || null;
+    } catch (_) {
+      local = null;
+    }
+
+    if (!local) {
+      console.log(`${row.id}: MISSING (latest ${row.latest}) → ${path}`);
+    } else if (compare(local, row.latest) < 0) {
+      console.log(`${row.id}: outdated (installed ${local}, latest ${row.latest})`);
+    } else if (compare(local, row.latest) > 0) {
+      console.log(`${row.id}: newer than listing (installed ${local}, listing ${row.latest})`);
+    } else {
+      console.log(`${row.id}: at latest (${local})`);
+    }
+  }
+  console.log("Updates: https://ionrift.cloud/overlay-shelf/");
+  console.groupEnd();
+  ui.notifications?.info?.("Ionrift status written to the console (F12).");
+})();</code></pre>
+            <button type="button" class="btn btn-secondary" id="copy-macro-btn">Copy macro</button>
+        </section>
+
+        <p class="page-back">
+            <a href="/overlays/">&larr; Overlay catalogue</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
+
+<script type="module" src="/js/overlay-shelf.js"></script>
