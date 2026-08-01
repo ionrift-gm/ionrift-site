@@ -20,4 +20,5 @@ export default {
   patreonUrl: "https://www.patreon.com/c/Ionrift",
   patreonPackCollectionUrl:
     "https://www.patreon.com/collection/2079931?view=expanded",
+  myContentUrl: "https://ionrift.cloud/my-content/",
 };

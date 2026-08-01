@@ -1,0 +1,141 @@
+---
+layout: landing.njk
+title: My Content | Ionrift Workshop
+description: Download Ionrift overlays and find Patreon module zips. Browser download, then unzip into ionrift-data.
+canonical: https://ionrift.cloud/my-content/
+ogTitle: My Content
+ogDescription: Download overlays for your table. Optional icons on or off. Patreon links for gated packs and modules.
+ogImage: https://ionrift.cloud/img/packs/_header.jpg
+bodyClass: page-my-content
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main page-my-content">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>My Content</span>
+        </nav>
+
+        <header class="my-content-hero">
+            <div class="section-label">Downloads</div>
+            <h1 class="my-content-title">My Content</h1>
+            <p class="my-content-lead">
+                Download overlays in the browser, then unzip them into your Foundry Data folder.
+                Patreon posts link here. Nothing in this page installs files from inside Foundry.
+            </p>
+        </header>
+
+        <section class="my-content-config" aria-labelledby="my-content-config-heading">
+            <h2 id="my-content-config-heading" class="my-content-h2">Options</h2>
+            <label class="my-content-check">
+                <input type="checkbox" id="include-optional-icons" checked>
+                <span>Include optional cooking item icons pack when downloading Free cooking content</span>
+            </label>
+            <p class="my-content-note">
+                Icons are optional. Without them, Respite uses default Foundry icons for those items.
+                Turn this off if you prefer defaults only.
+            </p>
+        </section>
+
+        <section class="my-content-section" aria-labelledby="my-content-overlays-heading">
+            <h2 id="my-content-overlays-heading" class="my-content-h2">Overlays</h2>
+            <p class="my-content-note">
+                Unzip so <code>overlay-manifest.json</code> sits in the path shown on each row, then reload the world.
+            </p>
+            <div id="my-content-overlays" class="my-content-list" aria-live="polite">
+                <p class="my-content-loading">Loading pack list…</p>
+            </div>
+        </section>
+
+        <section class="my-content-section" aria-labelledby="my-content-modules-heading">
+            <h2 id="my-content-modules-heading" class="my-content-h2">Modules (Patreon / early access)</h2>
+            <p class="my-content-note">
+                These are Foundry module zips. Install through Foundry Add-on Modules, not under <code>ionrift-data</code>.
+            </p>
+            <div id="my-content-modules" class="my-content-list" aria-live="polite">
+                <p class="my-content-loading">Loading module list…</p>
+            </div>
+        </section>
+
+        <section class="my-content-section" aria-labelledby="my-content-macro-heading">
+            <h2 id="my-content-macro-heading" class="my-content-h2">Check what is on disk</h2>
+            <p class="my-content-note">
+                Paste this as a Foundry macro (script). It is not shipped inside any Ionrift module.
+                It reads a status listing, compares local overlay manifests, and prints a diff to the browser console (F12).
+            </p>
+            <pre class="my-content-macro" id="my-content-macro-source"><code>/* Ionrift overlay status check
+ * Paste as a Script macro. Open F12 console for output.
+ * Not part of any Foundry module package.
+ */
+(async () => {
+  const STATUS_URL = "https://api.ionrift.cloud/packs/status";
+  const compare = (a, b) => {
+    const pa = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
+    const pb = String(b || "0").split(".").map((n) => parseInt(n, 10) || 0);
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i++) {
+      const d = (pa[i] || 0) - (pb[i] || 0);
+      if (d) return d < 0 ? -1 : 1;
+    }
+    return 0;
+  };
+
+  let listing;
+  try {
+    const res = await fetch(STATUS_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    listing = await res.json();
+  } catch (err) {
+    console.error("Ionrift status: failed to fetch listing", err);
+    ui.notifications?.error?.("Ionrift status: could not reach the status listing.");
+    return;
+  }
+
+  const overlays = listing.overlays || [];
+  console.group("Ionrift overlay status");
+  for (const row of overlays) {
+    const path = row.installPath;
+    if (!path) {
+      console.log(`${row.id}: no install path in listing`);
+      continue;
+    }
+    let local = null;
+    try {
+      const manifestPath = `${path}overlay-manifest.json`.replace(/\\/g, "/");
+      const res = await fetch(manifestPath, { cache: "no-store" });
+      if (!res.ok) throw new Error(String(res.status));
+      const raw = await res.json();
+      local = raw?.version || raw?.overlayVersion || null;
+    } catch (_) {
+      local = null;
+    }
+
+    if (!local) {
+      console.log(`${row.id}: MISSING (latest ${row.latest}) → ${path}`);
+    } else if (compare(local, row.latest) < 0) {
+      console.log(`${row.id}: outdated (installed ${local}, latest ${row.latest})`);
+    } else if (compare(local, row.latest) > 0) {
+      console.log(`${row.id}: newer than listing (installed ${local}, listing ${row.latest})`);
+    } else {
+      console.log(`${row.id}: at latest (${local})`);
+    }
+  }
+  console.log("Updates: https://ionrift.cloud/my-content/");
+  console.groupEnd();
+  ui.notifications?.info?.("Ionrift status written to the console (F12).");
+})();</code></pre>
+            <button type="button" class="btn btn-secondary" id="copy-macro-btn">Copy macro</button>
+        </section>
+
+        <p class="page-back">
+            <a href="/overlays/">&larr; Overlay catalogue</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
+
+<script type="module" src="/js/my-content.js"></script>
