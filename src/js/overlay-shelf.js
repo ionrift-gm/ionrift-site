@@ -1,13 +1,23 @@
 /**
- * Overlay Shelf page: load /packs/status and render download / handoff rows.
- * Free overlays use the public browser URL pattern. Paid rows link to Patreon.
+ * Overlay Shelf (layout A): tile grid by module, install teaching, status macro.
+ * Free overlays use /packs/public/{id}/latest. Paid rows link to Patreon.
+ * Combined overlays-only zip is not wired yet; selection is ready for it.
  */
 
 const API_BASE = "https://api.ionrift.cloud";
 const STATUS_URL = `${API_BASE}/packs/status`;
 const PUBLIC_LATEST = (id) => `${API_BASE}/packs/public/${id}/latest`;
-
 const OPTIONAL_ICON_IDS = new Set(["respite-cooking-art-overlay"]);
+
+const MODULE_LABELS = {
+  "ionrift-respite": "Respite",
+  "ionrift-quartermaster": "Quartermaster",
+  "ionrift-resonance": "Resonance",
+  "ionrift-cursewright": "Cursewright",
+};
+
+/** @type {Set<string>} */
+const selectedIds = new Set();
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -17,84 +27,154 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
-function tierClass(tier) {
-  const t = String(tier || "Free").toLowerCase();
-  if (t === "free") return "pack-tier--public";
-  if (t === "initiate") return "pack-tier--initiate";
-  if (t === "acolyte") return "pack-tier--acolyte";
-  return "pack-tier--subscriber";
-}
-
 function includeOptionalIcons() {
-  const el = document.getElementById("include-optional-icons");
-  return Boolean(el?.checked);
+  return Boolean(document.getElementById("include-optional-icons")?.checked);
 }
 
-function renderOverlayRow(row) {
-  const isOptionalIcon = OPTIONAL_ICON_IDS.has(row.id) || row.optionalCompanion;
-  if (isOptionalIcon && !includeOptionalIcons()) {
-    return "";
+function moduleLabel(moduleId) {
+  return MODULE_LABELS[moduleId] || moduleId || "Other";
+}
+
+function visibleOverlays(overlays) {
+  const showIcons = includeOptionalIcons();
+  return (overlays || []).filter((row) => {
+    const isOptionalIcon = OPTIONAL_ICON_IDS.has(row.id) || row.optionalCompanion;
+    if (isOptionalIcon && !showIcons) return false;
+    return true;
+  });
+}
+
+function groupByModule(overlays) {
+  const groups = new Map();
+  for (const row of overlays) {
+    const key = row.moduleId || "other";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
   }
+  const order = ["ionrift-respite", "ionrift-quartermaster", "ionrift-resonance", "ionrift-cursewright"];
+  return [...groups.entries()].sort((a, b) => {
+    const ia = order.indexOf(a[0]);
+    const ib = order.indexOf(b[0]);
+    const ra = ia === -1 ? 99 : ia;
+    const rb = ib === -1 ? 99 : ib;
+    if (ra !== rb) return ra - rb;
+    return String(a[0]).localeCompare(String(b[0]));
+  });
+}
 
-  const path = row.installPath || "ionrift-data/overlays/…/";
+function renderOverlayTile(row) {
+  const selectable = row.publicDownload === true;
+  const selected = selectable && selectedIds.has(row.id);
   const tier = row.tier || "Free";
-  let action = "";
+  const title = row.label || row.id;
+  const metaBits = [`${tier} · v${row.latest}`];
+  if (row.optionalCompanion) metaBits.push("optional");
 
+  let action = "";
   if (row.publicDownload) {
-    action = `<a class="btn btn-primary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener">Download</a>`;
+    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener">Download</a>`;
   } else if (row.browserHandoff) {
-    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.browserHandoff)}" target="_blank" rel="noopener">Open on Patreon</a>`;
+    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.browserHandoff)}" target="_blank" rel="noopener">Patreon</a>`;
   } else {
     action = `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon</a>`;
   }
 
-  const companionNote = row.optionalCompanion
-    ? `<p class="shelf-row-meta">Optional companion for ${escapeHtml(row.companionFor || "a core pack")}</p>`
+  const select = selectable
+    ? `<label class="shelf-tile-select">
+        <input type="checkbox" data-select-id="${escapeHtml(row.id)}" ${selected ? "checked" : ""}>
+        <span class="visually-hidden">Select ${escapeHtml(title)}</span>
+      </label>`
+    : "";
+
+  const tileClass = [
+    "shelf-tile",
+    selected ? "shelf-tile--selected" : "",
+    !selectable ? "shelf-tile--gated" : "",
+  ].filter(Boolean).join(" ");
+
+  const pathHint = row.installPath
+    ? `<p class="shelf-tile-path"><code>${escapeHtml(row.installPath)}</code></p>`
     : "";
 
   return `
-    <article class="shelf-row" data-pack-id="${escapeHtml(row.id)}">
-      <div class="shelf-row-main">
-        <div class="shelf-row-top">
-          <h3 class="shelf-row-title">${escapeHtml(row.label || row.id)}</h3>
-          <span class="pack-tier ${tierClass(tier)}">${escapeHtml(tier)}</span>
-        </div>
-        <p class="shelf-row-id"><code>${escapeHtml(row.id)}</code> · v${escapeHtml(row.latest)}</p>
-        ${row.description ? `<p class="shelf-row-desc">${escapeHtml(row.description)}</p>` : ""}
-        ${companionNote}
-        <p class="shelf-row-path">Unzip to <code>${escapeHtml(path)}</code></p>
-      </div>
-      <div class="shelf-row-actions">${action}</div>
+    <article class="${tileClass}" data-pack-id="${escapeHtml(row.id)}">
+      ${select}
+      <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
+      <p class="shelf-tile-meta">${escapeHtml(metaBits.join(" · "))}</p>
+      ${pathHint}
+      ${action}
     </article>
   `;
 }
 
-function renderModuleRow(row) {
-  const tier = row.tier || "Patreon";
-  const action = row.browserHandoff
-    ? `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.browserHandoff)}" target="_blank" rel="noopener">Open on Patreon</a>`
-    : `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon</a>`;
+function renderOverlayGroups(overlays) {
+  const visible = visibleOverlays(overlays);
+  if (!visible.length) {
+    return `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
+  }
 
-  return `
-    <article class="shelf-row" data-module-id="${escapeHtml(row.id)}">
-      <div class="shelf-row-main">
-        <div class="shelf-row-top">
-          <h3 class="shelf-row-title">${escapeHtml(row.id)}</h3>
-          <span class="pack-tier ${tierClass(tier)}">${escapeHtml(tier)}</span>
-        </div>
-        <p class="shelf-row-id">v${escapeHtml(row.latest)}</p>
-        ${row.description ? `<p class="shelf-row-desc">${escapeHtml(row.description)}</p>` : ""}
-        <p class="shelf-row-path">${escapeHtml(row.installHint || "Foundry Add-on Modules")}</p>
+  return groupByModule(visible).map(([moduleId, rows]) => `
+    <div class="shelf-module-block">
+      <h3 class="shelf-module-label">${escapeHtml(moduleLabel(moduleId))}</h3>
+      <div class="shelf-tile-grid">
+        ${rows.map(renderOverlayTile).join("")}
       </div>
-      <div class="shelf-row-actions">${action}</div>
-    </article>
-  `;
+    </div>
+  `).join("");
+}
+
+function renderModules(modules) {
+  const rows = modules || [];
+  if (!rows.length) {
+    return `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon modules</a>`;
+  }
+  return rows.map((row) => {
+    const href = row.browserHandoff || "https://www.patreon.com/c/Ionrift";
+    return `<a class="btn btn-secondary btn-sm" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(row.id)}</a>`;
+  }).join(" ");
+}
+
+function syncSelectionFromDom() {
+  selectedIds.clear();
+  document.querySelectorAll("[data-select-id]:checked").forEach((el) => {
+    selectedIds.add(el.getAttribute("data-select-id"));
+  });
+  updateSelectedHint();
+}
+
+function updateSelectedHint() {
+  const hint = document.getElementById("download-selected-hint");
+  const btn = document.getElementById("download-selected-btn");
+  const n = selectedIds.size;
+  if (hint) {
+    hint.textContent = n
+      ? `${n} Free pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
+      : "Per-pack Download works now. A single overlays-only zip for your selection is next.";
+  }
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = n ? `Download selected overlays (${n})` : "Download selected overlays";
+  }
+}
+
+function pruneSelection(overlays) {
+  const visible = new Set(visibleOverlays(overlays).filter((r) => r.publicDownload).map((r) => r.id));
+  for (const id of [...selectedIds]) {
+    if (!visible.has(id)) selectedIds.delete(id);
+  }
+}
+
+function defaultSelectFree(overlays) {
+  if (selectedIds.size) return;
+  for (const row of visibleOverlays(overlays)) {
+    if (row.publicDownload) selectedIds.add(row.id);
+  }
 }
 
 async function loadStatus() {
   const overlaysEl = document.getElementById("shelf-overlays");
   const modulesEl = document.getElementById("shelf-modules");
-  if (!overlaysEl || !modulesEl) return;
+  if (!overlaysEl) return;
 
   try {
     const res = await fetch(STATUS_URL, { cache: "no-store" });
@@ -102,28 +182,33 @@ async function loadStatus() {
     const data = await res.json();
     window.__ionriftStatus = data;
 
-    const overlayHtml = (data.overlays || []).map(renderOverlayRow).filter(Boolean).join("")
-      || `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
-    overlaysEl.innerHTML = overlayHtml;
-
-    const moduleHtml = (data.modules || []).map(renderModuleRow).join("")
-      || `<p class="shelf-empty">No gated modules in the status listing yet.</p>`;
-    modulesEl.innerHTML = moduleHtml;
+    defaultSelectFree(data.overlays || []);
+    pruneSelection(data.overlays || []);
+    overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
+    if (modulesEl) modulesEl.innerHTML = renderModules(data.modules || []);
+    updateSelectedHint();
   } catch (err) {
     console.error("Overlay Shelf: status load failed", err);
     overlaysEl.innerHTML = `<p class="shelf-error">Could not load the pack list. Try again later, or use the Patreon collection links.</p>`;
-    modulesEl.innerHTML = "";
   }
 }
 
 function wireUi() {
-  const opt = document.getElementById("include-optional-icons");
-  opt?.addEventListener("change", () => {
+  document.getElementById("include-optional-icons")?.addEventListener("change", () => {
     const data = window.__ionriftStatus;
     if (!data) return loadStatus();
+    pruneSelection(data.overlays || []);
     const overlaysEl = document.getElementById("shelf-overlays");
-    if (!overlaysEl) return;
-    overlaysEl.innerHTML = (data.overlays || []).map(renderOverlayRow).filter(Boolean).join("");
+    if (overlaysEl) overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
+    updateSelectedHint();
+  });
+
+  document.getElementById("shelf-overlays")?.addEventListener("change", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement) || !target.hasAttribute("data-select-id")) return;
+    syncSelectionFromDom();
+    const tile = target.closest(".shelf-tile");
+    if (tile) tile.classList.toggle("shelf-tile--selected", target.checked);
   });
 
   const copyBtn = document.getElementById("copy-macro-btn");
