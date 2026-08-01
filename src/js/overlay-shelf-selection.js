@@ -18,6 +18,21 @@ export function isSelectablePack(row) {
 }
 
 /**
+ * Split listing into packs offered now vs not offered for this session.
+ * @param {object[]} overlays
+ * @returns {{ available: object[], unavailable: object[] }}
+ */
+export function partitionShelfOverlays(overlays) {
+  const available = [];
+  const unavailable = [];
+  for (const row of overlays || []) {
+    if (isSelectablePack(row)) available.push(row);
+    else unavailable.push(row);
+  }
+  return { available, unavailable };
+}
+
+/**
  * Default zip selection: downloadable data packs only unless generative is opted in.
  * @param {object[]} overlays
  * @param {{ includeGenerative?: boolean }} [opts]

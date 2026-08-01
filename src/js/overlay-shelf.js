@@ -4,6 +4,7 @@
 
 import {
   isSelectablePack,
+  partitionShelfOverlays,
   defaultSelectedIds,
   applyGenerativeSelection as applyGenerativeSelectionPure,
 } from "./overlay-shelf-selection.js";
@@ -49,6 +50,9 @@ const selectedIds = new Set();
 
 /** @type {Set<string>|null} null = use defaults on first paint */
 let openModuleIds = null;
+
+/** Collapsed-by-default: overlays not offered for this session. */
+let notOfferedOpen = false;
 
 /** Hero toggle: when false, generative packs stay out of the default selection. */
 let includeGenerative = false;
@@ -207,12 +211,6 @@ function renderOverlayTile(row) {
     action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener">Download</a>`;
   } else if (row.downloadMode === "entitled" || (row.canDownload && !row.publicDownload)) {
     action = `<button type="button" class="btn btn-secondary btn-sm" data-entitled-download="${escapeHtml(row.id)}">Download</button>`;
-  } else if (row.downloadMode === "login" || row.audience === "member") {
-    action = `<button type="button" class="btn btn-secondary btn-sm" data-shelf-connect>Connect Patreon</button>`;
-  } else {
-    const href = row.browserHandoff || PATREON_HOME;
-    const label = row.downloadMode === "upgrade" ? "Upgrade on Patreon" : "Patreon";
-    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
   }
 
   const select = selectable
@@ -230,7 +228,6 @@ function renderOverlayTile(row) {
   const tileClass = [
     "shelf-tile",
     selected ? "shelf-tile--selected" : "",
-    !selectable ? "shelf-tile--gated" : "",
   ].filter(Boolean).join(" ");
 
   const pathTitle = row.installPath ? ` title="${escapeHtml(row.installPath)}"` : "";
@@ -249,18 +246,51 @@ function renderOverlayTile(row) {
   `;
 }
 
-function renderOverlayGroups(overlays) {
-  const visible = visibleOverlays(overlays);
-  if (!visible.length) {
-    return `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
-  }
+/** Read-only tile for packs not offered in this session. */
+function renderUnavailableTile(row) {
+  const title = displayName(row);
+  const art = artFor(row.id);
+  const required = tierLabel(row);
+  const metaBits = [`Requires ${required}`, `v${row.latest}`];
+  const badge = generativeBadge(row);
+  const imgSrc = art.image || "";
+  const media = imgSrc
+    ? `<div class="shelf-tile-media"><img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" width="72" height="72"></div>`
+    : `<div class="shelf-tile-media shelf-tile-media--empty" aria-hidden="true"></div>`;
+  const moduleBit = row.moduleId
+    ? `<span class="shelf-tile-module">${escapeHtml(moduleLabel(row.moduleId))}</span>`
+    : "";
 
-  const groups = groupByModule(visible);
+  return `
+    <article class="shelf-tile shelf-tile--unavailable" data-pack-id="${escapeHtml(row.id)}" aria-disabled="true">
+      ${media}
+      <div class="shelf-tile-body">
+        <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
+        <p class="shelf-tile-meta"><span>${escapeHtml(metaBits.join(" · "))}</span>${badge}${moduleBit}</p>
+      </div>
+    </article>
+  `;
+}
+
+function notOfferedNote() {
+  const session = getSession();
+  if (session.authenticated) {
+    return `Connected as ${session.tier || "Free"}. Packs listed here need a higher Patreon tier than this account currently has.`;
+  }
+  return "These packs need a Patreon membership tier. Connect Patreon above to refresh the list for your account.";
+}
+
+function captureNotOfferedOpen() {
+  const el = document.getElementById("shelf-not-offered");
+  if (el instanceof HTMLDetailsElement) notOfferedOpen = el.open;
+}
+
+function renderModuleBlocks(rows) {
+  const groups = groupByModule(rows);
   if (openModuleIds === null) {
     openModuleIds = defaultOpenModules(groups);
   }
-
-  return groups.map(([moduleId, rows]) => {
+  return groups.map(([moduleId, moduleRows]) => {
     const isOpen = openModuleIds.has(moduleId);
     const accent = moduleMeta(moduleId).accent;
     const style = accent ? ` style="--shelf-module-accent: ${escapeHtml(accent)}"` : "";
@@ -270,15 +300,51 @@ function renderOverlayGroups(overlays) {
         ${moduleIconHtml(moduleId)}
         <span class="shelf-module-summary-text">
           <span class="shelf-module-label">${escapeHtml(moduleLabel(moduleId))}</span>
-          <span class="shelf-module-count">${escapeHtml(moduleSelectionSummary(rows))}</span>
+          <span class="shelf-module-count">${escapeHtml(moduleSelectionSummary(moduleRows))}</span>
         </span>
       </summary>
       <div class="shelf-tile-grid">
-        ${rows.map(renderOverlayTile).join("")}
+        ${moduleRows.map(renderOverlayTile).join("")}
       </div>
     </details>
   `;
   }).join("");
+}
+
+function renderUnavailableSection(unavailable) {
+  if (!unavailable.length) return "";
+  const sorted = [...unavailable].sort((a, b) => {
+    const ma = moduleLabel(a.moduleId).localeCompare(moduleLabel(b.moduleId), undefined, { sensitivity: "base" });
+    if (ma !== 0) return ma;
+    return displayName(a).localeCompare(displayName(b), undefined, { sensitivity: "base" });
+  });
+  const n = sorted.length;
+  return `
+    <details class="shelf-not-offered" id="shelf-not-offered"${notOfferedOpen ? " open" : ""}>
+      <summary class="shelf-not-offered-summary">
+        <span class="shelf-not-offered-title">Overlays not offered</span>
+        <span class="shelf-not-offered-count">${n} pack${n === 1 ? "" : "s"}</span>
+      </summary>
+      <p class="shelf-note shelf-not-offered-note">${escapeHtml(notOfferedNote())}</p>
+      <div class="shelf-tile-grid shelf-tile-grid--unavailable">
+        ${sorted.map(renderUnavailableTile).join("")}
+      </div>
+    </details>
+  `;
+}
+
+function renderOverlayGroups(overlays) {
+  const visible = visibleOverlays(overlays);
+  if (!visible.length) {
+    return `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
+  }
+
+  const { available, unavailable } = partitionShelfOverlays(visible);
+  const main = available.length
+    ? renderModuleBlocks(available)
+    : `<p class="shelf-empty">No overlays available for download in this session.</p>`;
+
+  return `${main}${renderUnavailableSection(unavailable)}`;
 }
 
 function renderModules(modules) {
@@ -393,6 +459,9 @@ async function loadStatus(opts = {}) {
 
     window.__ionriftStatus = data;
     if (opts.resetSelection) selectedIds.clear();
+    captureNotOfferedOpen();
+    const capturedModules = captureOpenModules();
+    if (capturedModules.size) openModuleIds = capturedModules;
     defaultSelectOpen(data.overlays || []);
     pruneSelection(data.overlays || []);
     overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
@@ -409,6 +478,7 @@ function rerenderOverlays() {
   const overlaysEl = document.getElementById("shelf-overlays");
   if (!data || !overlaysEl) return;
   openModuleIds = captureOpenModules();
+  captureNotOfferedOpen();
   pruneSelection(data.overlays || []);
   overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
   updateSelectedHint();
@@ -448,11 +518,6 @@ function wireUi() {
   document.getElementById("shelf-overlays")?.addEventListener("click", async (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-
-    if (target.hasAttribute("data-shelf-connect") || target.closest("[data-shelf-connect]")) {
-      await runConnect();
-      return;
-    }
 
     const dl = target.closest("[data-entitled-download]");
     if (dl instanceof HTMLElement) {
