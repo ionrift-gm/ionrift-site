@@ -4,8 +4,8 @@ title: Overlay Shelf | Ionrift Workshop
 description: Download Ionrift overlays and find Patreon module zips. Browser download, then unzip into ionrift-data.
 canonical: https://ionrift.cloud/overlay-shelf/
 ogTitle: Overlay Shelf
-ogDescription: Download overlays for your table. Optional icons on or off. Patreon links for gated packs and modules.
-ogImage: https://ionrift.cloud/img/packs/_header.jpg
+ogDescription: Download overlays for your table. Generative art companions on or off. Patreon links for gated packs and modules.
+ogImage: https://ionrift.cloud/img/shelf/header.jpg
 bodyClass: page-overlay-shelf
 ---
 
@@ -19,92 +19,108 @@ bodyClass: page-overlay-shelf
             <span>Overlay Shelf</span>
         </nav>
 
-        <header class="shelf-hero shelf-hero--mock">
-            <div class="section-label">Downloads</div>
-            <h1 class="shelf-title">Overlay Shelf</h1>
-            <p class="shelf-lead">
-                Browser download, then unzip into Foundry’s Data folder. Patreon posts link here.
-                Nothing on this page installs files from inside Foundry.
-            </p>
-            <div class="shelf-hero-actions">
-                <button type="button" class="btn btn-primary" id="download-selected-btn" disabled title="Overlays-only zip assemble is next">
-                    Download selected overlays
-                </button>
-                <a class="btn btn-secondary" href="#install">Where files go</a>
+        <header class="shelf-hero-split">
+            <div class="shelf-hero-copy">
+                <div class="section-label">Downloads</div>
+                <h1 class="shelf-hero-title">Overlay Shelf</h1>
+                <p class="shelf-hero-lead">
+                    Browser download, then unzip into Foundry's Data folder. Patreon posts link here.
+                    Nothing on this page installs files from inside Foundry.
+                </p>
+                <div class="shelf-hero-actions">
+                    <div class="shelf-hero-cta">
+                        <button type="button" class="btn btn-primary" id="download-selected-btn" disabled title="Overlays-only zip assemble is next">
+                            Download selected overlays
+                        </button>
+                        <a class="btn btn-secondary" href="#install">Where files go</a>
+                    </div>
+                    <label class="shelf-check shelf-check--inline">
+                        <input type="checkbox" id="include-generative-toggle">
+                        <span>Include generative packs</span>
+                    </label>
+                </div>
+                <p class="shelf-note shelf-hero-hint" id="download-selected-hint">
+                    Per-pack Download works now. A single overlays-only zip for your selection is next.
+                </p>
             </div>
-            <label class="shelf-check shelf-check--inline">
-                <input type="checkbox" id="include-optional-icons" checked>
-                <span>Include optional cooking item icons</span>
-            </label>
-            <p class="shelf-note shelf-hero-hint" id="download-selected-hint">
-                Per-pack Download works now. A single overlays-only zip for your selection is next.
-            </p>
+            <div class="shelf-hero-art" aria-hidden="true">
+                <img src="/img/shelf/header.jpg" alt="" width="720" height="405" decoding="async">
+            </div>
         </header>
 
         <section class="shelf-section shelf-section--tight" aria-labelledby="shelf-packs-heading">
             <div class="shelf-section-head">
                 <h2 id="shelf-packs-heading" class="shelf-h2">Overlays</h2>
-                <p class="shelf-note">Select Free packs for the coming combined zip, or download a single pack now.</p>
+                <p class="shelf-note">Select open packs for the coming combined zip, or download a single pack now.</p>
+                <p class="shelf-note shelf-note--disclosure">
+                    Some overlays include generative art or audio. Packs without that badge are data or plugins only.
+                    Generative packs start unselected; use Include generative packs next to Download selected, or tick individual tiles.
+                </p>
             </div>
             <div id="shelf-overlays" aria-live="polite">
-                <p class="shelf-loading">Loading pack list…</p>
+                <p class="shelf-loading">Loading pack list...</p>
             </div>
         </section>
 
-        <section class="shelf-section" id="install" aria-labelledby="install-heading">
+                <section class="shelf-section" id="install" aria-labelledby="install-heading">
             <h2 id="install-heading" class="shelf-h2">Where <code>ionrift-data</code> lives</h2>
             <p class="shelf-note">
-                Foundry’s <strong>Data</strong> folder is the root. Create <code>ionrift-data</code> next to <code>modules</code> and <code>worlds</code> if it is not there yet.
-                Unzip so each pack’s <code>overlay-manifest.json</code> sits in its subfolder, then reload the world.
+                Foundry's <strong>Data</strong> folder is the root. Create <code>ionrift-data</code> next to <code>modules</code> and <code>worlds</code> if it is not there yet.
+                Unzip so each pack's <code>overlay-manifest.json</code> sits in its subfolder, then reload the world.
             </p>
 
             <div class="shelf-fs-grid">
                 <figure class="shelf-fs-panel">
                     <figcaption>Before</figcaption>
                     <pre class="shelf-fs-tree" aria-label="Data folder before overlays">Data/
-├── modules/
-├── systems/
-├── worlds/
-└── (no ionrift-data yet)</pre>
+|-- modules/
+|-- systems/
+|-- worlds/
+|-- (no ionrift-data yet)</pre>
                 </figure>
                 <figure class="shelf-fs-panel shelf-fs-panel--after">
                     <figcaption>After (example)</figcaption>
                     <pre class="shelf-fs-tree" aria-label="Data folder after overlays">Data/
-├── modules/
-├── systems/
-├── worlds/
-└── ionrift-data/
-    └── overlays/
-        ├── ionrift-respite/
-        │   ├── core/
-        │   │   └── overlay-manifest.json
-        │   └── cooking/
-        │       └── overlay-manifest.json
-        └── ionrift-quartermaster/
-            └── core/
-                └── overlay-manifest.json</pre>
+|-- modules/
+|-- systems/
+|-- worlds/
+|-- ionrift-data/
+    |-- overlays/
+        |-- ionrift-respite/
+        |   |-- core/
+        |   |   |-- overlay-manifest.json
+        |   |-- cooking/
+        |       |-- overlay-manifest.json
+        |-- ionrift-quartermaster/
+            |-- core/
+                |-- overlay-manifest.json</pre>
                 </figure>
             </div>
 
             <ul class="shelf-host-notes">
-                <li><strong>Self-hosted:</strong> open the Foundry User Data path from Setup, or your host’s file browser for that volume.</li>
-                <li><strong>Hosted Foundry:</strong> use the host’s asset / file manager and place the same folder tree under Data.</li>
+                <li><strong>Self-hosted:</strong> open the Foundry User Data path from Setup, or your host's file browser for that volume.</li>
+                <li><strong>Hosted Foundry:</strong> use the host's asset / file manager and place the same folder tree under Data.</li>
                 <li><strong>Combined zip (soon):</strong> overlays only. Extract at the Data root so <code>ionrift-data/overlays/...</code> lands correctly. Module zips stay separate.</li>
             </ul>
         </section>
 
-        <details class="shelf-confirm" id="shelf-confirm">
-            <summary>Confirm with the status macro</summary>
-            <p class="shelf-note">
-                Unsure whether the unzip worked? Paste this Script macro into Foundry, run it, open F12.
-                It compares disk to the current listing (latest / outdated / missing). It is not part of any Ionrift module.
-            </p>
-            <pre class="shelf-macro" id="shelf-macro-source"><code>/* Ionrift overlay status check
- * Paste as a Script macro. Open F12 console for output.
- * Not part of any Foundry module package.
- */
+        <section class="shelf-card shelf-card--confirm" id="shelf-confirm" aria-labelledby="shelf-confirm-heading">
+            <img class="shelf-card-icon" src="/img/shelf/icon-confirm.svg" alt="" width="40" height="40">
+            <div class="shelf-card-body">
+                <h2 id="shelf-confirm-heading" class="shelf-card-title">Confirm</h2>
+                <p class="shelf-note">
+                    Paste this Script macro into Foundry and run it to verify overlays on disk
+                    (latest / outdated / missing).
+                </p>
+                <details class="shelf-macro-details">
+                    <summary>Show status macro</summary>
+                    <pre class="shelf-macro" id="shelf-macro-display" hidden><code></code></pre>
+                </details>
+                <script type="text/plain" id="shelf-macro-source">/* Ionrift overlay status check */
 (async () => {
   const STATUS_URL = "https://api.ionrift.cloud/packs/status";
+  const SHELF_URL = "https://ionrift.cloud/overlay-shelf/";
+
   const compare = (a, b) => {
     const pa = String(a || "0").split(".").map((n) => parseInt(n, 10) || 0);
     const pb = String(b || "0").split(".").map((n) => parseInt(n, 10) || 0);
@@ -115,6 +131,12 @@ bodyClass: page-overlay-shelf
     }
     return 0;
   };
+
+  const esc = (value) => String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 
   let listing;
   try {
@@ -127,50 +149,113 @@ bodyClass: page-overlay-shelf
     return;
   }
 
-  const overlays = listing.overlays || [];
-  console.group("Ionrift overlay status");
-  for (const row of overlays) {
+  const missing = [];
+  const outdated = [];
+  const current = [];
+  const other = [];
+  const FP = foundry.applications?.apps?.FilePicker?.implementation ?? FilePicker;
+
+  // Browse first so missing packs do not spam the console with fetch 404s.
+  const readLocalVersion = async (installPath) => {
+    const dir = String(installPath || "").replace(/\\/g, "/").replace(/\/+$/, "");
+    if (!dir) return null;
+    try {
+      const browse = await FP.browse("data", dir);
+      const files = browse?.files || [];
+      const manifestUrl = files.find((f) => String(f).endsWith("overlay-manifest.json"));
+      if (!manifestUrl) return null;
+      const res = await fetch(manifestUrl, { cache: "no-store" });
+      if (!res.ok) return null;
+      const raw = await res.json();
+      return raw?.version || raw?.overlayVersion || null;
+    } catch (_) {
+      return null;
+    }
+  };
+
+  for (const row of listing.overlays || []) {
     const path = row.installPath;
     if (!path) {
-      console.log(`${row.id}: no install path in listing`);
+      other.push(`${row.id}: no install path in listing`);
       continue;
     }
-    let local = null;
-    try {
-      const manifestPath = `${path}overlay-manifest.json`.replace(/\\/g, "/");
-      const res = await fetch(manifestPath, { cache: "no-store" });
-      if (!res.ok) throw new Error(String(res.status));
-      const raw = await res.json();
-      local = raw?.version || raw?.overlayVersion || null;
-    } catch (_) {
-      local = null;
-    }
+
+    const local = await readLocalVersion(path);
 
     if (!local) {
-      console.log(`${row.id}: MISSING (latest ${row.latest}) → ${path}`);
+      missing.push(`${row.id}: missing (latest ${row.latest})`);
     } else if (compare(local, row.latest) < 0) {
-      console.log(`${row.id}: outdated (installed ${local}, latest ${row.latest})`);
+      outdated.push(`${row.id}: outdated (installed ${local}, latest ${row.latest})`);
     } else if (compare(local, row.latest) > 0) {
-      console.log(`${row.id}: newer than listing (installed ${local}, listing ${row.latest})`);
+      other.push(`${row.id}: newer than listing (installed ${local}, listing ${row.latest})`);
     } else {
-      console.log(`${row.id}: at latest (${local})`);
+      current.push(`${row.id}: at latest (${local})`);
     }
   }
-  console.log("Updates: https://ionrift.cloud/overlay-shelf/");
-  console.groupEnd();
-  ui.notifications?.info?.("Ionrift status written to the console (F12).");
-})();</code></pre>
-            <button type="button" class="btn btn-secondary" id="copy-macro-btn">Copy macro</button>
-        </details>
 
-        <section class="shelf-modules-strip" aria-labelledby="modules-strip-heading">
-            <h2 id="modules-strip-heading" class="shelf-h2">Foundry modules</h2>
-            <p class="shelf-note">
-                Cursewright, Monstrous Feast, and Cartographer are module zips. Install through Foundry Add-on Modules.
-                They are not part of an overlays zip.
-            </p>
-            <div id="shelf-modules" class="shelf-module-links" aria-live="polite">
-                <a class="btn btn-secondary btn-sm" href="{{ site.patreonUrl }}" target="_blank" rel="noopener">Patreon modules</a>
+  const lines = [...missing, ...outdated, ...other, ...current];
+  console.group("Ionrift overlay status");
+  for (const line of lines) console.log(line);
+  console.log(`Updates: ${SHELF_URL}`);
+  console.groupEnd();
+
+  const section = (title, items, tone) => {
+    if (!items.length) return "";
+    const lis = items.map((line) => `<li>${esc(line)}</li>`).join("");
+    return `<h3 style="margin:0.35em 0 0.35em;font-size:1em;color:${tone}">${esc(title)}</h3><ul style="margin:0;padding-left:1.2em">${lis}</ul>`;
+  };
+
+  const content = `
+    <div class="ionrift-overlay-status">
+      ${section("Missing", missing, "#b91c1c")}
+      ${section("Outdated", outdated, "#b45309")}
+      ${section("Notes", other, "#52525b")}
+      ${section("At latest", current, "#166534")}
+      <p style="margin:0.85em 0 0;font-size:0.9em;opacity:0.85">Updates: ${esc(SHELF_URL)}</p>
+    </div>
+  `;
+
+  new Dialog({
+    title: "Ionrift overlay status",
+    content,
+    buttons: {
+      shelf: {
+        icon: '<i class="fas fa-external-link-alt"></i>',
+        label: "Open Overlay Shelf",
+        callback: () => window.open(SHELF_URL, "_blank", "noopener"),
+      },
+      close: {
+        icon: '<i class="fas fa-check"></i>',
+        label: "Close",
+      },
+    },
+    default: "close",
+  }).render(true);
+})();</script>
+            </div>
+            <div class="shelf-card-action">
+                <button type="button" class="btn btn-secondary" id="copy-macro-btn">Copy macro</button>
+            </div>
+        </section>
+
+        <section class="shelf-card shelf-card--modules" aria-labelledby="modules-strip-heading">
+            <img class="shelf-card-icon" src="/img/shelf/icon-modules.svg" alt="" width="40" height="40">
+            <div class="shelf-card-body">
+                <h2 id="modules-strip-heading" class="shelf-card-title">Foundry modules by Ionrift Workshop</h2>
+                <p class="shelf-note">
+                    Cursewright and Monstrous Feast are module zips. Install through Foundry Add-on Modules.
+                    They are not part of an overlays zip. Support development on Patreon.
+                </p>
+                <div id="shelf-modules" class="shelf-module-links" aria-live="polite">
+                    <a class="btn btn-secondary btn-sm" href="{{ site.patreonUrl }}" target="_blank" rel="noopener">Patreon modules</a>
+                </div>
+            </div>
+            <div class="shelf-card-action">
+                <a class="shelf-patreon-chip" href="{{ site.patreonUrl }}" target="_blank" rel="noopener">
+                    <svg class="shelf-patreon-chip-logo" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524zM.003 23.537h4.22V.524H.003z"/></svg>
+                    <span>patreon.com/Ionrift</span>
+                    <svg class="shelf-patreon-chip-ext" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14L20 4"/><path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/></svg>
+                </a>
             </div>
         </section>
 
@@ -183,4 +268,5 @@ bodyClass: page-overlay-shelf
 {% include "landing/footer.njk" %}
 
 <script type="application/json" id="shelf-art-map">{{ overlayShelfArt | jsonEncode | safe }}</script>
+<script type="application/json" id="shelf-module-map">{{ overlayShelfModules | jsonEncode | safe }}</script>
 <script type="module" src="/js/overlay-shelf.js"></script>
