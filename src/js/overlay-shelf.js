@@ -322,7 +322,7 @@ function renderUnavailableSection(unavailable) {
   return `
     <details class="shelf-not-offered" id="shelf-not-offered"${notOfferedOpen ? " open" : ""}>
       <summary class="shelf-not-offered-summary">
-        <span class="shelf-not-offered-title">Overlays not offered</span>
+        <span class="shelf-not-offered-title">Other overlays</span>
         <span class="shelf-not-offered-count">${n} pack${n === 1 ? "" : "s"}</span>
       </summary>
       <p class="shelf-note shelf-not-offered-note">${escapeHtml(notOfferedNote())}</p>
