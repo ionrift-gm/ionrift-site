@@ -1,12 +1,28 @@
 /**
  * Overlay Shelf (layout A): tile grid by module, thumbs from packs.json art map.
- * Free overlays use /packs/public/{id}/latest. Paid rows link to Patreon.
+ * Open overlays use /packs/public/{id}/latest. Paid rows link to Patreon.
  */
 
+import {
+  isGenerativePack,
+  defaultSelectedIds,
+  applyGenerativeSelection as applyGenerativeSelectionPure,
+} from "./overlay-shelf-selection.js";
+
 const API_BASE = "https://api.ionrift.cloud";
-const STATUS_URL = `${API_BASE}/packs/status`;
 const PUBLIC_LATEST = (id) => `${API_BASE}/packs/public/${id}/latest`;
-const OPTIONAL_ICON_IDS = new Set(["respite-cooking-art-overlay"]);
+
+/** Local Eleventy builds serve workspace registry+catalog; production uses the API. */
+function statusUrl() {
+  const host = typeof location !== "undefined" ? location.hostname : "";
+  if (host === "localhost" || host === "127.0.0.1") {
+    return "/overlay-shelf/status.json";
+  }
+  return `${API_BASE}/packs/status`;
+}
+
+/** Overlay ids hidden on the Shelf until a real GCS pack exists. */
+const SHELF_OVERLAY_HIDE = new Set(["cursewright-core-overlay"]);
 
 const MODULE_LABELS = {
   "ionrift-respite": "Respite",
@@ -15,25 +31,38 @@ const MODULE_LABELS = {
   "ionrift-cursewright": "Cursewright",
 };
 
+/** @type {Record<string, { image?: string|null, name?: string|null }>} */
+let artMap = {};
+
+/** @type {Record<string, { label?: string|null, icon?: string|null, accent?: string|null }>} */
+let moduleMap = {};
+
 /** @type {Set<string>} */
 const selectedIds = new Set();
 
 /** @type {Set<string>|null} null = use defaults on first paint */
 let openModuleIds = null;
 
-/** @type {Record<string, { image?: string|null, name?: string|null }>} */
-let artMap = {};
+/** Hero toggle: when false, generative packs stay out of the default selection. */
+let includeGenerative = false;
 
-function readArtMap() {
-  const el = document.getElementById("shelf-art-map");
+function readJsonMap(id) {
+  const el = document.getElementById(id);
   if (!el) return {};
   try {
-    const raw = el.textContent || "{}";
-    return JSON.parse(raw);
+    return JSON.parse(el.textContent || "{}");
   } catch (err) {
-    console.warn("Overlay Shelf: art map parse failed", err);
+    console.warn(`Overlay Shelf: ${id} parse failed`, err);
     return {};
   }
+}
+
+function readArtMap() {
+  return readJsonMap("shelf-art-map");
+}
+
+function readModuleMap() {
+  return readJsonMap("shelf-module-map");
 }
 
 function escapeHtml(value) {
@@ -44,12 +73,18 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
-function includeOptionalIcons() {
-  return Boolean(document.getElementById("include-optional-icons")?.checked);
+function moduleMeta(moduleId) {
+  return moduleMap[moduleId] || {};
 }
 
 function moduleLabel(moduleId) {
-  return MODULE_LABELS[moduleId] || moduleId || "Other";
+  return moduleMeta(moduleId).label || MODULE_LABELS[moduleId] || moduleId || "Other";
+}
+
+function moduleIconHtml(moduleId) {
+  const icon = moduleMeta(moduleId).icon;
+  if (!icon) return "";
+  return `<img class="shelf-module-icon" src="${escapeHtml(icon)}" alt="" width="28" height="28" loading="lazy">`;
 }
 
 function artFor(id) {
@@ -65,12 +100,24 @@ function displayName(row) {
 }
 
 function visibleOverlays(overlays) {
-  const showIcons = includeOptionalIcons();
-  return (overlays || []).filter((row) => {
-    const isOptionalIcon = OPTIONAL_ICON_IDS.has(row.id) || row.optionalCompanion;
-    if (isOptionalIcon && !showIcons) return false;
-    return true;
-  });
+  return (overlays || []).filter((row) => !SHELF_OVERLAY_HIDE.has(row.id));
+}
+
+function isPrimaryCorePack(row) {
+  const id = String(row.id || "");
+  const sublayer = String(row.sublayer || "");
+  return sublayer === "core" || /(?:^|-)core-overlay$/.test(id);
+}
+
+function comparePackRows(a, b) {
+  const coreA = isPrimaryCorePack(a) ? 0 : 1;
+  const coreB = isPrimaryCorePack(b) ? 0 : 1;
+  if (coreA !== coreB) return coreA - coreB;
+  // Companions after their peers of the same rank.
+  const compA = a.optionalCompanion ? 1 : 0;
+  const compB = b.optionalCompanion ? 1 : 0;
+  if (compA !== compB) return compA - compB;
+  return displayName(a).localeCompare(displayName(b), undefined, { sensitivity: "base" });
 }
 
 function groupByModule(overlays) {
@@ -79,6 +126,9 @@ function groupByModule(overlays) {
     const key = row.moduleId || "other";
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
+  }
+  for (const rows of groups.values()) {
+    rows.sort(comparePackRows);
   }
   const order = ["ionrift-respite", "ionrift-quartermaster", "ionrift-resonance", "ionrift-cursewright"];
   return [...groups.entries()].sort((a, b) => {
@@ -120,14 +170,29 @@ function moduleSelectionSummary(rows) {
   return `${total} pack${total === 1 ? "" : "s"} · Patreon`;
 }
 
+function tierLabel(row) {
+  if (row.publicDownload) return "Open";
+  const tier = String(row.tier || "").trim();
+  if (!tier || /^free$/i.test(tier)) return "Patreon";
+  return tier;
+}
+
+function generativeBadge(row) {
+  const kind = row.generativeKind === "audio"
+    ? "audio"
+    : (row.generative || row.generativeKind === "art" ? "art" : null);
+  if (!kind) return "";
+  const label = kind === "audio" ? "Generative audio" : "Generative art";
+  return `<span class="shelf-tile-badge shelf-tile-badge--generative">${escapeHtml(label)}</span>`;
+}
+
 function renderOverlayTile(row) {
   const selectable = row.publicDownload === true;
   const selected = selectable && selectedIds.has(row.id);
-  const tier = row.tier || "Free";
   const title = displayName(row);
   const art = artFor(row.id);
-  const metaBits = [tier, `v${row.latest}`];
-  if (row.optionalCompanion) metaBits.push("optional");
+  const metaBits = [tierLabel(row), `v${row.latest}`];
+  // Companions are disclosed via checkbox + generative badge, not an "optional" chip.
 
   let action = "";
   if (row.publicDownload) {
@@ -147,7 +212,7 @@ function renderOverlayTile(row) {
 
   const imgSrc = art.image || "";
   const media = imgSrc
-    ? `<div class="shelf-tile-media"><img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" width="84" height="84"></div>`
+    ? `<div class="shelf-tile-media"><img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" width="72" height="72"></div>`
     : `<div class="shelf-tile-media shelf-tile-media--empty" aria-hidden="true"></div>`;
 
   const tileClass = [
@@ -158,13 +223,15 @@ function renderOverlayTile(row) {
 
   const pathTitle = row.installPath ? ` title="${escapeHtml(row.installPath)}"` : "";
 
+  const badge = generativeBadge(row);
+
   return `
     <article class="${tileClass}" data-pack-id="${escapeHtml(row.id)}"${pathTitle}>
       ${select}
       ${media}
       <div class="shelf-tile-body">
         <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
-        <p class="shelf-tile-meta">${escapeHtml(metaBits.join(" · "))}</p>
+        <p class="shelf-tile-meta"><span>${escapeHtml(metaBits.join(" · "))}</span>${badge}</p>
         ${action}
       </div>
     </article>
@@ -184,9 +251,12 @@ function renderOverlayGroups(overlays) {
 
   return groups.map(([moduleId, rows]) => {
     const isOpen = openModuleIds.has(moduleId);
+    const accent = moduleMeta(moduleId).accent;
+    const style = accent ? ` style="--shelf-module-accent: ${escapeHtml(accent)}"` : "";
     return `
-    <details class="shelf-module-block" data-module-id="${escapeHtml(moduleId)}"${isOpen ? " open" : ""}>
+    <details class="shelf-module-block" data-module-id="${escapeHtml(moduleId)}"${isOpen ? " open" : ""}${style}>
       <summary class="shelf-module-summary">
+        ${moduleIconHtml(moduleId)}
         <span class="shelf-module-summary-text">
           <span class="shelf-module-label">${escapeHtml(moduleLabel(moduleId))}</span>
           <span class="shelf-module-count">${escapeHtml(moduleSelectionSummary(rows))}</span>
@@ -201,7 +271,9 @@ function renderOverlayGroups(overlays) {
 }
 
 function renderModules(modules) {
-  const rows = modules || [];
+  // Unreleased modules: hide even if an older status API still lists them.
+  const HIDDEN_MODULE_IDS = new Set(["ionrift-cartographer"]);
+  const rows = (modules || []).filter((row) => !HIDDEN_MODULE_IDS.has(row.id));
   if (!rows.length) {
     return `<a class="btn btn-secondary btn-sm" href="https://www.patreon.com/c/Ionrift" target="_blank" rel="noopener">Patreon modules</a>`;
   }
@@ -225,7 +297,7 @@ function updateSelectedHint() {
   const n = selectedIds.size;
   if (hint) {
     hint.textContent = n
-      ? `${n} Free pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
+      ? `${n} open pack${n === 1 ? "" : "s"} selected. Per-pack Download works now; combined overlays-only zip is next.`
       : "Per-pack Download works now. A single overlays-only zip for your selection is next.";
   }
   if (btn) {
@@ -241,11 +313,17 @@ function pruneSelection(overlays) {
   }
 }
 
-function defaultSelectFree(overlays) {
+function defaultSelectOpen(overlays) {
   if (selectedIds.size) return;
-  for (const row of visibleOverlays(overlays)) {
-    if (row.publicDownload) selectedIds.add(row.id);
+  for (const id of defaultSelectedIds(visibleOverlays(overlays), { includeGenerative })) {
+    selectedIds.add(id);
   }
+}
+
+function applyGenerativeSelection(overlays) {
+  const next = applyGenerativeSelectionPure(selectedIds, visibleOverlays(overlays), includeGenerative);
+  selectedIds.clear();
+  for (const id of next) selectedIds.add(id);
 }
 
 async function loadStatus() {
@@ -254,12 +332,12 @@ async function loadStatus() {
   if (!overlaysEl) return;
 
   try {
-    const res = await fetch(STATUS_URL, { cache: "no-store" });
+    const res = await fetch(statusUrl(), { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     window.__ionriftStatus = data;
 
-    defaultSelectFree(data.overlays || []);
+    defaultSelectOpen(data.overlays || []);
     pruneSelection(data.overlays || []);
     overlaysEl.innerHTML = renderOverlayGroups(data.overlays || []);
     if (modulesEl) modulesEl.innerHTML = renderModules(data.modules || []);
@@ -282,10 +360,19 @@ function rerenderOverlays() {
 
 function wireUi() {
   artMap = readArtMap();
+  moduleMap = readModuleMap();
 
-  document.getElementById("include-optional-icons")?.addEventListener("change", () => {
-    rerenderOverlays();
-  });
+  const generativeToggle = document.getElementById("include-generative-toggle");
+  if (generativeToggle instanceof HTMLInputElement) {
+    generativeToggle.checked = includeGenerative;
+    generativeToggle.addEventListener("change", () => {
+      includeGenerative = generativeToggle.checked;
+      const overlays = window.__ionriftStatus?.overlays || [];
+      applyGenerativeSelection(overlays);
+      rerenderOverlays();
+      updateSelectedHint();
+    });
+  }
 
   document.getElementById("shelf-overlays")?.addEventListener("change", (event) => {
     const target = event.target;
@@ -308,15 +395,46 @@ function wireUi() {
   }, true);
 
   const copyBtn = document.getElementById("copy-macro-btn");
-  const macroEl = document.getElementById("shelf-macro-source");
-  copyBtn?.addEventListener("click", async () => {
-    const text = macroEl?.innerText || "";
-    try {
+  const macroSource = document.getElementById("shelf-macro-source");
+  const macroDisplay = document.getElementById("shelf-macro-display");
+  const macroText = () => (macroSource?.textContent || "").trim();
+
+  if (macroDisplay) {
+    const code = macroDisplay.querySelector("code") || macroDisplay;
+    code.textContent = macroText();
+    macroDisplay.hidden = false;
+  }
+
+  async function copyMacroText(text) {
+    if (!text) throw new Error("empty macro");
+    if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
+      return;
+    }
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.select();
+    const ok = document.execCommand("copy");
+    area.remove();
+    if (!ok) throw new Error("copy failed");
+  }
+
+  copyBtn?.addEventListener("click", async () => {
+    try {
+      await copyMacroText(macroText());
       copyBtn.textContent = "Copied";
       setTimeout(() => { copyBtn.textContent = "Copy macro"; }, 1600);
-    } catch (_) {
-      copyBtn.textContent = "Select and copy manually";
+    } catch (err) {
+      console.warn("Overlay Shelf: copy macro failed", err);
+      copyBtn.textContent = "Copy failed";
+      setTimeout(() => { copyBtn.textContent = "Copy macro"; }, 2000);
+      // Reveal the source so the user can select it manually.
+      const details = document.querySelector(".shelf-macro-details");
+      if (details instanceof HTMLDetailsElement) details.open = true;
     }
   });
 }

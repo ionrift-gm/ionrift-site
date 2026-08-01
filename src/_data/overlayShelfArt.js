@@ -12,6 +12,26 @@ const FALLBACKS = {
     image: "/img/packs/respite-core-art.png",
     name: "Cooking item icons",
   },
+  "respite-frost-stone-art-overlay": {
+    image: "/img/packs/frost-stone.jpg",
+    name: "Frost & Stone terrain art",
+  },
+  "respite-bone-dust-art-overlay": {
+    image: "/img/packs/dust-bone.png",
+    name: "Dust & Bone terrain art",
+  },
+  "quartermaster-core-art-overlay": {
+    image: "/img/packs/qm-core.png",
+    name: "Core pack art",
+  },
+  "quartermaster-frost-stone-art-overlay": {
+    image: "/img/packs/frost-stone.jpg",
+    name: "Frost & Stone pack art",
+  },
+  "quartermaster-bone-dust-art-overlay": {
+    image: "/img/packs/dust-bone.png",
+    name: "Bone & Dust pack art",
+  },
 };
 
 export default function () {

@@ -2,7 +2,8 @@
   {
     "id": "qm-core",
     "catalogKeys": [
-      "quartermaster-core-overlay"
+      "quartermaster-core-overlay",
+      "quartermaster-core-art-overlay"
     ],
     "name": "Quartermaster Core",
     "tier": "Free",
@@ -118,7 +119,9 @@
     "id": "dust-bone",
     "catalogKeys": [
       "respite-bone-dust-overlay",
-      "quartermaster-bone-dust-overlay"
+      "respite-bone-dust-art-overlay",
+      "quartermaster-bone-dust-overlay",
+      "quartermaster-bone-dust-art-overlay"
     ],
     "name": "Dust & Bone",
     "tier": "Initiate",
@@ -143,7 +146,9 @@
     "id": "frost-stone",
     "catalogKeys": [
       "respite-frost-stone-overlay",
-      "quartermaster-frost-stone-overlay"
+      "respite-frost-stone-art-overlay",
+      "quartermaster-frost-stone-overlay",
+      "quartermaster-frost-stone-art-overlay"
     ],
     "name": "Frost & Stone",
     "tier": "Free",
