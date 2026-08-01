@@ -90,28 +90,59 @@ function randomState() {
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function pollHandshake(state, timeoutMs = 120000) {
-  const started = Date.now();
-  while (Date.now() - started < timeoutMs) {
-    await new Promise((r) => setTimeout(r, 2000));
-    try {
-      const res = await fetch(`${API_BASE}/auth/poll?state=${encodeURIComponent(state)}`, {
-        cache: "no-store",
-      });
-      if (res.status === 202) continue;
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data.status === "success" && data.token) return data;
-    } catch {
-      /* retry */
-    }
+async function fetchHandshake(state) {
+  try {
+    const res = await fetch(`${API_BASE}/auth/poll?state=${encodeURIComponent(state)}`, {
+      cache: "no-store",
+    });
+    if (res.status === 202 || !res.ok) return null;
+    const data = await res.json();
+    if (data.status === "success" && data.token) return data;
+  } catch {
+    /* retry */
   }
   return null;
 }
 
 /**
+ * @param {string} state
+ * @param {{ timeoutMs?: number, popup?: Window|null }} [opts]
+ * @returns {Promise<{ status: "success", token: string, user?: object }|{ status: "cancelled"|"timeout" }>}
+ */
+async function pollHandshake(state, opts = {}) {
+  const timeoutMs = opts.timeoutMs ?? 120000;
+  const popup = opts.popup || null;
+  const started = Date.now();
+  let closedStreak = 0;
+
+  while (Date.now() - started < timeoutMs) {
+    await new Promise((r) => setTimeout(r, 1500));
+
+    const hit = await fetchHandshake(state);
+    if (hit) return { status: "success", token: hit.token, user: hit.user };
+
+    if (popup) {
+      if (popup.closed) {
+        closedStreak += 1;
+        // Grace so the authorize window can open; then treat sustained close as cancel.
+        if (closedStreak >= 2 && Date.now() - started > 4000) {
+          const lastChance = await fetchHandshake(state);
+          if (lastChance) {
+            return { status: "success", token: lastChance.token, user: lastChance.user };
+          }
+          return { status: "cancelled" };
+        }
+      } else {
+        closedStreak = 0;
+      }
+    }
+  }
+  return { status: "timeout" };
+}
+
+/**
  * Open Patreon OAuth popup and store Sigil on success.
- * @returns {Promise<{ ok: boolean, tier?: string, error?: string }>}
+ * @returns {Promise<{ ok: boolean, tier?: string, error?: string, authUrl?: string }>}
  */
 export async function connectPatreon() {
   const state = randomState();
@@ -127,18 +158,18 @@ export async function connectPatreon() {
     return { ok: false, error: "popup-blocked", authUrl };
   }
 
-  const result = await pollHandshake(state);
+  const result = await pollHandshake(state, { popup });
   try {
-    popup.close();
+    if (!popup.closed) popup.close();
   } catch {
     /* ignore */
   }
-  if (!result?.token) {
-    return { ok: false, error: "timeout" };
+  if (result.status === "success" && result.token) {
+    setToken(result.token);
+    const tier = result.user?.tier || getSession().tier || "Free";
+    return { ok: true, tier };
   }
-  setToken(result.token);
-  const tier = result.user?.tier || getSession().tier || "Free";
-  return { ok: true, tier };
+  return { ok: false, error: result.status === "cancelled" ? "cancelled" : "timeout" };
 }
 
 /**
