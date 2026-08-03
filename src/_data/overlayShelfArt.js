@@ -30,11 +30,11 @@ const FALLBACKS = {
     name: "Cooking item icons",
   },
   "respite-craft-professions-overlay": {
-    image: null,
+    image: "/img/packs/thumbs/craft-professions.jpg",
     name: "Craft Professions Pack",
   },
   "respite-craft-professions-art-overlay": {
-    image: null,
+    image: "/img/packs/thumbs/craft-professions.jpg",
     name: "Craft Professions item icons",
   },
   "respite-frost-stone-art-overlay": {
