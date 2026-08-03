@@ -2,11 +2,6 @@
  * Pure selection helpers for Overlay Shelf (testable without DOM).
  */
 
-/**
- * Generative for selection / cached-bundle alignment: art/audio companions and
- * Resonance media. Legacy cores that still embed media stay selectable as data
- * (matches OVERLAY_BUNDLE_CACHE_ADR).
- */
 export function isGenerativePack(row) {
   if (row?.optionalCompanion || row?.companionFor) return true;
   if (row?.generativeKind === "audio") return true;
@@ -40,37 +35,61 @@ export function partitionShelfOverlays(overlays) {
 }
 
 /**
- * Default zip selection: downloadable data packs only unless generative is opted in.
+ * Selectable data packs only (no generative art/audio).
  * @param {object[]} overlays
- * @param {{ includeGenerative?: boolean }} [opts]
- * @returns {Set<string>}
+ * @returns {string[]}
  */
-export function defaultSelectedIds(overlays, opts = {}) {
-  const includeGenerative = opts.includeGenerative === true;
-  const selected = new Set();
-  for (const row of overlays || []) {
-    if (!isSelectablePack(row)) continue;
-    if (isGenerativePack(row) && !includeGenerative) continue;
-    if (row.id) selected.add(row.id);
-  }
-  return selected;
+export function selectableDataPackIds(overlays) {
+  return (overlays || [])
+    .filter((row) => isSelectablePack(row) && !isGenerativePack(row) && row.id)
+    .map((row) => row.id)
+    .sort();
 }
 
 /**
- * Apply the global generative toggle to an existing selection.
- * @param {Iterable<string>} selected
+ * Default zip selection: all downloadable data packs.
  * @param {object[]} overlays
- * @param {boolean} includeGenerative
  * @returns {Set<string>}
  */
-export function applyGenerativeSelection(selected, overlays, includeGenerative) {
+export function defaultSelectedIds(overlays) {
+  return new Set(selectableDataPackIds(overlays));
+}
+
+/**
+ * Select or clear all data packs. Generative tile picks are left alone.
+ * @param {Iterable<string>} selected
+ * @param {object[]} overlays
+ * @param {boolean} selectAll
+ * @returns {Set<string>}
+ */
+export function applySelectAllData(selected, overlays, selectAll) {
   const next = new Set(selected);
-  for (const row of overlays || []) {
-    if (!isSelectablePack(row) || !isGenerativePack(row) || !row.id) continue;
-    if (includeGenerative) next.add(row.id);
-    else next.delete(row.id);
+  const dataIds = selectableDataPackIds(overlays);
+  if (selectAll) {
+    for (const id of dataIds) next.add(id);
+  } else {
+    for (const id of dataIds) next.delete(id);
   }
   return next;
+}
+
+/**
+ * Checkbox state for the select-all-data control.
+ * @param {Iterable<string>} selected
+ * @param {object[]} overlays
+ * @returns {"all"|"none"|"some"}
+ */
+export function dataSelectionState(selected, overlays) {
+  const dataIds = selectableDataPackIds(overlays);
+  if (!dataIds.length) return "none";
+  const set = selected instanceof Set ? selected : new Set(selected);
+  let hit = 0;
+  for (const id of dataIds) {
+    if (set.has(id)) hit += 1;
+  }
+  if (hit === 0) return "none";
+  if (hit === dataIds.length) return "all";
+  return "some";
 }
 
 /**

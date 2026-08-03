@@ -6,7 +6,8 @@ import {
   isSelectablePack,
   partitionShelfOverlays,
   defaultSelectedIds,
-  applyGenerativeSelection as applyGenerativeSelectionPure,
+  applySelectAllData,
+  dataSelectionState,
   matchOverlayBundle,
 } from "./overlay-shelf-selection.js";
 import {
@@ -55,9 +56,6 @@ let openModuleIds = null;
 
 /** Collapsed-by-default: overlays not offered for this session. */
 let notOfferedOpen = false;
-
-/** Hero toggle: when false, generative packs stay out of the default selection. */
-let includeGenerative = false;
 
 let statusLoadGeneration = 0;
 
@@ -388,6 +386,16 @@ function updateSelectedHint() {
     btn.disabled = n === 0;
     btn.textContent = n ? `Download selected overlays (${n})` : "Download selected overlays";
   }
+  syncSelectAllDataToggle();
+}
+
+function syncSelectAllDataToggle() {
+  const toggle = document.getElementById("select-all-data-toggle");
+  if (!(toggle instanceof HTMLInputElement)) return;
+  const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
+  const state = dataSelectionState(selectedIds, overlays);
+  toggle.indeterminate = state === "some";
+  toggle.checked = state === "all";
 }
 
 function sleep(ms) {
@@ -495,15 +503,9 @@ function pruneSelection(overlays) {
 
 function defaultSelectOpen(overlays) {
   if (selectedIds.size) return;
-  for (const id of defaultSelectedIds(visibleOverlays(overlays), { includeGenerative })) {
+  for (const id of defaultSelectedIds(visibleOverlays(overlays))) {
     selectedIds.add(id);
   }
-}
-
-function applyGenerativeSelection(overlays) {
-  const next = applyGenerativeSelectionPure(selectedIds, visibleOverlays(overlays), includeGenerative);
-  selectedIds.clear();
-  for (const id of next) selectedIds.add(id);
 }
 
 function renderAuthChrome(session = getSession()) {
@@ -596,13 +598,13 @@ function wireUi() {
   moduleMap = readModuleMap();
   renderAuthChrome();
 
-  const generativeToggle = document.getElementById("include-generative-toggle");
-  if (generativeToggle instanceof HTMLInputElement) {
-    generativeToggle.checked = includeGenerative;
-    generativeToggle.addEventListener("change", () => {
-      includeGenerative = generativeToggle.checked;
-      const overlays = window.__ionriftStatus?.overlays || [];
-      applyGenerativeSelection(overlays);
+  const selectAllToggle = document.getElementById("select-all-data-toggle");
+  if (selectAllToggle instanceof HTMLInputElement) {
+    selectAllToggle.addEventListener("change", () => {
+      const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
+      const next = applySelectAllData(selectedIds, overlays, selectAllToggle.checked);
+      selectedIds.clear();
+      for (const id of next) selectedIds.add(id);
       rerenderOverlays();
       updateSelectedHint();
     });
