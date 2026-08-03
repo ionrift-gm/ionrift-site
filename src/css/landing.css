@@ -2483,6 +2483,34 @@
             margin-top: 0;
         }
 
+        .shelf-select-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            margin: 0;
+            padding-left: 2px;
+        }
+
+        .shelf-check--child {
+            margin: 0 0 0 22px;
+            padding-left: 10px;
+            border-left: 1px solid var(--glass-border);
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .shelf-check--child input:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .shelf-check--child:has(input:disabled) {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .shelf-section--tight {
             padding-top: 16px;
         }
@@ -2929,6 +2957,10 @@
         .page-overlay-shelf .shelf-hero-copy .shelf-check--inline {
             margin: 0;
             padding-left: 2px;
+            color: var(--text-main);
+        }
+
+        .page-overlay-shelf .shelf-hero-copy .shelf-check--child {
             color: var(--text-main);
         }
 
