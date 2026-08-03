@@ -41,10 +41,16 @@ eleventyExcludeFromCollections: true
                         <button type="button" class="btn btn-primary" disabled title="Mock only">Download selected overlays</button>
                         <a class="btn btn-secondary" href="#install">Where files go</a>
                     </div>
-                    <label class="shelf-check shelf-check--inline">
-                        <input type="checkbox" disabled>
-                        <span>Select all except generative art</span>
-                    </label>
+                    <div class="shelf-select-tree" role="group" aria-label="Bulk selection">
+                        <label class="shelf-check shelf-check--inline">
+                            <input type="checkbox" checked disabled>
+                            <span>Select all</span>
+                        </label>
+                        <label class="shelf-check shelf-check--child">
+                            <input type="checkbox" disabled>
+                            <span>Include generative art &amp; audio</span>
+                        </label>
+                    </div>
                 </div>
 </div>
             <div class="shelf-hero-art" aria-hidden="true">
