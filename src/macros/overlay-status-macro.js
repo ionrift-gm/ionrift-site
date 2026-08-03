@@ -1,9 +1,6 @@
 /* Ionrift overlay status check
  * Version: 1.0.0
  * Source: https://ionrift.cloud/macros/overlay-status-macro.js
- *
- * Paste into a Foundry Script macro, or copy from the Overlay Shelf.
- * Bump Version and MACRO_VERSION together when this file changes.
  */
 (async () => {
   const MACRO_VERSION = "1.0.0";
