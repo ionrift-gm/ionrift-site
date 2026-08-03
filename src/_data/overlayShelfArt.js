@@ -13,6 +13,14 @@ function toShelfThumb(image) {
 }
 
 const FALLBACKS = {
+  "respite-core-overlay": {
+    image: "/img/packs/thumbs/respite-core-art.jpg",
+    name: "Core pack",
+  },
+  "respite-core-art-overlay": {
+    image: "/img/packs/thumbs/respite-core-art.jpg",
+    name: "Core pack art",
+  },
   "respite-cooking-overlay": {
     image: "/img/packs/thumbs/respite-core-art.jpg",
     name: "Core Cooking Pack",
@@ -20,6 +28,14 @@ const FALLBACKS = {
   "respite-cooking-art-overlay": {
     image: "/img/packs/thumbs/respite-core-art.jpg",
     name: "Cooking item icons",
+  },
+  "respite-craft-professions-overlay": {
+    image: null,
+    name: "Craft Professions Pack",
+  },
+  "respite-craft-professions-art-overlay": {
+    image: null,
+    name: "Craft Professions item icons",
   },
   "respite-frost-stone-art-overlay": {
     image: "/img/packs/thumbs/frost-stone.jpg",
