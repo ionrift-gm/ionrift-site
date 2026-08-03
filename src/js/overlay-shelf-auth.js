@@ -198,11 +198,56 @@ export async function downloadEntitledPack(packId, version = "latest") {
   }
   const data = await res.json();
   if (!data?.url) throw new Error("missing-url");
+  triggerHrefDownload(data.url);
+}
+
+/**
+ * @param {string} href
+ */
+export function triggerHrefDownload(href) {
   const a = document.createElement("a");
-  a.href = data.url;
+  a.href = href;
   a.rel = "noopener";
   a.download = "";
   document.body.appendChild(a);
   a.click();
   a.remove();
 }
+
+/**
+ * Download a cached overlay bundle (public or entitled).
+ * @param {object} bundle - status.bundles row
+ */
+export async function downloadOverlayBundle(bundle) {
+  if (!bundle?.id) throw new Error("missing-bundle");
+  const version = bundle.latest || "latest";
+  if (bundle.publicDownload || bundle.downloadMode === "public") {
+    triggerHrefDownload(
+      `${API_BASE}/packs/bundles/public/${encodeURIComponent(bundle.id)}/${encodeURIComponent(version)}`
+    );
+    return;
+  }
+
+  const { token, authenticated } = getSession();
+  if (!authenticated) throw new Error("not-authenticated");
+  const url = `${API_BASE}/packs/bundles/entitled/${encodeURIComponent(bundle.id)}/${encodeURIComponent(version)}?format=json`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    },
+    cache: "no-store",
+  });
+  if (res.status === 401) {
+    clearToken();
+    throw new Error("unauthorized");
+  }
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || `HTTP ${res.status}`);
+  }
+  const data = await res.json();
+  if (!data?.url) throw new Error("missing-url");
+  triggerHrefDownload(data.url);
+}
+

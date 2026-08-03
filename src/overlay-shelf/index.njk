@@ -41,7 +41,7 @@ bodyClass: page-overlay-shelf
                     </label>
                 </div>
                 <p class="shelf-note shelf-hero-hint" id="download-selected-hint">
-                    Per-pack Download works now. A single overlays-only zip for your selection is next.
+                    Download selected uses a cached overlays zip when the selection matches; otherwise each pack zip starts in turn.
                 </p>
             </div>
             <div class="shelf-hero-art" aria-hidden="true">
@@ -69,7 +69,7 @@ bodyClass: page-overlay-shelf
             <h2 id="install-heading" class="shelf-h2">Where <code>ionrift-data</code> lives</h2>
             <p class="shelf-note">
                 Foundry's <strong>Data</strong> folder is the root. Create <code>ionrift-data</code> next to <code>modules</code> and <code>worlds</code> if it is not there yet.
-                Unzip so each pack's <code>overlay-manifest.json</code> sits in its subfolder, then reload the world.
+                Cached overlay bundles unzip at Data root and create that tree. Per-pack zips still go into each subfolder so <code>overlay-manifest.json</code> lands correctly. Then reload the world.
             </p>
 
             <div class="shelf-fs-grid">
@@ -103,7 +103,7 @@ bodyClass: page-overlay-shelf
             <ul class="shelf-host-notes">
                 <li><strong>Self-hosted:</strong> open the Foundry User Data path from Setup, or your host's file browser for that volume.</li>
                 <li><strong>Hosted Foundry:</strong> use the host's asset / file manager and place the same folder tree under Data.</li>
-                <li><strong>Download selected:</strong> starts each overlay zip in turn. Unzip each pack so <code>overlay-manifest.json</code> lands under <code>ionrift-data/overlays/...</code>. Module zips stay separate.</li>
+                <li><strong>Download selected:</strong> when the selection matches a cached overlays bundle, one zip downloads for extract at Data root. Otherwise each pack zip starts in turn. Module zips stay separate.</li>
             </ul>
         </section>
 

@@ -2,12 +2,19 @@
  * Pure selection helpers for Overlay Shelf (testable without DOM).
  */
 
+/**
+ * Generative for selection / cached-bundle alignment: art/audio companions and
+ * Resonance media. Legacy cores that still embed media stay selectable as data
+ * (matches OVERLAY_BUNDLE_CACHE_ADR).
+ */
 export function isGenerativePack(row) {
-  return Boolean(
-    row?.generative
-    || row?.generativeKind
-    || row?.optionalCompanion
-  );
+  if (row?.optionalCompanion || row?.companionFor) return true;
+  if (row?.generativeKind === "audio") return true;
+  const id = String(row?.id || "");
+  if (/-art-overlay$/i.test(id)) return true;
+  if (String(row?.moduleId || "") === "ionrift-resonance") return true;
+  if (/^resonance-/i.test(id)) return true;
+  return false;
 }
 
 /** Packs the GM can select / download in the current session. */
@@ -64,4 +71,40 @@ export function applyGenerativeSelection(selected, overlays, includeGenerative) 
     else next.delete(row.id);
   }
   return next;
+}
+
+/**
+ * Exact set equality for pack id collections.
+ * @param {Iterable<string>} a
+ * @param {Iterable<string>} b
+ * @returns {boolean}
+ */
+export function samePackIdSet(a, b) {
+  const left = [...new Set([...a].filter(Boolean))];
+  const right = [...new Set([...b].filter(Boolean))];
+  if (left.length !== right.length) return false;
+  const rightSet = new Set(right);
+  return left.every((id) => rightSet.has(id));
+}
+
+/**
+ * Silent cache hit: selection equals a ready, downloadable cached bundle.
+ * Prefers data-only bundles when two match (should not happen in practice).
+ * @param {Iterable<string>} selectedIds
+ * @param {object[]} bundles
+ * @returns {object|null}
+ */
+export function matchOverlayBundle(selectedIds, bundles) {
+  const selected = [...new Set([...selectedIds].filter(Boolean))];
+  if (!selected.length) return null;
+
+  const hits = (bundles || []).filter((bundle) => {
+    if (!bundle?.ready || bundle.canDownload !== true) return false;
+    if (!Array.isArray(bundle.packIds) || !bundle.packIds.length) return false;
+    return samePackIdSet(selected, bundle.packIds);
+  });
+
+  if (!hits.length) return null;
+  hits.sort((a, b) => Number(a.includeGenerative) - Number(b.includeGenerative));
+  return hits[0];
 }
