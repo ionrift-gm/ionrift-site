@@ -6,8 +6,9 @@ import {
   isSelectablePack,
   partitionShelfOverlays,
   defaultSelectedIds,
-  applySelectAllData,
+  applySelectTree,
   dataSelectionState,
+  generativeSelectionState,
   matchOverlayBundle,
 } from "./overlay-shelf-selection.js";
 import {
@@ -386,16 +387,38 @@ function updateSelectedHint() {
     btn.disabled = n === 0;
     btn.textContent = n ? `Download selected overlays (${n})` : "Download selected overlays";
   }
-  syncSelectAllDataToggle();
+  syncSelectTree();
 }
 
-function syncSelectAllDataToggle() {
-  const toggle = document.getElementById("select-all-data-toggle");
-  if (!(toggle instanceof HTMLInputElement)) return;
+function applySelectionSet(next) {
+  selectedIds.clear();
+  for (const id of next) selectedIds.add(id);
+  rerenderOverlays();
+  updateSelectedHint();
+}
+
+function syncSelectTree() {
+  const parent = document.getElementById("select-all-toggle");
+  const child = document.getElementById("select-all-generative-toggle");
+  if (!(parent instanceof HTMLInputElement)) return;
+
   const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
-  const state = dataSelectionState(selectedIds, overlays);
-  toggle.indeterminate = state === "some";
-  toggle.checked = state === "all";
+  const dataState = dataSelectionState(selectedIds, overlays);
+  const genState = generativeSelectionState(selectedIds, overlays);
+
+  parent.indeterminate = dataState === "some";
+  parent.checked = dataState === "all";
+
+  if (!(child instanceof HTMLInputElement)) return;
+  const parentOff = dataState === "none";
+  child.disabled = parentOff;
+  if (parentOff) {
+    child.indeterminate = false;
+    child.checked = false;
+    return;
+  }
+  child.indeterminate = genState === "some";
+  child.checked = genState === "all";
 }
 
 function sleep(ms) {
@@ -598,15 +621,24 @@ function wireUi() {
   moduleMap = readModuleMap();
   renderAuthChrome();
 
-  const selectAllToggle = document.getElementById("select-all-data-toggle");
+  const selectAllToggle = document.getElementById("select-all-toggle");
+  const selectGenToggle = document.getElementById("select-all-generative-toggle");
+
   if (selectAllToggle instanceof HTMLInputElement) {
     selectAllToggle.addEventListener("change", () => {
       const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
-      const next = applySelectAllData(selectedIds, overlays, selectAllToggle.checked);
-      selectedIds.clear();
-      for (const id of next) selectedIds.add(id);
-      rerenderOverlays();
-      updateSelectedHint();
+      const includeGen = selectAllToggle.checked
+        && selectGenToggle instanceof HTMLInputElement
+        && selectGenToggle.checked;
+      applySelectionSet(applySelectTree(selectedIds, overlays, selectAllToggle.checked, includeGen));
+    });
+  }
+
+  if (selectGenToggle instanceof HTMLInputElement) {
+    selectGenToggle.addEventListener("change", () => {
+      const overlays = visibleOverlays(window.__ionriftStatus?.overlays || []);
+      // Nesting: turning generative on also selects all data packs.
+      applySelectionSet(applySelectTree(selectedIds, overlays, true, selectGenToggle.checked));
     });
   }
 

@@ -35,10 +35,16 @@ bodyClass: page-overlay-shelf
                         <a class="btn btn-secondary" href="#install">Where files go</a>
                         <span id="shelf-auth-slot" class="shelf-auth-slot"></span>
                     </div>
-                    <label class="shelf-check shelf-check--inline">
-                        <input type="checkbox" id="select-all-data-toggle">
-                        <span>Select all except generative art</span>
-                    </label>
+                    <div class="shelf-select-tree" role="group" aria-label="Bulk selection">
+                        <label class="shelf-check shelf-check--inline">
+                            <input type="checkbox" id="select-all-toggle">
+                            <span>Select all</span>
+                        </label>
+                        <label class="shelf-check shelf-check--child" id="select-all-generative-label">
+                            <input type="checkbox" id="select-all-generative-toggle">
+                            <span>Include generative art &amp; audio</span>
+                        </label>
+                    </div>
                 </div>
                 <p class="shelf-note shelf-hero-hint" id="download-selected-hint">
                     Download selected uses a cached overlays zip when the selection matches; otherwise each pack zip starts in turn.
@@ -57,7 +63,7 @@ bodyClass: page-overlay-shelf
                     Packs that need a higher membership sit under Other overlays.
                 </p>
                 <p class="shelf-note shelf-note--disclosure">
-                    Select all picks data packs only. Tick generative art or audio tiles when you want those too.
+                    Select all picks every data pack. Use the nested option for generative art and audio, or tick tiles one by one.
                 </p>
             </div>
             <div id="shelf-overlays" aria-live="polite">

@@ -47,6 +47,18 @@ export function selectableDataPackIds(overlays) {
 }
 
 /**
+ * Selectable generative art/audio packs.
+ * @param {object[]} overlays
+ * @returns {string[]}
+ */
+export function selectableGenerativePackIds(overlays) {
+  return (overlays || [])
+    .filter((row) => isSelectablePack(row) && isGenerativePack(row) && row.id)
+    .map((row) => row.id)
+    .sort();
+}
+
+/**
  * Default zip selection: all downloadable data packs.
  * @param {object[]} overlays
  * @returns {Set<string>}
@@ -56,7 +68,74 @@ export function defaultSelectedIds(overlays) {
 }
 
 /**
+ * @param {Iterable<string>} selected
+ * @param {string[]} ids
+ * @returns {"all"|"none"|"some"}
+ */
+function idsSelectionState(selected, ids) {
+  if (!ids.length) return "none";
+  const set = selected instanceof Set ? selected : new Set(selected);
+  let hit = 0;
+  for (const id of ids) {
+    if (set.has(id)) hit += 1;
+  }
+  if (hit === 0) return "none";
+  if (hit === ids.length) return "all";
+  return "some";
+}
+
+/**
+ * Checkbox state for the parent select-all (data packs) control.
+ * @param {Iterable<string>} selected
+ * @param {object[]} overlays
+ * @returns {"all"|"none"|"some"}
+ */
+export function dataSelectionState(selected, overlays) {
+  return idsSelectionState(selected, selectableDataPackIds(overlays));
+}
+
+/**
+ * Checkbox state for the nested generative include control.
+ * @param {Iterable<string>} selected
+ * @param {object[]} overlays
+ * @returns {"all"|"none"|"some"}
+ */
+export function generativeSelectionState(selected, overlays) {
+  return idsSelectionState(selected, selectableGenerativePackIds(overlays));
+}
+
+/**
+ * Apply the select-all tree: parent = data, child = generative.
+ * When parent is off, generative is cleared too.
+ * @param {Iterable<string>} selected
+ * @param {object[]} overlays
+ * @param {boolean} selectData
+ * @param {boolean} selectGenerative
+ * @returns {Set<string>}
+ */
+export function applySelectTree(selected, overlays, selectData, selectGenerative) {
+  const next = new Set(selected);
+  const dataIds = selectableDataPackIds(overlays);
+  const genIds = selectableGenerativePackIds(overlays);
+
+  if (!selectData) {
+    for (const id of dataIds) next.delete(id);
+    for (const id of genIds) next.delete(id);
+    return next;
+  }
+
+  for (const id of dataIds) next.add(id);
+  if (selectGenerative) {
+    for (const id of genIds) next.add(id);
+  } else {
+    for (const id of genIds) next.delete(id);
+  }
+  return next;
+}
+
+/**
  * Select or clear all data packs. Generative tile picks are left alone.
+ * @deprecated Prefer applySelectTree for the nested control.
  * @param {Iterable<string>} selected
  * @param {object[]} overlays
  * @param {boolean} selectAll
@@ -71,25 +150,6 @@ export function applySelectAllData(selected, overlays, selectAll) {
     for (const id of dataIds) next.delete(id);
   }
   return next;
-}
-
-/**
- * Checkbox state for the select-all-data control.
- * @param {Iterable<string>} selected
- * @param {object[]} overlays
- * @returns {"all"|"none"|"some"}
- */
-export function dataSelectionState(selected, overlays) {
-  const dataIds = selectableDataPackIds(overlays);
-  if (!dataIds.length) return "none";
-  const set = selected instanceof Set ? selected : new Set(selected);
-  let hit = 0;
-  for (const id of dataIds) {
-    if (set.has(id)) hit += 1;
-  }
-  if (hit === 0) return "none";
-  if (hit === dataIds.length) return "all";
-  return "some";
 }
 
 /**
