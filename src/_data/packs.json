@@ -47,11 +47,11 @@
     "order": 20
   },
   {
-    "id": "respite-core-art",
+    "id": "respite-core",
     "catalogKeys": [
       "respite-core-overlay"
     ],
-    "name": "Respite Core Art",
+    "name": "Core pack",
     "tier": "Free",
     "tierLabel": "Public",
     "tierBadge": "public",
@@ -60,7 +60,30 @@
     ],
     "accent": "#E4CFAA",
     "iconAccent": "#E4CFAA",
-    "description": "Terrain art, station tokens, and camp phase images for Ionrift Respite",
+    "description": "Base night events and camp disasters for Ionrift Respite",
+    "category": "events",
+    "image": "/img/packs/respite-core-art.png",
+    "featured": false,
+    "landing": false,
+    "preview": false,
+    "status": "available",
+    "order": 24
+  },
+  {
+    "id": "respite-core-art",
+    "catalogKeys": [
+      "respite-core-art-overlay"
+    ],
+    "name": "Core pack art",
+    "tier": "Free",
+    "tierLabel": "Public",
+    "tierBadge": "public",
+    "modules": [
+      "Respite"
+    ],
+    "accent": "#E4CFAA",
+    "iconAccent": "#E4CFAA",
+    "description": "Optional terrain banners, station tokens, and camp phase images for the Core pack",
     "category": "terrain",
     "image": "/img/packs/respite-core-art.png",
     "featured": false,
