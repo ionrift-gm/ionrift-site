@@ -83,7 +83,7 @@
     "id": "craft-professions",
     "catalogKeys": ["respite-craft-professions-overlay", "respite-craft-professions-art-overlay"],
     "category": "cooking",
-    "image": "/img/packs/craft-professions.jpg",
+    "image": "/img/packs/craft-professions.png",
     "featured": false,
     "name": "Craft Professions",
     "order": 80

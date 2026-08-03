@@ -209,7 +209,7 @@
     "iconAccent": "#E4CFAA",
     "description": "Brewing craft profession recipes that reuse Core Cooking Pack forage. Optional generative drink icons ship as a companion.",
     "category": "cooking",
-    "image": "/img/packs/craft-professions.jpg",
+    "image": "/img/packs/craft-professions.png",
     "featured": false,
     "landing": false,
     "preview": false,
