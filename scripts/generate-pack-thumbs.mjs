@@ -29,8 +29,13 @@ for (const name of files) {
     byStem.set(stem, full);
     continue;
   }
+  // Prefer branded PNG covers over smaller unbranded JPG variants.
   const existingExt = path.extname(existing).toLowerCase();
-  if (existingExt === ".png" && (ext === ".jpg" || ext === ".jpeg" || ext === ".webp")) {
+  if (ext === ".png" && existingExt !== ".png") {
+    byStem.set(stem, full);
+  } else if (ext !== ".png" && existingExt === ".png") {
+    /* keep png */
+  } else if (statSync(full).size > statSync(existing).size) {
     byStem.set(stem, full);
   }
 }
@@ -45,9 +50,9 @@ for (const [stem, src] of [...byStem.entries()].sort((a, b) => a[0].localeCompar
       "-i",
       src,
       "-vf",
-      "scale=144:144:force_original_aspect_ratio=decrease,pad=144:144:(ow-iw)/2:(oh-ih)/2:color=0x0a0a12",
+      "scale=192:192:force_original_aspect_ratio=decrease,pad=192:192:(ow-iw)/2:(oh-ih)/2:color=0x0a0a12",
       "-q:v",
-      "3",
+      "2",
       out,
     ],
     { encoding: "utf8" }
