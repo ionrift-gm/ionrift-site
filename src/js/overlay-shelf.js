@@ -7,12 +7,14 @@ import {
   partitionShelfOverlays,
   defaultSelectedIds,
   applyGenerativeSelection as applyGenerativeSelectionPure,
+  matchOverlayBundle,
 } from "./overlay-shelf-selection.js";
 import {
   getSession,
   connectPatreon,
   clearToken,
   downloadEntitledPack,
+  downloadOverlayBundle,
   onSessionChange,
 } from "./overlay-shelf-auth.js";
 
@@ -371,10 +373,16 @@ function updateSelectedHint() {
   const hint = document.getElementById("download-selected-hint");
   const btn = document.getElementById("download-selected-btn");
   const n = selectedIds.size;
+  const bundles = window.__ionriftStatus?.bundles || [];
+  const hit = n ? matchOverlayBundle(selectedIds, bundles) : null;
   if (hint) {
-    hint.textContent = n
-      ? `${n} pack${n === 1 ? "" : "s"} selected. Download selected starts each zip in turn.`
-      : "Select one or more packs, then Download selected, or use Download on a single tile.";
+    if (!n) {
+      hint.textContent = "Select one or more packs, then Download selected, or use Download on a single tile.";
+    } else if (hit) {
+      hint.textContent = `${n} pack${n === 1 ? "" : "s"} selected. Download selected will use the cached ${hit.label} zip.`;
+    } else {
+      hint.textContent = `${n} pack${n === 1 ? "" : "s"} selected. Download selected starts each zip in turn.`;
+    }
   }
   if (btn) {
     btn.disabled = n === 0;
@@ -409,6 +417,36 @@ async function downloadSelectedOverlays() {
   const hint = document.getElementById("download-selected-hint");
   if (btn instanceof HTMLButtonElement) {
     btn.disabled = true;
+    btn.textContent = "Preparing download...";
+  }
+
+  const bundleHit = matchOverlayBundle(ids, window.__ionriftStatus?.bundles || []);
+  if (bundleHit) {
+    try {
+      if (btn instanceof HTMLButtonElement) {
+        btn.textContent = "Downloading bundle...";
+      }
+      await downloadOverlayBundle(bundleHit);
+      if (hint) {
+        hint.textContent = `Started ${bundleHit.label}. Unzip at Foundry Data root (creates ionrift-data/overlays/...).`;
+      }
+      updateSelectedHint();
+      return;
+    } catch (err) {
+      console.warn("Overlay Shelf: bundle download failed; falling back to per-pack", err);
+      if (String(err?.message) === "unauthorized" || String(err?.message) === "not-authenticated") {
+        if (hint) hint.textContent = "Connect Patreon, then try Download selected again.";
+        await runConnect();
+        updateSelectedHint();
+        return;
+      }
+      if (hint) {
+        hint.textContent = "Cached bundle unavailable; starting each pack zip in turn.";
+      }
+    }
+  }
+
+  if (btn instanceof HTMLButtonElement) {
     btn.textContent = `Downloading 0 / ${ids.length}...`;
   }
 

@@ -27,10 +27,13 @@ export default function () {
   }
 
   const { buildPublicStatusListing } = require(packsPath);
+  const { sanitizeStatusListing } = require(
+    path.resolve(siteRoot, "..", "ionrift-cloud", "middleware", "src", "bundles.js")
+  );
   const registry = JSON.parse(readFileSync(registryPath, "utf8"));
   const listing = buildPublicStatusListing(registry);
   return {
-    ...listing,
+    ...sanitizeStatusListing(listing),
     source: "local-registry+catalog",
   };
 }
