@@ -372,15 +372,11 @@ function updateSelectedHint() {
   const hint = document.getElementById("download-selected-hint");
   const btn = document.getElementById("download-selected-btn");
   const n = selectedIds.size;
-  const bundles = window.__ionriftStatus?.bundles || [];
-  const hit = n ? matchOverlayBundle(selectedIds, bundles) : null;
   if (hint) {
     if (!n) {
       hint.textContent = "Select one or more packs, then Download selected, or use Download on a single tile.";
-    } else if (hit) {
-      hint.textContent = `${n} pack${n === 1 ? "" : "s"} selected. Download selected will use the cached ${hit.label} zip.`;
     } else {
-      hint.textContent = `${n} pack${n === 1 ? "" : "s"} selected. Download selected starts each zip in turn.`;
+      hint.textContent = `${n} pack${n === 1 ? "" : "s"} selected.`;
     }
   }
   if (btn) {
