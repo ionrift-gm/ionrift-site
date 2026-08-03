@@ -49,7 +49,7 @@
     "id": "qm-core",
     "catalogKeys": ["quartermaster-core-overlay", "quartermaster-core-art-overlay"],
     "category": "treasure",
-    "image": "/img/packs/qm-core.jpg",
+    "image": "/img/packs/qm-core.png",
     "featured": true,
     "name": "Quartermaster Core",
     "landing": true,
@@ -64,7 +64,7 @@
       "quartermaster-bone-dust-art-overlay"
     ],
     "category": "treasure",
-    "image": "/img/packs/dust-bone.jpg",
+    "image": "/img/packs/dust-bone.png",
     "featured": false,
     "name": "Dust & Bone",
     "description": "Catacombs and ruins terrains and camp events for Respite, with matching containers, gems, and treasure for Quartermaster.",
@@ -74,7 +74,7 @@
     "id": "respite-core-art",
     "catalogKeys": ["respite-core-overlay"],
     "category": "terrain",
-    "image": "/img/packs/respite-core-art.jpg",
+    "image": "/img/packs/respite-core-art.png",
     "featured": false,
     "name": "Respite Core Art",
     "order": 25
