@@ -195,7 +195,8 @@
   {
     "id": "craft-professions",
     "catalogKeys": [
-      "respite-craft-professions-overlay"
+      "respite-craft-professions-overlay",
+      "respite-craft-professions-art-overlay"
     ],
     "name": "Craft Professions",
     "tier": "Initiate",
@@ -206,13 +207,13 @@
     ],
     "accent": "#E4CFAA",
     "iconAccent": "#E4CFAA",
-    "description": "Tailoring, brewing, and other non-cooking craft profession plugins and recipes. Requires Core Cooking Pack for shared reagents.",
+    "description": "Brewing craft profession recipes that reuse Core Cooking Pack forage. Optional generative drink icons ship as a companion.",
     "category": "cooking",
     "image": "/img/packs/craft-professions.jpg",
     "featured": false,
     "landing": false,
-    "preview": true,
-    "status": "preview",
+    "preview": false,
+    "status": "available",
     "order": 80
   },
   {
