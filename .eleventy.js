@@ -1,5 +1,5 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import modules from "./src/_data/modules.json" with { type: "json" };
@@ -79,6 +79,20 @@ export default function (eleventyConfig) {
       daggerheart: "Daggerheart",
     };
     return labels[id] || id;
+  });
+
+  /**
+   * Devlog / landing list thumb. Prefer cover-list.jpg beside a local cover.*;
+   * keep full ogImage for post hero and social tags.
+   */
+  eleventyConfig.addFilter("blogListImage", (ogImage) => {
+    if (!ogImage || typeof ogImage !== "string") return ogImage;
+    if (!ogImage.startsWith("/img/blog/")) return ogImage;
+    const m = ogImage.match(/^(.*\/)cover\.(png|jpe?g|webp|gif)$/i);
+    if (!m) return ogImage;
+    const listPath = `${m[1]}cover-list.jpg`;
+    const disk = path.join(__dirname, "src", listPath.replace(/^\//, "").replace(/\//g, path.sep));
+    return existsSync(disk) ? listPath : ogImage;
   });
 
   return {
