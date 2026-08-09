@@ -73,20 +73,22 @@
     "description": "Butcher and cook the monsters you kill. Turn slain creatures into ingredients, cook them at camp, and feed the party. Monster hunting and creature cooking for Foundry VTT, in the spirit of delicious dungeon crawling.",
     "accent": "#9b59b6",
     "icon": "/img/modules/monstrous-feast.png",
-    "status": "ea",
+    "status": "released",
     "tier": "free",
-    "install": { "method": "patreon-cloud", "manifest": "https://api.ionrift.cloud/manifest/ionrift-monstrous-feast", "label": "Get on Patreon" },
-    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "install": { "method": "github", "manifest": "https://github.com/ionrift-gm/ionrift-monstrous-feast/releases/latest/download/module.json", "label": "GitHub Release" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-monstrous-feast", "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
     "trailer": null,
-    "accessLabel": "Early Access, on Patreon",
+    "preview": "/img/modules/previews/monstrous-feast-owlbear.png",
+    "previewAlt": "Butchering an owlbear into culinary components in Monstrous Feast",
+    "accessLabel": null,
     "highlights": ["Monster butchering", "Campfire cooking", "Respite integration"],
     "systems": ["dnd5e", "pf2e"],
     "detail": true,
     "order": 35,
     "detailBody": [
       "Butcher monsters post-combat to harvest culinary components. Drag ingredients into the party's shared cookbook, inscribe new recipes, and cook meals over the campfire.",
-      "Subscribe on Patreon, then download from the Overlay Shelf or the gated post. Install the module zip through Foundry Add-on Modules. Crossover integration bridges cooking and ingredient spoilage with Respite."
+      "Install from the GitHub release through Foundry Add-on Modules. Not listed in the Foundry package browser yet. Crossover with Respite bridges cooking and ingredient spoilage."
     ]
   },
   {
