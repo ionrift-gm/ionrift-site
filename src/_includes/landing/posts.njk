@@ -12,7 +12,7 @@
                     <a class="post-card" href="{{ post.url }}">
                         <div class="post-card-thumb">
 {% if post.data.ogImage %}
-                            <img src="{{ post.data.ogImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
+                            <img src="{{ post.data.ogImage | blogListImage }}" alt="{{ post.data.title }}" loading="lazy" decoding="async">
 {% elif localVideo %}
                             <video class="post-thumb-video" src="{{ localVideo }}" muted playsinline preload="metadata" aria-hidden="true"></video>
 {% endif %}
