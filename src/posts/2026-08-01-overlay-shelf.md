@@ -10,6 +10,7 @@ patreonId: "165466719"
 patreonContentHash: "sha256:b0e6219074af44f8"
 patreonUrl: "/Ionrift/posts/overlay-shelf-165466719"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/overlay-shelf/cover.png"
 ---
 
 Overlays still download in the browser and unzip into ionrift-data. There is now one place for that:
