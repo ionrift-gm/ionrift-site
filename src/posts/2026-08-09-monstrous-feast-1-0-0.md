@@ -10,6 +10,7 @@ patreonId: "166195468"
 patreonContentHash: "sha256:f80adda4de9056d9"
 patreonUrl: "/Ionrift/posts/monstrous-feast-166195468"
 patreonLabel: "Ionrift on Patreon"
+ogImage: "/img/blog/2026/monstrous-feast-1-0-0/cover.png"
 ---
 
 Monstrous Feast is leaving Early Access. The module is on public GitHub now as **1.0.0**.
