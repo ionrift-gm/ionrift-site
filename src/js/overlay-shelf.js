@@ -200,12 +200,33 @@ function generativeBadge(row) {
   return `<span class="shelf-tile-badge shelf-tile-badge--generative">${escapeHtml(label)}</span>`;
 }
 
+/** Compact absolute date from catalog publishedAt (omit if missing/invalid). */
+function formatPublishedAt(iso) {
+  if (!iso || typeof iso !== "string") return null;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function tileMetaBits(row, { unavailable = false } = {}) {
+  const bits = unavailable
+    ? [`Requires ${tierLabel(row)}`, row.latest ? `v${row.latest}` : null]
+    : [tierLabel(row), row.latest ? `v${row.latest}` : null];
+  const published = formatPublishedAt(row.publishedAt);
+  if (published) bits.push(published);
+  return bits.filter(Boolean);
+}
+
 function renderOverlayTile(row) {
   const selectable = isSelectablePack(row);
   const selected = selectable && selectedIds.has(row.id);
   const title = displayName(row);
   const art = artFor(row.id);
-  const metaBits = [tierLabel(row), `v${row.latest}`];
+  const metaBits = tileMetaBits(row);
 
   let action = "";
   if (row.downloadMode === "public" || (row.publicDownload && row.canDownload !== false)) {
@@ -251,8 +272,7 @@ function renderOverlayTile(row) {
 function renderUnavailableTile(row) {
   const title = displayName(row);
   const art = artFor(row.id);
-  const required = tierLabel(row);
-  const metaBits = [`Requires ${required}`, `v${row.latest}`];
+  const metaBits = tileMetaBits(row, { unavailable: true });
   const badge = generativeBadge(row);
   const imgSrc = art.image || "";
   const media = imgSrc
