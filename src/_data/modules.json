@@ -101,7 +101,13 @@
     "icon": "/img/modules/cursewright.png",
     "status": "ga",
     "tier": "premium",
-    "install": { "method": "patreon-cloud", "manifest": "https://api.ionrift.cloud/manifest/ionrift-cursewright", "label": "Get on Patreon" },
+    "install": {
+      "method": "patreon-manifest",
+      "moduleId": "ionrift-cursewright",
+      "minTier": "Acolyte",
+      "manifest": null,
+      "label": "Module Shelf install link"
+    },
     "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
     "trailer": "3C12IIHVs3M",
@@ -112,7 +118,7 @@
     "order": 40,
     "detailBody": [
       "Curses escalate across sessions with GM activation gates, combat intervention, and items designed for discovery rather than stat sticks.",
-      "Download from the Overlay Shelf or the gated Patreon post once subscribed. Install through Foundry Add-on Modules. Premium tier unlocks the module and its growing library of cursed items."
+      "Subscribe on Patreon (Acolyte+), then open the Module Shelf, Connect Patreon, and copy the personal Foundry install link. Paste that into Foundry Add-on Modules. The link is a personal install key; please do not post it publicly."
     ]
   },
   {
