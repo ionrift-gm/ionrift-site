@@ -369,15 +369,9 @@ function renderOverlayGroups(overlays) {
 }
 
 function renderModules(modules) {
-  const HIDDEN_MODULE_IDS = new Set(["ionrift-cartographer"]);
-  const rows = (modules || []).filter((row) => !HIDDEN_MODULE_IDS.has(row.id));
-  if (!rows.length) {
-    return `<a class="btn btn-secondary btn-sm" href="${PATREON_HOME}" target="_blank" rel="noopener">Patreon modules</a>`;
-  }
-  return rows.map((row) => {
-    const href = row.browserHandoff || PATREON_HOME;
-    return `<a class="btn btn-secondary btn-sm" href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(row.id)}</a>`;
-  }).join(" ");
+  // Overlay Shelf stays overlays-first. Module installs live on Module Shelf.
+  void modules;
+  return `<a class="btn btn-secondary btn-sm" href="/module-shelf/">Module Shelf</a>`;
 }
 
 function syncSelectionFromDom() {

@@ -1,0 +1,66 @@
+---
+layout: landing.njk
+title: Module Shelf | Ionrift Workshop
+description: Install Ionrift Foundry modules you are entitled to. Public manifests and personal Patreon install links.
+canonical: https://ionrift.cloud/module-shelf/
+ogTitle: Module Shelf
+ogDescription: One place for Foundry module install links. Connect Patreon for premium modules.
+ogImage: https://ionrift.cloud/img/shelf/header.jpg
+bodyClass: page-overlay-shelf page-module-shelf
+---
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main page-overlay-shelf page-module-shelf">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="/#modules">Modules</a>
+            <span aria-hidden="true">/</span>
+            <span>Module Shelf</span>
+        </nav>
+
+        <header class="shelf-hero-split">
+            <div class="shelf-hero-copy">
+                <div class="section-label">Installs</div>
+                <h1 class="shelf-hero-title">Module Shelf</h1>
+                <p class="shelf-hero-lead">
+                    Foundry module install links in one place. Free modules use a public manifest.
+                    Premium modules unlock a personal install link after you Connect Patreon.
+                    Paste the link into Foundry Add-on Modules.
+                </p>
+                <div class="shelf-hero-actions">
+                    <div class="shelf-hero-cta">
+                        <span id="module-shelf-auth-slot" class="shelf-auth-slot"></span>
+                        <a class="btn btn-secondary" href="/overlay-shelf/">Overlay Shelf</a>
+                    </div>
+                </div>
+                <p class="shelf-note shelf-hero-hint" id="module-shelf-note" hidden></p>
+            </div>
+            <div class="shelf-hero-art" aria-hidden="true">
+                <img src="/img/shelf/header.jpg" alt="" width="720" height="405" decoding="async">
+            </div>
+        </header>
+
+        <section class="shelf-section shelf-section--tight" aria-labelledby="module-shelf-list-heading">
+            <div class="shelf-section-head">
+                <h2 id="module-shelf-list-heading" class="shelf-h2 visually-hidden">Modules</h2>
+            </div>
+            <div id="module-shelf-list" class="module-shelf-groups" aria-live="polite">
+                <p class="shelf-loading">Loading modules...</p>
+            </div>
+        </section>
+
+        <p class="page-back">
+            <a href="/#modules">&larr; All modules</a>
+            ·
+            <a href="/overlay-shelf/">Overlay Shelf</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
+
+<script type="application/json" id="module-shelf-catalog">{{ moduleShelfCatalog | jsonEncode | safe }}</script>
+<script type="module" src="/js/module-shelf.js"></script>
