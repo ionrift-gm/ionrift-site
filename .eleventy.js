@@ -2,13 +2,17 @@ import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import modules from "./src/_data/modules.json" with { type: "json" };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packsPath = path.join(__dirname, "src", "_data", "packs.json");
+const modulesPath = path.join(__dirname, "src", "_data", "modules.json");
+
+function loadModules() {
+  return JSON.parse(readFileSync(modulesPath, "utf8"));
+}
 
 function buildCatalogue() {
-  const sorted = [...modules].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const sorted = [...loadModules()].sort((a, b) => (a.order || 0) - (b.order || 0));
   const shippable = sorted.filter((m) => m.status !== "roadmap");
   return {
     hero: shippable.slice(0, 3),
@@ -68,8 +72,10 @@ export default function (eleventyConfig) {
     return i === -1 ? s : s.slice(i + 1);
   });
 
+  eleventyConfig.addWatchTarget("src/_data/modules.json");
+
   eleventyConfig.addCollection("moduleDetails", () =>
-    modules.filter((m) => m.detail),
+    loadModules().filter((m) => m.detail),
   );
 
   eleventyConfig.addFilter("systemLabel", (id) => {
