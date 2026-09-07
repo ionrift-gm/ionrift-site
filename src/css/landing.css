@@ -705,6 +705,7 @@
 
         .module-compact-body {
             min-width: 0;
+            flex: 1;
         }
 
         .module-compact-head {
@@ -740,11 +741,19 @@
         .module-compact-pills {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: stretch;
             justify-content: center;
             gap: 6px;
             flex-shrink: 0;
             align-self: center;
+            margin-left: auto;
+            min-width: 9.5rem;
+        }
+
+        .module-compact-pills .module-pill {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
         }
 
         /* ── Roadmap teasers ── */
@@ -931,6 +940,10 @@
             min-width: 40px;
             min-height: 40px;
             border-radius: 8px;
+        }
+
+        .module-icon.module-icon--empty {
+            background: color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 8%, transparent);
         }
 
         .module-name {

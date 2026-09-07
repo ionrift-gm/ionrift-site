@@ -125,9 +125,9 @@
     "id": "quiz-night",
     "name": "Quiz Night",
     "tagline": "Campaign pub quiz",
-    "description": "Build a quiz in Foundry, run it live, keep standings fogged until the end, and hand out gold and items.",
+    "description": "Build a quiz in Foundry, run it live, set mystery prizes for your players, and hand out gold and items.",
     "accent": "#E84393",
-    "icon": null,
+    "icon": "/img/modules/quiz-night.png",
     "status": "ea",
     "tier": "acolyte",
     "install": {
