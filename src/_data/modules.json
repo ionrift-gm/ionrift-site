@@ -122,6 +122,35 @@
     ]
   },
   {
+    "id": "quiz-night",
+    "name": "Quiz Night",
+    "tagline": "Campaign pub quiz",
+    "description": "Build a quiz in Foundry, run it live, keep standings fogged until the end, and hand out gold and items.",
+    "accent": "#E84393",
+    "icon": null,
+    "status": "ea",
+    "tier": "acolyte",
+    "install": {
+      "method": "patreon-manifest",
+      "moduleId": "ionrift-quiz-night",
+      "minTier": "Acolyte",
+      "manifest": null,
+      "label": "Module Shelf install link"
+    },
+    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "try": null,
+    "trailer": null,
+    "accessLabel": "Early access, Acolyte+",
+    "highlights": ["Live scoring", "Mystery prizes", "Campaign questions"],
+    "systems": [],
+    "detail": true,
+    "order": 38,
+    "detailBody": [
+      "Write questions about the campaign, run them live, and keep rankings fogged until the ceremony. Text, multiple choice, true/false, and picture rounds.",
+      "Acolyte+ early access. Open the Module Shelf, Connect Patreon, and copy the personal Foundry install link. Paste that into Foundry Add-on Modules. Please do not post the link publicly."
+    ]
+  },
+  {
     "id": "waterline",
     "name": "Waterline",
     "tagline": "Map FX & Walls",
