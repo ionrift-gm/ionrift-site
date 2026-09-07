@@ -2,7 +2,13 @@
  * Modules listed on the Module Shelf (Foundry install desk).
  * Includes public Foundry/GitHub installs and Patreon-gated manifest tokens.
  */
-import modules from "./modules.json" with { type: "json" };
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const modules = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), "modules.json"), "utf8"),
+);
 
 const SHELF_METHODS = new Set(["foundry", "github", "patreon-manifest"]);
 

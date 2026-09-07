@@ -1,7 +1,13 @@
 /**
  * Status API moduleId (ionrift-*) → label + site icon path from modules.json.
  */
-import modules from "./modules.json" with { type: "json" };
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const modules = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), "modules.json"), "utf8"),
+);
 
 const EXTRA = {
   // Status listing ids that do not match modules.json id + ionrift- prefix.
