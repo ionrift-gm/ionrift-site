@@ -28,7 +28,7 @@ The engine. Curses escalate over phases and intervene in play, with GM gates so 
 
 ![](https://c10.patreonusercontent.com/4/patreon-media/p/post/161874966/2853b38fa6e64719a687948fcd0c0fb9/eyJhIjoxLCJwIjoxfQ%3D%3D/1.webp?token-hash=2dxofUaPlYXe_ZIb2hO2sqUspE5Es2wSNBsB1vJu-4Q%3D&token-time=1783641600)
 
-The library. Handcrafted cursed items built on four behaviour archetypes: Slow-Burn Equipment that stays useful until the trap loads, Deceptive Consumables like the one above, Combat Triggers that escalate as the fight goes on, and Devouring Containers that are less "bag of holding" and more "predator wearing the shape of useful gear."
+The library. Cursed items built on four behaviour archetypes: Slow-Burn Equipment that stays useful until the trap loads, Deceptive Consumables like the one above, Combat Triggers that escalate as the fight goes on, and Devouring Containers that are less "bag of holding" and more "predator wearing the shape of useful gear."
 
 The Curse Author. Build your own from any of those four templates (more in time).
 
