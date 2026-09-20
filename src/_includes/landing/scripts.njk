@@ -59,4 +59,33 @@
                 }
             });
         });
+
+        // ═══ Funnel Event Tracking (GA4) ═══
+        document.addEventListener('DOMContentLoaded', () => {
+            // Track Patreon clicks
+            document.querySelectorAll('a[href*="patreon.com"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'click_patreon', {
+                            'event_category': 'outbound',
+                            'event_label': this.id || this.href,
+                            'page_path': window.location.pathname
+                        });
+                    }
+                });
+            });
+
+            // Track Discord clicks
+            document.querySelectorAll('a[href*="discord.gg"], a[href*="discord.com"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'click_discord', {
+                            'event_category': 'outbound',
+                            'event_label': this.id || this.href,
+                            'page_path': window.location.pathname
+                        });
+                    }
+                });
+            });
+        });
 </script>
