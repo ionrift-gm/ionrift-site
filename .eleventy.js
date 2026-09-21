@@ -78,6 +78,10 @@ export default function (eleventyConfig) {
     loadModules().filter((m) => m.detail),
   );
 
+  eleventyConfig.addFilter("moduleById", (id) =>
+    loadModules().find((m) => m.id === id),
+  );
+
   eleventyConfig.addFilter("systemLabel", (id) => {
     const labels = {
       dnd5e: "D&D 5e",
