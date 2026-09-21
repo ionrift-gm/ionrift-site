@@ -4,14 +4,15 @@ pagination:
   data: collections.moduleDetails
   size: 1
   alias: module
+  addAllPagesToCollections: true
 permalink: "/modules/{{ module.id }}/"
 eleventyComputed:
-  title: "{{ module.name }} | Ionrift Workshop"
-  description: "{{ module.description }}"
+  title: "{{ module.seoTitle or (module.name ~ ': ' ~ module.tagline ~ ' for Foundry VTT | Ionrift Workshop') }}"
+  description: "{{ module.seoDescription or module.description }}"
   canonical: "{{ site.url }}/modules/{{ module.id }}/"
-  ogTitle: "{{ module.name }}"
+  ogTitle: "{{ module.name }} for Foundry VTT"
   ogDescription: "{{ module.description }}"
-  ogImage: "{{ site.url }}{{ module.icon }}"
+  ogImage: "{{ site.url }}{{ module.preview or module.icon }}"
   bodyClass: "page-module-detail"
 ---
 
@@ -141,9 +142,29 @@ eleventyComputed:
 {% elif module.install and module.install.method == "foundry" %}
             <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}" target="_blank" rel="noopener">GitHub</a>.</p>
 {% elif module.install and module.install.method == "github" %}
-            <p class="module-install-note">Install through Foundry Add-on Modules using the manifest from the <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub release</a>. Not listed in the Foundry package browser yet.</p>
+            <p class="module-install-note">Free module for Foundry VTT (v12 and v13). Install through Foundry Add-on Modules using the manifest from the <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub release</a>. No Patreon required.</p>
 {% endif %}
         </div>
+
+{% if module.related and module.related.length %}
+        <section class="module-related-section" aria-label="Related Modules">
+            <h2 class="module-related-heading">Works with</h2>
+            <div class="module-related-grid">
+{% for relId in module.related %}
+{% set rel = relId | moduleById %}
+{% if rel %}
+                <a href="/modules/{{ rel.id }}/" class="module-related-card ionrift-window">
+                    <img src="{{ rel.icon }}" alt="" class="module-related-icon">
+                    <div class="module-related-info">
+                        <span class="module-related-name">{{ rel.name }}</span>
+                        <span class="module-related-tagline">{{ rel.tagline }}</span>
+                    </div>
+                </a>
+{% endif %}
+{% endfor %}
+            </div>
+        </section>
+{% endif %}
 
         <p class="page-back">
             <a href="/#modules">&larr; All modules</a>
