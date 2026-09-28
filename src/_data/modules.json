@@ -139,26 +139,29 @@
     "description": "Build a quiz in Foundry, run it live, set mystery prizes for your players, and hand out gold and items.",
     "accent": "#E84393",
     "icon": "/img/modules/quiz-night.png",
-    "status": "ea",
-    "tier": "acolyte",
+    "status": "released",
+    "tier": "free",
+    "compatibility": "v12 to v14",
     "install": {
-      "method": "patreon-manifest",
-      "moduleId": "ionrift-quiz-night",
-      "minTier": "Acolyte",
-      "manifest": null,
-      "label": "Module Shelf install link"
+      "method": "github",
+      "manifest": "https://github.com/ionrift-gm/ionrift-quiz-night/releases/latest/download/module.json",
+      "label": "GitHub Release"
     },
-    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "links": {
+      "github": "https://github.com/ionrift-gm/ionrift-quiz-night",
+      "foundryPackage": "https://foundryvtt.com/packages/ionrift-quiz-night",
+      "patreon": "https://www.patreon.com/c/Ionrift"
+    },
     "try": null,
     "trailer": null,
-    "accessLabel": "Early access, Acolyte+",
+    "accessLabel": null,
     "highlights": ["Live scoring", "Mystery prizes", "Campaign questions"],
     "systems": [],
     "detail": true,
     "order": 38,
     "detailBody": [
-      "Write questions about the campaign, run them live, and keep rankings fogged until the ceremony. Text, multiple choice, true/false, and picture rounds.",
-      "Acolyte+ early access. Open the Module Shelf, Connect Patreon, and copy the personal Foundry install link. Paste that into Foundry Add-on Modules. Please do not post the link publicly."
+      "Write questions about the campaign, run them live, and keep standings hidden until the ceremony. Supports text, multiple choice, true/false, picture, and nearest-number rounds.",
+      "Free and open source for Foundry VTT (v12 to v14). Install through Foundry Add-on Modules using the manifest URL from the GitHub release, or search for Ionrift Quiz Night in Foundry once package listing goes live."
     ]
   },
   {
