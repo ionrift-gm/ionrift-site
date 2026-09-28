@@ -142,7 +142,7 @@ eleventyComputed:
 {% elif module.install and module.install.method == "foundry" %}
             <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}" target="_blank" rel="noopener">GitHub</a>.</p>
 {% elif module.install and module.install.method == "github" %}
-            <p class="module-install-note">Free module for Foundry VTT (v12 and v13). Install through Foundry Add-on Modules using the manifest from the <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub release</a>. No Patreon required.</p>
+            <p class="module-install-note">Free module for Foundry VTT ({{ module.compatibility or "v12 to v14" }}). Install through Foundry Add-on Modules using the manifest from the <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub release</a>. No Patreon required.</p>
 {% endif %}
         </div>
 
