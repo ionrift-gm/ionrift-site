@@ -216,7 +216,7 @@
     "id": "cartographer",
     "name": "Cartographer",
     "tagline": "In the workshop",
-    "description": "Describe a scene, pick a layout, and export a battle map or table-ready layers. Early access is in preparation.",
+    "description": "Battle map generation for virtual tabletops. Currently in development in the workshop.",
     "accent": "#10B981",
     "iconAccent": "#D4A853",
     "icon": "/img/modules/cartographer.png",
