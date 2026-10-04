@@ -25,37 +25,13 @@ const FALLBACKS = {
     image: "/img/packs/thumbs/respite-core-art.jpg",
     name: "Core Cooking Pack",
   },
-  "respite-cooking-art-overlay": {
-    image: "/img/packs/thumbs/respite-core-art.jpg",
-    name: "Cooking item icons",
-  },
   "respite-craft-professions-overlay": {
     image: "/img/packs/thumbs/craft-professions.jpg",
     name: "Craft Professions Pack",
   },
-  "respite-craft-professions-art-overlay": {
-    image: "/img/packs/thumbs/craft-professions.jpg",
-    name: "Craft Professions item icons",
-  },
-  "respite-frost-stone-art-overlay": {
-    image: "/img/packs/thumbs/frost-stone.jpg",
-    name: "Frost & Stone terrain art",
-  },
-  "respite-bone-dust-art-overlay": {
-    image: "/img/packs/thumbs/dust-bone.jpg",
-    name: "Dust & Bone terrain art",
-  },
   "quartermaster-core-art-overlay": {
     image: "/img/packs/thumbs/qm-core.jpg",
     name: "Core pack art",
-  },
-  "quartermaster-frost-stone-art-overlay": {
-    image: "/img/packs/thumbs/frost-stone.jpg",
-    name: "Frost & Stone pack art",
-  },
-  "quartermaster-bone-dust-art-overlay": {
-    image: "/img/packs/thumbs/dust-bone.jpg",
-    name: "Bone & Dust pack art",
   },
 };
 
