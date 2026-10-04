@@ -83,7 +83,7 @@
     ],
     "accent": "#E4CFAA",
     "iconAccent": "#E4CFAA",
-    "description": "Optional terrain banners, station tokens, and camp phase images for the Core pack",
+    "description": "Terrain banners, station tokens, camp phase images, and cooking, forage and brewing icons for Respite, including Frost & Stone and Dust & Bone terrains",
     "category": "terrain",
     "image": "/img/packs/respite-core-art.png",
     "featured": false,
@@ -142,9 +142,7 @@
     "id": "dust-bone",
     "catalogKeys": [
       "respite-bone-dust-overlay",
-      "respite-bone-dust-art-overlay",
-      "quartermaster-bone-dust-overlay",
-      "quartermaster-bone-dust-art-overlay"
+      "quartermaster-bone-dust-overlay"
     ],
     "name": "Dust & Bone",
     "tier": "Initiate",
@@ -169,9 +167,7 @@
     "id": "frost-stone",
     "catalogKeys": [
       "respite-frost-stone-overlay",
-      "respite-frost-stone-art-overlay",
-      "quartermaster-frost-stone-overlay",
-      "quartermaster-frost-stone-art-overlay"
+      "quartermaster-frost-stone-overlay"
     ],
     "name": "Frost & Stone",
     "tier": "Free",
@@ -195,8 +191,7 @@
   {
     "id": "craft-professions",
     "catalogKeys": [
-      "respite-craft-professions-overlay",
-      "respite-craft-professions-art-overlay"
+      "respite-craft-professions-overlay"
     ],
     "name": "Craft Professions",
     "tier": "Initiate",
@@ -207,7 +202,7 @@
     ],
     "accent": "#E4CFAA",
     "iconAccent": "#E4CFAA",
-    "description": "Brewing craft profession recipes that reuse Core Cooking Pack forage. Optional generative drink icons ship as a companion.",
+    "description": "Brewing craft profession recipes that reuse Core Cooking Pack forage. Drink icons come with Respite Core Art.",
     "category": "cooking",
     "image": "/img/packs/craft-professions.png",
     "featured": false,
