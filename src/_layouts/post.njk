@@ -107,8 +107,9 @@
             <div class="blog-prose">
                 {{ content | safe }}
             </div>
+            {% set resolvedPatreonUrl = patreonUrl if (patreonUrl and patreonUrl.startsWith('http')) else ('https://www.patreon.com' + patreonUrl) %}
             <div class="patreon-callout">
-                Originally posted on Patreon: <a href="{{ patreonUrl }}" rel="noopener">{{ patreonLabel | default("Ionrift on Patreon") }}</a>
+                Originally posted on Patreon: <a href="{{ resolvedPatreonUrl }}" target="_blank" rel="noopener">{{ patreonLabel | default("Ionrift on Patreon") }}</a>
             </div>
         </article>
         {% include "landing/footer.njk" %}
