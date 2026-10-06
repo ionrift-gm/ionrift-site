@@ -143,9 +143,9 @@
     "tier": "free",
     "compatibility": "v12 to v14",
     "install": {
-      "method": "github",
+      "method": "foundry",
       "manifest": "https://github.com/ionrift-gm/ionrift-quiz-night/releases/latest/download/module.json",
-      "label": "GitHub Release"
+      "label": "Foundry Module"
     },
     "links": {
       "github": "https://github.com/ionrift-gm/ionrift-quiz-night",
@@ -154,6 +154,9 @@
     },
     "try": null,
     "trailer": null,
+    "preview": "/img/modules/previews/quiz-night-overview.png",
+    "previewAlt": "Quiz Night question editor, prize pool, and player answering interface",
+    "previewCaption": "Campaign trivia, custom rounds, and mystery prizes inside Foundry VTT.",
     "accessLabel": null,
     "highlights": ["Live scoring", "Mystery prizes", "Campaign questions"],
     "systems": [],
@@ -161,7 +164,7 @@
     "order": 38,
     "detailBody": [
       "Write questions about the campaign, run them live, and keep standings hidden until the ceremony. Supports text, multiple choice, true/false, picture, and nearest-number rounds.",
-      "Free and open source for Foundry VTT (v12 to v14). Install through Foundry Add-on Modules using the manifest URL from the GitHub release, or search for Ionrift Quiz Night in Foundry once package listing goes live."
+      "Free and open source for Foundry VTT (v12 to v14). Install through Foundry Add-on Modules by searching for Ionrift Quiz Night, or use the manifest URL from the GitHub release."
     ]
   },
   {
@@ -221,14 +224,14 @@
     "iconAccent": "#D4A853",
     "icon": "/img/modules/cartographer.png",
     "status": "roadmap",
-    "pillLabel": "Early access soon",
+    "pillLabel": "In the workshop",
     "tier": "free",
     "install": null,
     "links": {
       "github": null,
       "foundryPackage": null,
       "patreon": "https://www.patreon.com/c/Ionrift",
-      "landing": "/cartographer/"
+      "landing": null
     },
     "try": null,
     "trailer": null,
