@@ -68,7 +68,7 @@
   },
   {
     "id": "respite-core-art",
-    "catalogKeys": ["respite-core-overlay"],
+    "catalogKeys": ["respite-core-art-overlay"],
     "category": "terrain",
     "image": "/img/packs/respite-core-art.png",
     "featured": false,
