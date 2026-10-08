@@ -100,6 +100,37 @@
     ]
   },
   {
+    "id": "voice",
+    "name": "Voice",
+    "tagline": "Proximity & Acoustics",
+    "seoTitle": "Voice: Proximity Voice Chat and Subterranean Acoustics for Foundry VTT | Ionrift Workshop",
+    "description": "Proximity voice chat with subterranean acoustics, physical wall occlusion, arcane telepathy bridges, and GM omnipresence.",
+    "accent": "#9b59b6",
+    "icon": "/img/modules/voice.png",
+    "status": "ea",
+    "tier": "premium",
+    "install": {
+      "method": "patreon-manifest",
+      "moduleId": "ionrift-voice",
+      "minTier": "Acolyte",
+      "manifest": null,
+      "label": "Module Shelf install link"
+    },
+    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "try": null,
+    "trailer": null,
+    "accessLabel": "Early Access, on Patreon",
+    "highlights": ["Subterranean acoustics", "Wall muffling", "Discord relay"],
+    "systems": [],
+    "detail": true,
+    "order": 36,
+    "related": ["resonance"],
+    "detailBody": [
+      "Voices fade with distance and pan across the canvas relative to token placement. Walls, closed doors, and floorboards muffle sound naturally as characters explore.",
+      "Subscribe on Patreon (Acolyte+), then open the Module Shelf, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install the Early Access release."
+    ]
+  },
+  {
     "id": "cursewright",
     "name": "Cursewright",
     "tagline": "Curse Engine",
