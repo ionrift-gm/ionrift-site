@@ -247,6 +247,28 @@
     ]
   },
   {
+    "id": "cartographer",
+    "name": "Cartographer",
+    "tagline": "In the workshop",
+    "description": "Early days. The name is all we are sharing while it takes shape.",
+    "accent": "#10B981",
+    "iconAccent": "#D4A853",
+    "icon": "/img/modules/cartographer.png",
+    "status": "roadmap",
+    "pillLabel": "Taking shape",
+    "tier": "free",
+    "install": null,
+    "links": { "github": null, "foundryPackage": null, "patreon": null },
+    "try": null,
+    "trailer": null,
+    "preview": null,
+    "accessLabel": null,
+    "highlights": [],
+    "systems": [],
+    "detail": false,
+    "order": 70
+  },
+  {
     "id": "civics",
     "name": "Civic Architect",
     "tagline": "In the workshop",
