@@ -1,17 +1,13 @@
 ---
 layout: landing.njk
-title: Privacy and cookies | Ionrift Workshop
-description: What ionrift.cloud collects, why, and how to switch it off. Analytics only runs if you say yes.
+title: Privacy notice | Ionrift Workshop
+description: What ionrift.cloud collects, why, and how to switch analytics off.
 canonical: https://ionrift.cloud/privacy/
-ogTitle: Privacy and cookies
-ogDescription: What ionrift.cloud collects, why, and how to switch it off.
+ogTitle: Privacy notice
+ogDescription: What ionrift.cloud collects, why, and how to switch analytics off.
 bodyClass: page-privacy
 date: 2026-10-19
 ---
-{#
-  Draft for review. Items marked CONFIRM are facts we could not check from this repo
-  (the API lives in the private ionrift-cloud repo). Settle them before merging.
-#}
 {% include "landing/nav.njk" %}
 
 <main class="page-main privacy-main">
@@ -22,64 +18,47 @@ date: 2026-10-19
             <span>Privacy</span>
         </nav>
 
-        <h1 class="privacy-title">Privacy and cookies</h1>
-        <p class="privacy-updated">Last updated 19 October 2026</p>
+        <h1 class="privacy-title">Privacy notice</h1>
+        <p class="privacy-updated">Last updated: 19 October 2026</p>
 
         <div class="privacy-prose">
-            <p>Ionrift Workshop is a small studio making tools for Foundry VTT. This page covers what this website collects, why we collect it, and how to switch things off. We've kept it short and plain.</p>
+            <p>ionrift.cloud is run by Ionrift Workshop. Contact: <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a>. This notice covers this website, the Overlay Shelf, and the Module Shelf. The hosted voice relay has its own notice at <a href="https://voice.ionrift.cloud/privacy" target="_blank" rel="noopener">voice.ionrift.cloud/privacy</a>.</p>
 
-            <h2>The short version</h2>
-            <ul>
-                <li>Analytics only runs if you click <strong>Accept analytics</strong>. Say no and it never loads.</li>
-                <li>If you connect Patreon, your browser keeps a login token so the Shelves know what your membership unlocks.</li>
-                <li>We look at download numbers to see which packs and modules get used.</li>
-                <li>We don't run ads and we don't sell data.</li>
-            </ul>
-
-            <h2>Who runs this site</h2>
-            <p>ionrift.cloud is run by Ionrift Workshop. For anything about your data, including a copy of it or a request to delete it, email <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a>.</p>
-
-            <h2>Analytics (only if you say yes)</h2>
-            <p>If you accept, we load Google Analytics 4. It tells us which pages were viewed, roughly where visits came from (country or city level), what kind of device and browser was used, and when someone clicks through to Patreon or Discord. That's how we find out which pages help and which ones nobody reads.</p>
-            <p>Google Analytics sets two cookies, <code>_ga</code> and <code>_ga_65B9N0FZC0</code>, which last up to two years. We've switched off Google's advertising features and Google signals, so this data isn't used for ads. Google handles the data for us and may process it in the United States.</p>
-            {# CONFIRM: GA4 data retention setting (Admin > Data collection > Data retention). Recommend 2 months, then add: "Google keeps the detailed data for N months." #}
-            <p>If you decline, the analytics script is never requested. If your browser sends a Global Privacy Control signal, we treat that as a no as well. You can change your mind any time using <strong>Cookie settings</strong> at the bottom of every page, or the button below. If you switch analytics off after saying yes, we delete its cookies from this site.</p>
+            <h2>Analytics</h2>
+            <p>Google Analytics runs only if you click <strong>Accept analytics</strong>. Until then the script is not requested. If you accept, it records which pages were viewed, roughly where the visit came from (country or city), the device and browser, and clicks through to Patreon or Discord.</p>
+            <p>It sets two cookies, <code>_ga</code> and <code>_ga_{{ site.gaId | replace("G-", "") }}</code>, which last up to two years. Advertising features and Google signals are off. Google processes this data and may do so in the United States.</p>
+            <p>Your choice is saved in this browser as <code>ionrift_consent</code>. If your browser sends Global Privacy Control and you have not chosen yet, that counts as a no. You can change the choice any time with <strong>Cookie settings</strong> at the bottom of the page, or the button below. Switching analytics off deletes its cookies on this site.</p>
             <p><button type="button" class="btn btn-ghost" data-consent-open>Change my cookie choice</button></p>
-            <p>Your choice is saved in your browser's local storage as <code>ionrift_consent</code>, so we don't ask on every page.</p>
 
-            <h2>Downloads and the Shelves</h2>
-            <p>The Overlay Shelf and Module Shelf talk to our own server at <code>api.ionrift.cloud</code>. It lists what's available, checks the service is up, and hands out downloads.</p>
-            <ul>
-                <li>Open packs download without an account. As with any web server, ours receives the usual request details when you download, such as your IP address and browser type.</li>
-                <li>If you've connected Patreon, member downloads and Foundry install links are requested with your login token, so the server can check your tier. Those requests are linked to your Patreon account.</li>
-                <li>We keep daily download totals for each pack and module, split by version, membership tier and whether you were logged in, along with how many different people downloaded each item that day. We use these totals to decide what to work on next.</li>
-            </ul>
-            {# CONFIRM: what the API records per download before it is rolled up into download_daily_agg (user id? IP? user agent?), and how long those raw records and server logs are kept. Add one sentence with the retention period. Do not describe the raw data as anonymous unless verified. #}
-            <p>Our Foundry modules are downloaded from GitHub. GitHub gives us download totals for each release, plus traffic totals for our repositories (views, clones and which sites sent people), and we keep weekly copies of those numbers. They're totals only and say nothing about who you are.</p>
+            <h2>Downloads</h2>
+            <p>The shelves talk to <code>api.ionrift.cloud</code> to list packs and modules and to hand out downloads.</p>
+            <p>Open packs do not need an account. For those we store a same-day id made from your IP address, browser, and the date, plus the pack, version, and time. The IP address itself is not stored on that row. Server logs can still include the IP address and browser.</p>
+            <p>If you are signed in, member downloads and Foundry install links are stored with your Ionrift account id, the item, version, membership tier, and time. Your Patreon id is on the account, not on the download row.</p>
+            <p>These rows are kept. There is no date after which they are deleted. Daily totals are counted from them: downloads, and how many different people, for each item, version, and tier.</p>
+            <p>Foundry module files are also hosted on GitHub. GitHub gives us release download totals, and traffic totals for the repositories (views, clones, and which sites sent people). We keep weekly copies of those totals. They do not say who you are.</p>
 
-            <h2>Connecting Patreon</h2>
-            <p>When you click <strong>Connect Patreon</strong>, Patreon asks you to approve access and then sends you back to us. Our server checks your membership tier and gives your browser a login token, saved in local storage as <code>ionrift_sigil</code>. It holds an Ionrift account ID, your Patreon ID and your membership tier.</p>
-            <p>The token is only there so the Shelves can show and deliver what your membership includes. It's needed for the service you asked for, so it isn't covered by the cookie choice. Use <strong>Disconnect</strong> on either Shelf, or clear this site's data in your browser, to remove it.</p>
-            {# CONFIRM: what the API stores from Patreon (fields, e.g. Patreon user id, tier, email?) and for how long. Add a sentence here. #}
+            <h2>Patreon</h2>
+            <p>Connect Patreon sends you to Patreon and back. We ask Patreon for your email and name, and we do not store them. We store your Patreon id, membership tier, and credit balance.</p>
+            <p>Your browser keeps a login token called <code>ionrift_sigil</code> for 48 hours. It holds your Ionrift account id, Patreon id, tier, and credit balance. The shelves use it to show what your membership includes. It is not part of the analytics choice. Disconnect on either shelf, or clear this site's data, to remove it.</p>
 
-            <h2>Fonts and videos</h2>
-            <p>Our fonts come from Google Fonts, so your browser fetches them from Google's servers, which see your IP address. No cookies are set for this.</p>
-            <p>Module pages and some blog posts embed YouTube videos through <code>youtube-nocookie.com</code>. YouTube says it doesn't store cookies on your device until you press play. Once you do, YouTube's own privacy policy applies.</p>
+            <h2>Fonts and video</h2>
+            <p>Fonts are loaded from Google Fonts, so Google sees your IP address. That request does not set a cookie.</p>
+            <p>Some pages embed YouTube through <code>youtube-nocookie.com</code>. YouTube does not set a cookie until you press play. After that, YouTube's privacy policy applies.</p>
 
             <h2>Hosting</h2>
-            <p>The site is hosted on GitHub Pages. GitHub keeps server logs, including IP addresses, to run the service and keep it secure. See the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a> for details.</p>
+            <p>The site is hosted on GitHub Pages. GitHub keeps server logs, including IP addresses, to run and protect the service. See the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
 
             <h2>Other sites</h2>
-            <p>We link to Patreon, Discord, YouTube, GitHub and the Foundry VTT site. Once you're there, their privacy policies apply, not this one.</p>
+            <p>Links to Patreon, Discord, YouTube, GitHub, and Foundry VTT leave this notice behind. Their policies apply once you are there.</p>
 
-            <h2>Why we're allowed to do this</h2>
-            <p>Analytics runs on your consent, which you can take back at any time. The Patreon login is part of giving you the membership downloads you asked for. Download totals and server logs are kept because we have a legitimate interest in running the service, keeping it secure and working out what to build next.</p>
+            <h2>Why we use this data</h2>
+            <p>Analytics runs only with your consent, and you can take it back. The Patreon login is part of delivering the membership downloads you asked for. Download records and server logs are how we run the service, keep it secure, and see what gets used (legitimate interests).</p>
 
             <h2>Your rights</h2>
-            <p>You can ask for a copy of the data we hold about you, ask us to correct or delete it, or object to how we use it. Email <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a> and we'll reply within a month. If you're not happy with how we've handled it, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>
+            <p>You can ask what we hold about you, ask us to correct or delete it, or object to how we use it, at <a href="mailto:{{ site.contactEmail }}">{{ site.contactEmail }}</a>. We will reply within a month. You can also complain to the Information Commissioner's Office (<a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a>).</p>
 
             <h2>Changes</h2>
-            <p>If any of this changes, we'll update this page and the date at the top.</p>
+            <p>If this notice changes, the date at the top changes with it.</p>
         </div>
     </div>
 </main>
