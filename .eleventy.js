@@ -1,4 +1,5 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
+import { webp } from "./lib/webp.js";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -56,6 +57,9 @@ export default function (eleventyConfig) {
   );
 
   eleventyConfig.addFilter("jsonEncode", (value) => JSON.stringify(value));
+
+  /** Display path for an /img/ PNG/JPG: its .webp copy when one exists. */
+  eleventyConfig.addFilter("webp", webp);
 
   eleventyConfig.addFilter("htmlDateString", (value) => {
     if (!value) return "";

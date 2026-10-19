@@ -29,12 +29,14 @@ for (const name of files) {
     byStem.set(stem, full);
     continue;
   }
-  // Prefer branded PNG covers over smaller unbranded JPG variants.
+  // Prefer branded covers (PNG, or the WebP made from them) over smaller
+  // unbranded JPG variants.
+  const rank = (e) => (e === ".png" ? 2 : e === ".webp" ? 1 : 0);
   const existingExt = path.extname(existing).toLowerCase();
-  if (ext === ".png" && existingExt !== ".png") {
+  if (rank(ext) > rank(existingExt)) {
     byStem.set(stem, full);
-  } else if (ext !== ".png" && existingExt === ".png") {
-    /* keep png */
+  } else if (rank(ext) < rank(existingExt)) {
+    /* keep the branded one */
   } else if (statSync(full).size > statSync(existing).size) {
     byStem.set(stem, full);
   }

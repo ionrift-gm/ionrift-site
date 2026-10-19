@@ -5,6 +5,7 @@
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import { webp } from "../../lib/webp.js";
 
 const modules = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), "modules.json"), "utf8"),
@@ -24,7 +25,7 @@ export default function () {
         packageId,
         name: m.name,
         tagline: m.tagline || "",
-        icon: m.icon || null,
+        icon: webp(m.icon) || null,
         accent: m.accent || null,
         method,
         minTier: m.install.minTier || (method === "patreon-manifest" ? "Acolyte" : null),

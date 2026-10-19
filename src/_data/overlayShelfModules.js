@@ -4,6 +4,7 @@
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import { webp } from "../../lib/webp.js";
 
 const modules = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), "modules.json"), "utf8"),
@@ -19,7 +20,7 @@ export default function () {
   for (const m of modules) {
     const entry = {
       label: m.name || m.id,
-      icon: m.icon || null,
+      icon: webp(m.icon) || null,
       accent: m.accent || null,
     };
     map[m.id] = entry;

@@ -30,7 +30,7 @@ eleventyComputed:
 
         <header class="module-detail-header" style="--module-color: {{ module.accent }}; --module-icon-color: {{ module.iconAccent or module.accent }};">
             <div class="module-detail-icon">
-                <img src="{{ module.icon }}" alt="">
+                <img src="{{ module.icon | webp }}" alt="" width="72" height="72">
             </div>
             <div class="module-detail-intro">
                 <div class="module-detail-pills">
@@ -70,7 +70,7 @@ eleventyComputed:
             <figure class="module-trailer-preview">
                 <div class="module-trailer-preview-label">Preview</div>
                 <div class="module-trailer-preview-frame">
-                    <img src="{{ module.preview }}" alt="{{ module.previewAlt or (module.name + ' preview') }}" loading="lazy">
+                    <img src="{{ module.preview | webp }}" alt="{{ module.previewAlt or (module.name + ' preview') }}" loading="lazy" decoding="async">
                 </div>
 {% if module.previewCaption %}
                 <figcaption class="module-trailer-preview-caption">{{ module.previewCaption }}</figcaption>
@@ -105,7 +105,7 @@ eleventyComputed:
             <div class="module-detail-actions">
 {% if module.install and module.install.method == "foundry" %}
                 <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener" class="btn btn-ghost module-detail-cta">
-                    <img src="/img/fvtt-anvil.png" alt="" class="fvtt-btn-icon">
+                    <img src="/img/fvtt-anvil.webp" alt="" class="fvtt-btn-icon" width="64" height="32">
                     {{ module.install.label }}
                 </a>
 {% if module.links.github %}
@@ -154,7 +154,7 @@ eleventyComputed:
 {% set rel = relId | moduleById %}
 {% if rel %}
                 <a href="/modules/{{ rel.id }}/" class="module-related-card ionrift-window">
-                    <img src="{{ rel.icon }}" alt="" class="module-related-icon">
+                    <img src="{{ rel.icon | webp }}" alt="" class="module-related-icon" width="40" height="40" loading="lazy" decoding="async">
                     <div class="module-related-info">
                         <span class="module-related-name">{{ rel.name }}</span>
                         <span class="module-related-tagline">{{ rel.tagline }}</span>
