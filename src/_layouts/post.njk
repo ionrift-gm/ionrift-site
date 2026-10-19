@@ -85,6 +85,12 @@
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
             </header>
+            {# Site-only note for posts whose install steps are out of date. The post body stays as published on Patreon. #}
+            {% if installNote %}
+            <aside class="blog-install-note" role="note">
+                <strong>Update, {{ installNoteDate or "19 Oct 2026" }}:</strong> {{ installNote | safe }}
+            </aside>
+            {% endif %}
             {% if coverVideo and videoSrc %}
             {% if isYouTube %}
             <div class="blog-hero blog-hero--youtube">

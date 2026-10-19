@@ -11,6 +11,8 @@ patreonContentHash: "sha256:b0e6219074af44f8"
 patreonUrl: "/Ionrift/posts/overlay-shelf-165466719"
 patreonLabel: "Ionrift on Patreon"
 ogImage: "/img/blog/2026/overlay-shelf/cover.png"
+installNote: 'Install steps have changed since this post. Premium and Early Access modules now come from your personal link on the <a href="/module-shelf/">Module Shelf</a>. Updates arrive while your membership is active.'
+# VERIFY: "Updates arrive while your membership is active" is the 19 Oct policy; lapse behaviour (cleanup-checklist F1) is not tested yet.
 ---
 
 Overlays still download in the browser and unzip into ionrift-data. There is now one place for that:

@@ -36,16 +36,4 @@ The Curse Author. Build your own from any of those four templates (more in time)
 
 This release takes Cursewright out of Early Access. The engine is stable, the item library covers the SRD cursed-item catalogue, the Curse Author is open for homebrew, and it is verified on Foundry v14. It runs on the dnd5e system.
 
-### How to get it:
-
-1\. Subscribe to the Acolyte tier or higher here on Patreon.
-
-2\. In Foundry, install the free Ionrift Library module if you don't have it.
-
-3\. Open the Ionrift panel, sign in, and link your Patreon account.
-
-4\. Cursewright shows up as an available premium module. Install it like any other and enable it in your world.
-
-![](https://c10.patreonusercontent.com/4/patreon-media/p/post/161874966/764500d72b0b406cbe0d2e2fa45e86d5/eyJhIjoxLCJ3Ijo4MjB9/1.png?token-hash=pLx-neLNGzBGQR2SSUzPa56mVhBcfhDVSF0eV9WNR4w%3D&token-time=1783641600)
-
-It is a premium module delivered through Patreon, not the Foundry package browser, so the panel is the way in. If anything in that flow trips you up, say so in the comments or the Discord and I'll help out.
+Install from the Module Shelf: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**

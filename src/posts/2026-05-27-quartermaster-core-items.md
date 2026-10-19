@@ -33,9 +33,7 @@ Terrain-specific packs are coming for subscribers. The core overlay is the found
   
 How to install:
 
-_**Automatic:**_ _Ionrift Library → Quartermaster → Core pack → Install__**Manual:**_ _[https://api.ionrift.cloud/packs/public/quartermaster-core-overlay/latest](https://api.ionrift.cloud/packs/public/quartermaster-core-overlay/latest)_ _→ Install .zip in the Library_
-
-_Requires Library v2.2.0+ and Quartermaster v1.3.10+_
+Collect from [https://ionrift.cloud/overlay-shelf/](https://ionrift.cloud/overlay-shelf/)
 
 ![](https://c10.patreonusercontent.com/4/patreon-media/p/post/159373428/190b51c1dbe842cc87ed2079a2055ebb/eyJhIjoxLCJ3Ijo4MjB9/1.png?token-hash=bo4t0Nik6Lug6TooExMhcmSV8V2-YIZ0q2tp60z2QgQ%3D&token-time=1783641600)
 

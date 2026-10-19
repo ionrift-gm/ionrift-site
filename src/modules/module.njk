@@ -128,17 +128,11 @@ eleventyComputed:
                     Patreon
                 </a>
 {% endif %}
-{% elif module.install and module.install.method == "patreon-cloud" %}
-                <a href="{{ module.links.patreon }}" target="_blank" rel="noopener" class="btn btn-patreon module-detail-cta">
-                    {{ module.install.label }}
-                </a>
 {% endif %}
             </div>
 
 {% if module.install and module.install.method == "patreon-manifest" %}
             <p class="module-install-note">Subscribe on Patreon ({{ module.install.minTier or "Acolyte" }}+), then open the <a href="/module-shelf/">Module Shelf</a>, Connect Patreon, and copy the personal Foundry install link. Paste it into Foundry Add-on Modules. Not listed in the public Foundry browser.</p>
-{% elif module.install and module.install.method == "patreon-cloud" %}
-            <p class="module-install-note">Subscribe on Patreon, then download the module zip from the gated post. Install through Foundry Add-on Modules. Not listed in the public Foundry browser.</p>
 {% elif module.install and module.install.method == "foundry" %}
             <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}" target="_blank" rel="noopener">GitHub</a>.</p>
 {% elif module.install and module.install.method == "github" %}

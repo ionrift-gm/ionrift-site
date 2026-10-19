@@ -127,6 +127,33 @@
   display: block;
 }
 
+.blog-install-note {
+  margin: 0 0 1.75rem;
+  padding: 14px 18px;
+  background: rgba(139, 92, 246, 0.06);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-left: 3px solid var(--accent-light, #a78bfa);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted, #a0a0b8);
+}
+
+.blog-install-note strong {
+  color: var(--text, #e8e8f0);
+}
+
+.blog-install-note a {
+  color: var(--accent-light, #a78bfa);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.35);
+}
+
+.blog-install-note a:hover {
+  color: #fff;
+}
+
 .patreon-callout {
   margin-top: 3rem;
   padding: 20px 22px;

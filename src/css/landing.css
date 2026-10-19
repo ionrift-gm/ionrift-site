@@ -1474,6 +1474,12 @@
             margin-bottom: 16px;
         }
 
+        .pack-footer-note a {
+            color: var(--text-muted);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
         /* ── Overlays page ── */
         .pack-grid--full {
             grid-template-columns: repeat(3, 1fr);
