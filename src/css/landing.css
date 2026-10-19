@@ -2497,24 +2497,9 @@
             }
         }
 
-        /* ═══ Overlay Shelf mock / redesign ═══ */
-        .shelf-mock-banner {
-            margin: 20px 0 8px;
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(251, 191, 36, 0.35);
-            background: rgba(251, 191, 36, 0.08);
-            color: var(--text-muted);
-            font-size: 0.92rem;
-        }
+        /* ═══ Overlay Shelf sections ═══ */
 
-        .shelf-mock-banner strong {
-            color: #fbbf24;
-        }
 
-        .shelf-hero--mock {
-            margin-bottom: 4px;
-        }
 
         .shelf-section {
             margin: 24px 0;
