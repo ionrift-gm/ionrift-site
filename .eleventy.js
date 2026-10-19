@@ -45,7 +45,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/macros");
   eleventyConfig.addPassthroughCopy("src/data");
-  eleventyConfig.addPassthroughCopy("src/audio");
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
