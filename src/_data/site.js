@@ -21,6 +21,7 @@ export default {
   gaId: "G-65B9N0FZC0",
   contactEmail: "ionrift.gm@gmail.com",
   patreonUrl: "https://www.patreon.com/c/Ionrift",
+  youtube: "https://www.youtube.com/@IonRift-workshop",
   patreonPackCollectionUrl:
     "https://www.patreon.com/collection/2079931?view=expanded",
   myContentUrl: "https://ionrift.cloud/overlay-shelf/",

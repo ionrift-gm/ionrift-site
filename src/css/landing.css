@@ -180,6 +180,12 @@
             color: var(--text-main);
         }
 
+        /* Keep nav labels on one line; tighten spacing just above the mobile breakpoint. */
+        .nav-links a { white-space: nowrap; }
+        @media (max-width: 900px) {
+            .nav-links { gap: 16px; }
+        }
+
         .nav-cta {
             background: rgba(139, 92, 246, 0.15) !important;
             border: 1px solid var(--glass-border) !important;
