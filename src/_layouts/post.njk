@@ -3,6 +3,8 @@
 {% set videoSrc = (site.url + coverVideo) if coverVideo and coverVideo[0] == "/" else coverVideo %}
 {% set videoMime = 'video/webm' if (coverVideo and '.webm' in coverVideo) else 'video/mp4' %}
 {% set isYouTube = coverVideo and ('youtube.com/embed' in coverVideo) %}
+{# Privacy: serve YouTube embeds from the no-cookie domain (see /privacy/). #}
+{% if isYouTube %}{% set videoSrc = videoSrc | replace("https://www.youtube.com/embed/", "https://www.youtube-nocookie.com/embed/") %}{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,13 +63,7 @@
     }
     </script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65B9N0FZC0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-65B9N0FZC0');
-    </script>
+    {% include "consent-head.njk" %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +72,8 @@
     <link rel="stylesheet" href="/css/blog.css">
 </head>
 <body class="blog-shell">
+
+    {% include "consent-banner.njk" %}
 
     <div class="atmosphere"></div>
     <div class="noise"></div>
@@ -121,5 +119,6 @@
             nav.classList.toggle('scrolled', window.scrollY > 40);
         }, { passive: true });
     </script>
+    <script src="/js/consent.js" defer></script>
 </body>
 </html>

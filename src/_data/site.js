@@ -17,6 +17,9 @@ export default {
   get year() {
     return new Date().getFullYear();
   },
+  /** GA4 measurement ID. Only loaded after the visitor accepts analytics (see _includes/consent-head.njk). */
+  gaId: "G-65B9N0FZC0",
+  contactEmail: "ionrift.gm@gmail.com",
   patreonUrl: "https://www.patreon.com/c/Ionrift",
   patreonPackCollectionUrl:
     "https://www.patreon.com/collection/2079931?view=expanded",

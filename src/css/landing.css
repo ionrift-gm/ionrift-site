@@ -3378,3 +3378,86 @@
         ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #3a3a50; }
         html { scrollbar-color: #2a2a3a var(--void-bg); scrollbar-width: thin; }
+
+        /* ═══ Analytics consent banner ═══ */
+        .consent-banner {
+            position: fixed;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            z-index: 1000;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 20px 24px;
+            background: #14141e;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .consent-banner[hidden] { display: none; }
+        .consent-banner:focus { outline: 2px solid var(--accent-light); outline-offset: 3px; }
+        .consent-inner { display: flex; align-items: center; gap: 24px; }
+        .consent-text { flex: 1; min-width: 0; }
+        .consent-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0 0 4px; }
+        .consent-desc { margin: 0; }
+        .consent-desc a { color: var(--accent-light); text-decoration: underline; text-underline-offset: 2px; }
+        .consent-desc a:hover { color: var(--text-main); }
+        .consent-status:empty { display: none; }
+        .consent-status { margin: 6px 0 0; color: var(--text-main); font-size: 13px; }
+        .consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-shrink: 0; }
+        /* Both choices share one style on purpose: neither is nudged. */
+        .consent-btn {
+            width: 100%;
+            min-width: 160px;
+            padding: 11px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border-hover);
+            background: rgba(139, 92, 246, 0.14);
+            color: var(--text-main);
+            font: 600 14px/1.2 var(--font-body);
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .consent-btn:hover { background: rgba(139, 92, 246, 0.28); border-color: var(--accent-light); }
+        .consent-btn:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
+        .has-consent-banner body { padding-bottom: 160px; }
+        @media (max-width: 720px) {
+            .consent-banner { left: 10px; right: 10px; bottom: 10px; padding: 18px; }
+            .consent-inner { flex-direction: column; align-items: stretch; gap: 14px; }
+            .consent-actions { grid-template-columns: 1fr; }
+            .footer-links { justify-content: center; }
+            .has-consent-banner body { padding-bottom: 300px; }
+        }
+
+        /* Footer gained two links; let them wrap on narrow screens. */
+        .footer-links { flex-wrap: wrap; row-gap: 10px; }
+
+        .footer-linkbtn {
+            background: none;
+            border: 0;
+            padding: 0;
+            color: var(--text-dim);
+            font: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .footer-linkbtn:hover { color: var(--text-muted); }
+        .footer-links a:focus-visible, .footer-linkbtn:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; border-radius: 2px; }
+
+        /* ═══ Privacy page ═══ */
+        .privacy-main .container { max-width: 760px; }
+        .privacy-title { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -1px; color: var(--text-main); margin-bottom: 8px; }
+        .privacy-updated { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; }
+        .privacy-prose { color: var(--text-muted); font-size: 16px; line-height: 1.75; }
+        .privacy-prose h2 { color: var(--text-main); font-size: 21px; font-weight: 700; margin: 40px 0 10px; }
+        .privacy-prose p, .privacy-prose ul { margin: 0 0 14px; }
+        .privacy-prose ul { padding-left: 22px; }
+        .privacy-prose li { margin-bottom: 6px; }
+        .privacy-prose a { color: var(--accent-light); text-decoration: underline; text-underline-offset: 2px; }
+        .privacy-prose a:hover { color: var(--text-main); }
+        .privacy-prose code { font-family: var(--font-mono); font-size: 0.88em; color: var(--text-main); background: rgba(255, 255, 255, 0.06); padding: 1px 6px; border-radius: 4px; }
+        .privacy-prose .btn { margin-top: 6px; font: 600 15px/1 var(--font-body); }

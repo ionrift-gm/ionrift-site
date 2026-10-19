@@ -1,0 +1,36 @@
+<script>
+        // Analytics consent. GA4 is not requested until the visitor accepts.
+        // Consent Mode v2 defaults are all denied; only analytics_storage is ever granted.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
+        window.ionriftGaId = '{{ site.gaId }}';
+        (function () {
+            var choice = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('ionrift_consent') || 'null');
+                if (saved && saved.v === 1) choice = saved.analytics;
+            } catch (e) {}
+            window.ionriftConsent = choice === 'granted' || choice === 'denied' ? choice : 'unset';
+            window.ionriftLoadGA = function () {
+                if (window.ionriftGaLoaded) return;
+                window.ionriftGaLoaded = true;
+                gtag('consent', 'update', { analytics_storage: 'granted' });
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.ionriftGaId;
+                document.head.appendChild(s);
+                gtag('js', new Date());
+                gtag('config', window.ionriftGaId, {
+                    allow_google_signals: false,
+                    allow_ad_personalization_signals: false
+                });
+            };
+            if (window.ionriftConsent === 'granted') window.ionriftLoadGA();
+        })();
+    </script>
