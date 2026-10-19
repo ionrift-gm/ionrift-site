@@ -19,7 +19,7 @@ bodyClass: page-overlays
             <span>Overlays</span>
         </nav>
 
-        <header class="overlays-hero" style="--overlays-hero-img: url('/img/packs/_header.jpg');">
+        <header class="overlays-hero" style="--overlays-hero-img: url('{{ "/img/packs/_header.jpg" | webp }}');">
             <div class="overlays-hero-shade"></div>
             <div class="overlays-hero-inner">
                 <div class="section-label">Content packs</div>
@@ -67,7 +67,7 @@ bodyClass: page-overlays
 {% for pack in packs %}
             <article class="pack-card" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
                 <div class="pack-card-media">
-                    <img src="{{ pack.image }}" alt="" loading="lazy">
+                    <img src="{{ pack.image }}" alt="" width="900" height="900" loading="lazy" decoding="async">
 {% if pack.preview %}
                     <span class="pack-flag">Taking shape</span>
 {% endif %}

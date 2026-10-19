@@ -13,7 +13,7 @@
 {% for pack in packShowcase.landing %}
                         <a href="/overlays/" class="pack-card" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
                             <div class="pack-card-media">
-                                <img src="{{ pack.image }}" alt="" loading="lazy">
+                                <img src="{{ pack.image }}" alt="" width="900" height="900" loading="lazy" decoding="async">
 {% if pack.preview %}
                                 <span class="pack-flag">Taking shape</span>
 {% endif %}
