@@ -60,12 +60,12 @@
             });
         });
 
-        // ═══ Funnel Event Tracking (GA4) ═══
+        // ═══ Funnel Event Tracking (GA4, only after the visitor accepts analytics) ═══
         document.addEventListener('DOMContentLoaded', () => {
             // Track Patreon clicks
             document.querySelectorAll('a[href*="patreon.com"]').forEach(link => {
                 link.addEventListener('click', function() {
-                    if (typeof gtag === 'function') {
+                    if (window.ionriftConsent === 'granted' && typeof gtag === 'function') {
                         gtag('event', 'click_patreon', {
                             'event_category': 'outbound',
                             'event_label': this.id || this.href,
@@ -78,7 +78,7 @@
             // Track Discord clicks
             document.querySelectorAll('a[href*="discord.gg"], a[href*="discord.com"]').forEach(link => {
                 link.addEventListener('click', function() {
-                    if (typeof gtag === 'function') {
+                    if (window.ionriftConsent === 'granted' && typeof gtag === 'function') {
                         gtag('event', 'click_discord', {
                             'event_category': 'outbound',
                             'event_label': this.id || this.href,
