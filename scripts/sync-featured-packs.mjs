@@ -1,7 +1,8 @@
 /**
  * Build src/_data/packs.json from packs.catalog.json + registry + PACK_CATALOG.
  * The catalog file is a thin curation layer: product groupings, category,
- * featured flag, order, and optional name/description overrides. Tier, modules,
+ * AI media flag ("ai": "art" | "audio"), featured flag, order, and optional
+ * name/description overrides. Tier, modules,
  * description, and preview status are derived from the registry and catalog.
  * Run after catalog or registry changes: npm run sync:packs
  */
@@ -175,6 +176,8 @@ function buildPack(product, registry, moduleByName) {
     iconAccent,
     description,
     category: product.category || null,
+    // "art" | "audio" when the product ships AI-generated media (shown as a badge on pack cards).
+    ...(product.ai ? { ai: product.ai } : {}),
     image: product.image || null,
     featured: product.featured === true,
     landing: product.landing === true,

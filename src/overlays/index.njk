@@ -79,6 +79,9 @@ bodyClass: page-overlays
                     </div>
                     <p class="pack-desc">{{ pack.description }}</p>
                     <div class="pack-modules">
+{% if pack.ai %}
+                        <span class="shelf-tile-badge shelf-tile-badge--generative pack-ai-badge">Includes AI {{ pack.ai }}</span>
+{% endif %}
 {% for mod in pack.modules %}
                         <span class="pack-module-tag">{{ mod }}</span>
 {% endfor %}
