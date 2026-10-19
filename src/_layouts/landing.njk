@@ -69,13 +69,7 @@
     </script>
 {% endif %}
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65B9N0FZC0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-65B9N0FZC0');
-    </script>
+    {% include "consent-head.njk" %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,6 +77,8 @@
     <link rel="stylesheet" href="/css/landing.css">
 </head>
 <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+
+    {% include "consent-banner.njk" %}
 
     <div class="atmosphere"></div>
     <div class="noise"></div>
@@ -92,5 +88,6 @@
     </div>
 
     {% include "landing/scripts.njk" %}
+    <script src="/js/consent.js" defer></script>
 </body>
 </html>
