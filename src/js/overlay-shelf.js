@@ -196,7 +196,7 @@ function generativeBadge(row) {
     ? "audio"
     : (row.generative || row.generativeKind === "art" ? "art" : null);
   if (!kind) return "";
-  const label = kind === "audio" ? "Generative audio" : "Generative art";
+  const label = kind === "audio" ? "AI audio" : "AI art";
   return `<span class="shelf-tile-badge shelf-tile-badge--generative">${escapeHtml(label)}</span>`;
 }
 
