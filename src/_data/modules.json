@@ -247,33 +247,6 @@
     ]
   },
   {
-    "id": "cartographer",
-    "name": "Cartographer",
-    "tagline": "In the workshop",
-    "description": "Battle map generation for virtual tabletops. Currently in development in the workshop.",
-    "accent": "#10B981",
-    "iconAccent": "#D4A853",
-    "icon": "/img/modules/cartographer.png",
-    "status": "roadmap",
-    "pillLabel": "In the workshop",
-    "tier": "free",
-    "install": null,
-    "links": {
-      "github": null,
-      "foundryPackage": null,
-      "patreon": "https://www.patreon.com/c/Ionrift",
-      "landing": null
-    },
-    "try": null,
-    "trailer": null,
-    "preview": null,
-    "accessLabel": null,
-    "highlights": [],
-    "systems": [],
-    "detail": false,
-    "order": 70
-  },
-  {
     "id": "civics",
     "name": "Civic Architect",
     "tagline": "In the workshop",
