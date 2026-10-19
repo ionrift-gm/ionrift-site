@@ -95,15 +95,14 @@
     show(true);
   });
 
-  // A stored "denied" also tidies up any cookies left from an earlier visit.
+  // No saved choice yet. Global Privacy Control counts as a no.
+  // Cookie settings can still turn analytics on later, and that choice sticks.
+  if (window.ionriftConsent === "unset" && navigator.globalPrivacyControl === true) {
+    save("denied");
+  }
+
+  // A "denied" choice also clears cookies left from an earlier visit.
   if (window.ionriftConsent === "denied") clearGaCookies();
 
-  if (window.ionriftConsent === "unset") {
-    if (navigator.globalPrivacyControl === true) {
-      // Respect Global Privacy Control as a "no". Visitors can still opt in from Cookie settings.
-      save("denied");
-    } else {
-      show(false);
-    }
-  }
+  if (window.ionriftConsent === "unset") show(false);
 })();
