@@ -25,14 +25,13 @@
   {
     "id": "frost-stone",
     "catalogKeys": [
-      "respite-frost-stone-overlay",
-      "quartermaster-frost-stone-overlay"
+      "respite-frost-stone-overlay"
     ],
     "category": "terrain",
     "image": "/img/packs/frost-stone.webp",
     "featured": false,
     "name": "Frost & Stone",
-    "description": "Mountain and arctic terrains, camp events, and disasters for Respite, plus matching cache containers for Quartermaster.",
+    "description": "Mountain and arctic terrains, camp events, and disasters for Respite.",
     "order": 60
   },
   {
