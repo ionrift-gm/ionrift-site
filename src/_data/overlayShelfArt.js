@@ -33,6 +33,10 @@ const FALLBACKS = {
     image: "/img/packs/thumbs/qm-core.jpg",
     name: "Core pack art",
   },
+  "quartermaster-frost-stone-overlay": {
+    image: "/img/packs/thumbs/frost-stone.jpg",
+    name: "Frost & Stone",
+  },
 };
 
 export default function () {
