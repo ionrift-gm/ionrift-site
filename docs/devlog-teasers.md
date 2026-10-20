@@ -35,10 +35,9 @@ Every other Thursday, 4pm UK, alongside the Patreon post.
    posts on http://localhost:8080; never deploy this build). Read the teaser
    once more against the rules below.
 4. **Open a PR and merge it on or after the post time (Thursday 4pm).** A post
-   dated in the future stays out of the build, and the site only rebuilds on a
-   push to main. Merged early, the teaser waits for the next push after 4pm
-   (or a re-run of the latest "Deploy site to GitHub Pages" run). An optional
-   Thursday rebuild is described at the end of this file.
+   dated in the future stays out of the build. The site also rebuilds on its
+   own at about 16:05 UK each Thursday, so a teaser already on main goes live
+   then without another push.
 5. **After 4pm**, check the post is on https://ionrift.cloud/blog/ and that the
    link opens the Patreon post.
 
@@ -81,19 +80,19 @@ The site has no search index or tag pages, so there's nothing else to cover.
 
 ## The Patreon-to-site sync
 
-The sync tool isn't in this repo. It commits `src/posts/<date>-<slug>.md` files
-with `patreonId`, `patreonContentHash` and `tier`, and reads
-`/blog/manifest.json` to see what's already on the site. The safeguard stops a
-full copy from being **published**, but if the sync commits one, the text is
-still public in this repo's history. So the sync itself should change:
+The copy step is the operations dashboard, not this repo. It commits
+`src/posts/<date>-<slug>.md` files with `patreonId`, `patreonContentHash` and
+`tier`, and reads `/blog/manifest.json` to see what's already on the site.
+The safeguard stops a full copy from being **published**, but a committed full
+copy would still be public in this repo. The dashboard therefore:
 
-1. Skip any Patreon post that isn't public (anything other than "Everyone"),
-   or any post tagged `Dev Log` dated on or after 20 Oct 2026. Don't commit
-   its text at all.
-2. Don't overwrite a post whose manifest entry has `"teaser": true`, even if
-   the Patreon content hash changes.
-3. Optional: add `patreonId` to a teaser's front matter by hand, so the sync
-   matches it in the manifest and treats that Patreon post as handled.
+1. Skips any Patreon post that isn't public (anything other than "Everyone"),
+   and any post whose title says `Dev Log` dated on or after 20 Oct 2026.
+   It does not commit that text at all.
+2. Does not overwrite a post whose manifest entry has `"teaser": true`, or
+   whose file already has `teaser: true`.
+3. Can still take a `patreonId` added by hand on a teaser, so that Patreon
+   post counts as handled and is not offered for a full copy.
 
 If a full copy ever lands in the repo, delete the file in a new commit and
 ask whether the history needs rewriting.
@@ -104,21 +103,9 @@ Revert the commit that added this file. Older posts render as before either
 way; with the revert, gated posts would publish whatever body they contain,
 so remove or rewrite any teaser posts first.
 
-## Optional: Thursday rebuild
+## Thursday rebuild
 
-With this in `.github/workflows/pages.yml`, a teaser merged early goes live on
-its own at about 16:05 UK on Thursday. It needs a push with the `workflow`
-permission, so it isn't in this change yet.
-
-```yaml
-on:
-  # …existing triggers…
-  schedule:
-    - cron: "5 15,16 * * 4" # 16:05 UK in both BST and GMT
-```
-
-and in the `deploy` job:
-
-```yaml
-    if: success() && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule')
-```
+`.github/workflows/pages.yml` rebuilds `main` at 15:05 and 16:05 UTC every
+Thursday. That is 16:05 UK in both BST and GMT. A teaser dated 16:00 that is
+already on `main` goes out on that run. The Patreon link still has to be filled
+in first: a `[Fill in` placeholder keeps the post out of the build.
