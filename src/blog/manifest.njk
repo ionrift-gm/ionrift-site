@@ -17,7 +17,8 @@
       "patreonContentHash": {{ (post.data.patreonContentHash if post.data.patreonContentHash else null) | jsonEncode | safe }},
       "patreonUrl": {{ (post.data.patreonUrl if post.data.patreonUrl else null) | jsonEncode | safe }},
       "ogImage": {{ (post.data.ogImage if post.data.ogImage else null) | jsonEncode | safe }},
-      "coverVideo": {{ (post.data.coverVideo if post.data.coverVideo else null) | jsonEncode | safe }}
+      "coverVideo": {{ (post.data.coverVideo if post.data.coverVideo else null) | jsonEncode | safe }},
+      "teaser": {{ (true if post.data.isTeaser else false) | jsonEncode | safe }}
     }{% if not loop.last %},{% endif %}
     {%- endfor %}
   ],
