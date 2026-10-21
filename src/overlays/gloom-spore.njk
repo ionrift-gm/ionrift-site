@@ -6,7 +6,7 @@ canonical: https://ionrift.cloud/overlays/gloom-spore/
 ogTitle: "Gloom & Spore for Respite"
 ogDescription: "[Fill in: social description]"
 twitterDescription: "[Fill in: social description]"
-ogImage: https://ionrift.cloud/img/packs/gloom-spore-hero.jpg
+ogImage: https://ionrift.cloud/img/packs/gloom-spore-og.jpg
 bodyClass: page-overlays page-pack-detail
 ---
 {#- DRAFT. Hidden by src/overlays/gloom-spore.11tydata.js until PAGE_LIVE in src/_data/gloomSpore.js. -#}
@@ -25,23 +25,22 @@ bodyClass: page-overlays page-pack-detail
             <span>{{ pack.name }}</span>
         </nav>
 
-        <header class="pack-detail-header" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
-            <div class="section-label">Respite events pack</div>
-            <h1 class="overlays-hero-title">{{ pack.name }}</h1>
-            <p class="overlays-hero-lead">[Fill in: one-line description]</p>
-            <div class="pack-modules">
-                <span class="pack-tier pack-tier--{{ pack.tierBadge }}">{{ pack.tierLabel }}+</span>
+        <header class="overlays-hero pack-detail-hero" style="--overlays-hero-img: url('{{ info.hero }}'); --module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
+            <div class="overlays-hero-shade"></div>
+            <div class="overlays-hero-inner">
+                <div class="section-label">Respite events pack</div>
+                <h1 class="overlays-hero-title">{{ pack.name }}</h1>
+                <p class="overlays-hero-lead">[Fill in: one-line description]</p>
+                <div class="pack-modules">
+                    <span class="pack-tier pack-tier--{{ pack.tierBadge }}">{{ pack.tierLabel }}+</span>
 {% for mod in pack.modules %}
-                <span class="pack-module-tag">{{ mod }}</span>
+                    <span class="pack-module-tag">{{ mod }}</span>
 {% endfor %}
-                <span class="shelf-tile-badge shelf-tile-badge--generative pack-ai-badge">Includes AI {{ pack.ai }}</span>
+                    <span class="shelf-tile-badge shelf-tile-badge--generative pack-ai-badge">Includes AI {{ pack.ai }}</span>
+                </div>
             </div>
         </header>
-
-        <figure class="pack-detail-cover">
-            <img src="{{ info.hero }}" alt="Gloom &amp; Spore pack cover" width="1400" height="788" decoding="async">
-            <figcaption class="pack-detail-caption">Cover art: AI-generated.</figcaption>
-        </figure>
+        <p class="pack-detail-caption">Cover art: AI-generated.</p>
 
         <section class="pack-detail-section" aria-labelledby="gs-contents">
             <h2 id="gs-contents" class="pack-detail-h2">What is in the pack</h2>

@@ -62,8 +62,10 @@ export default {
     eventCount: 8,
     disaster: "The Spore Tide",
     terrain: "The Deep",
-    hero: "/img/packs/gloom-spore-hero.webp",
-    ogImage: "/img/packs/gloom-spore-hero.jpg",
+    /** Hero background: crop of cover/background (AI-generated). */
+    hero: "/img/packs/gloom-spore-bg.webp",
+    /** Social preview: the 16:9 cover (AI-generated). */
+    ogImage: "/img/packs/gloom-spore-og.jpg",
   },
   /** Overlay Shelf entries, merged into overlayShelfArt only when SHELF_LIVE (or preview). */
   shelf: shelfOn
@@ -79,8 +81,8 @@ export default {
   /** Cover image files in src/img that stay out of the build until assetsOn. */
   assetFiles: [
     "packs/gloom-spore.webp",
-    "packs/gloom-spore-hero.webp",
-    "packs/gloom-spore-hero.jpg",
+    "packs/gloom-spore-bg.webp",
+    "packs/gloom-spore-og.jpg",
     "packs/thumbs/gloom-spore.jpg",
   ],
 };
