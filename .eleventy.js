@@ -1,6 +1,7 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { webp } from "./lib/webp.js";
 import { existsSync, readFileSync } from "fs";
+import gloomSpore from "./src/_data/gloomSpore.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -42,7 +43,11 @@ export default function (eleventyConfig) {
   eleventyConfig.addGlobalData("packShowcase", buildPackShowcase);
 
   eleventyConfig.addPassthroughCopy("src/css");
-  eleventyConfig.addPassthroughCopy("src/img");
+  // Draft pack covers (see src/_data/gloomSpore.js) stay out of the build until switched on.
+  const heldImages = new Set(gloomSpore.assetsOn ? [] : gloomSpore.assetFiles);
+  eleventyConfig.addPassthroughCopy("src/img", {
+    filter: (file) => !heldImages.has(String(file).replace(/\\/g, "/")),
+  });
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/macros");
   eleventyConfig.addPassthroughCopy("src/data");

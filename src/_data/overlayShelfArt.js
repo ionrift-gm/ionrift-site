@@ -3,6 +3,7 @@
  * Shelf tiles are 72px; always prefer /img/packs/thumbs/* (144px @2x).
  */
 import packs from "./packs.json" with { type: "json" };
+import gloomSpore from "./gloomSpore.js";
 
 /** @param {string|null|undefined} image */
 function toShelfThumb(image) {
@@ -54,6 +55,9 @@ export default function () {
       };
     }
   }
+
+  // Draft Gloom & Spore tile: empty until SHELF_LIVE in gloomSpore.js.
+  Object.assign(map, gloomSpore.shelf);
 
   return map;
 }

@@ -1,0 +1,86 @@
+---
+layout: landing.njk
+title: "Gloom & Spore: Respite events pack | Ionrift Workshop"
+description: "[Fill in: search description]"
+canonical: https://ionrift.cloud/overlays/gloom-spore/
+ogTitle: "Gloom & Spore for Respite"
+ogDescription: "[Fill in: social description]"
+twitterDescription: "[Fill in: social description]"
+ogImage: https://ionrift.cloud/img/packs/gloom-spore-hero.jpg
+bodyClass: page-overlays page-pack-detail
+---
+{#- DRAFT. Hidden by src/overlays/gloom-spore.11tydata.js until PAGE_LIVE in src/_data/gloomSpore.js. -#}
+{%- set pack = gloomSpore.card -%}
+{%- set info = gloomSpore.page -%}
+
+{% include "landing/nav.njk" %}
+
+<main class="page-main page-overlays page-pack-detail">
+    <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="/overlays/">Overlays</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ pack.name }}</span>
+        </nav>
+
+        <header class="pack-detail-header" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
+            <div class="section-label">Respite events pack</div>
+            <h1 class="overlays-hero-title">{{ pack.name }}</h1>
+            <p class="overlays-hero-lead">[Fill in: one-line description]</p>
+            <div class="pack-modules">
+                <span class="pack-tier pack-tier--{{ pack.tierBadge }}">{{ pack.tierLabel }}+</span>
+{% for mod in pack.modules %}
+                <span class="pack-module-tag">{{ mod }}</span>
+{% endfor %}
+                <span class="shelf-tile-badge shelf-tile-badge--generative pack-ai-badge">Includes AI {{ pack.ai }}</span>
+            </div>
+        </header>
+
+        <figure class="pack-detail-cover">
+            <img src="{{ info.hero }}" alt="Gloom &amp; Spore pack cover" width="1400" height="788" decoding="async">
+            <figcaption class="pack-detail-caption">Cover art: AI-generated.</figcaption>
+        </figure>
+
+        <section class="pack-detail-section" aria-labelledby="gs-contents">
+            <h2 id="gs-contents" class="pack-detail-h2">What is in the pack</h2>
+            <ul class="pack-detail-facts">
+                <li>{{ info.eventCount }} events</li>
+                <li>1 disaster: {{ info.disaster }}</li>
+                <li>Terrain in Respite: {{ info.terrain }}</li>
+                <li>Access: {{ pack.tierLabel }} or higher on Patreon</li>
+            </ul>
+        </section>
+
+        <section class="pack-detail-section" aria-labelledby="gs-samples">
+            <h2 id="gs-samples" class="pack-detail-h2">Sample events</h2>
+            <div class="pack-grid">
+                <article class="pack-card">
+                    <div class="pack-card-body">
+                        <h3 class="pack-name">[Fill in: event 1]</h3>
+                        <p class="pack-desc">[Fill in: event 1]</p>
+                    </div>
+                </article>
+                <article class="pack-card">
+                    <div class="pack-card-body">
+                        <h3 class="pack-name">[Fill in: event 2]</h3>
+                        <p class="pack-desc">[Fill in: event 2]</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="pack-footer">
+            <p class="pack-footer-note">[Fill in: availability line]</p>
+            <a href="/overlay-shelf/" class="btn btn-primary">Open Overlay Shelf</a>
+            <a href="{{ site.patreonPackCollectionUrl }}" target="_blank" rel="noopener" class="btn btn-secondary">Browse Patreon</a>
+        </div>
+
+        <p class="page-back">
+            <a href="/overlays/">&larr; Overlay catalogue</a>
+        </p>
+    </div>
+</main>
+
+{% include "landing/footer.njk" %}
