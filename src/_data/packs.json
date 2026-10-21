@@ -125,9 +125,9 @@
       "quartermaster-bone-dust-overlay"
     ],
     "name": "Dust & Bone",
-    "tier": "Initiate",
-    "tierLabel": "Initiate",
-    "tierBadge": "initiate",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "tierBadge": "subscriber",
     "modules": [
       "Respite",
       "Quartermaster"

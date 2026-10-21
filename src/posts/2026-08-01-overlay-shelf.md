@@ -21,6 +21,8 @@ Overlays still download in the browser and unzip into ionrift-data. There is now
 
 Open Core packs download without login. Connect Patreon on the page to see what your membership unlocks. Member packs include Wanderer's, Frost & Stone, Cooking, and optional generative companions. Initiate packs (Dust & Bone / Bone & Dust) need Initiate. Anything not available for your tier is under Other overlays.
 
+*Update (Oct 2026): Dust & Bone is now free for logged-in members.*
+
 Download a single pack, or select several and use Download selected (each zip starts in turn). Generative packs default off until you opt in.
 
 There is also an optional Foundry script macro on that page to check what you already have on disk (latest / outdated / missing).
