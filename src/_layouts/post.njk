@@ -10,9 +10,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} | Ionrift Workshop</title>
+    <title>{{ pageTitle or (title + " | Ionrift Workshop") }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="theme-color" content="#14141e">
+    {% if seoKeywords and seoKeywords.length %}<meta name="keywords" content="{{ seoKeywords | join(', ') }}">{% endif %}
 
     <link rel="icon" href="/img/favicon-48.png" type="image/png" sizes="48x48">
     <link rel="icon" href="/img/favicon-180.png" type="image/png" sizes="180x180">
@@ -26,6 +27,8 @@
     <meta property="og:locale" content="en_GB">
     {% if og %}<meta property="og:image" content="{{ og }}">{% endif %}
     <meta property="article:published_time" content="{{ page.date | dateToRfc3339 }}">
+    {% for kw in seoKeywords or [] %}<meta property="article:tag" content="{{ kw }}">
+    {% endfor %}
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ title }}">
@@ -45,6 +48,8 @@
       "datePublished": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
       "dateModified": {{ page.date | dateToRfc3339 | jsonEncode | safe }},
       "url": {{ canonical | jsonEncode | safe }},
+      {% if seoKeywords and seoKeywords.length %}"keywords": {{ seoKeywords | join(', ') | jsonEncode | safe }},{% endif %}
+      {% if moduleRefs and moduleRefs.length %}"about": [{% for m in moduleRefs %}{"@type": "SoftwareApplication", "name": {{ m.name | jsonEncode | safe }}, "applicationCategory": "GameApplication", "operatingSystem": "Foundry VTT"{% if m.url %}, "url": {{ (site.url + m.url) | jsonEncode | safe }}{% endif %}}{% if not loop.last %}, {% endif %}{% endfor %}],{% endif %}
       {% if og %}"image": {{ og | jsonEncode | safe }},{% endif %}
       "author": {
         "@type": "Person",
@@ -84,6 +89,11 @@
             <header>
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
+                {% if moduleRefs and moduleRefs.length %}
+                <ul class="blog-modules" aria-label="Modules in this post">
+                    {% for m in moduleRefs %}<li>{% if m.url %}<a href="{{ m.url }}">{{ m.name }}</a>{% else %}{{ m.name }}{% endif %}</li>{% endfor %}
+                </ul>
+                {% endif %}
             </header>
             {# Site-only note for posts whose install steps are out of date. The post body stays as published on Patreon. #}
             {% if installNote %}
@@ -112,9 +122,16 @@
                 {{ content | safe }}
             </div>
             {% set resolvedPatreonUrl = patreonUrl if (patreonUrl and patreonUrl.startsWith('http')) else ('https://www.patreon.com' + patreonUrl) %}
+            {% if isTeaser %}
+            {# Members-only dev log: the site shows the teaser above, never the full text. #}
+            <div class="patreon-callout patreon-callout--teaser">
+                <a href="{{ resolvedPatreonUrl }}" target="_blank" rel="noopener">{{ patreonLinkText | default("Read the full dev log with a free Patreon membership") }}</a>
+            </div>
+            {% else %}
             <div class="patreon-callout">
                 Originally posted on Patreon: <a href="{{ resolvedPatreonUrl }}" target="_blank" rel="noopener">{{ patreonLabel | default("Ionrift on Patreon") }}</a>
             </div>
+            {% endif %}
         </article>
         {% include "landing/footer.njk" %}
     </div>
