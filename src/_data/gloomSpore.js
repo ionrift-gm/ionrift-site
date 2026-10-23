@@ -1,7 +1,8 @@
 /**
  * Gloom & Spore: Respite events pack. DRAFT, NOT LIVE.
  *
- * "The Deep" is only the in-game terrain name. Product surfaces say "Gloom & Spore".
+ * The terrain and the pack are both "Gloom & Spore". Older internal names stay
+ * out of all player-facing text; the overlay id below is internal only.
  *
  * Switches (each is one line):
  *   PAGE_LIVE  -> /overlays/gloom-spore/ landing page, its card on /overlays/,
@@ -36,7 +37,7 @@ const card = {
   accent: "#E4CFAA",
   iconAccent: "#E4CFAA",
   // DRAFT copy for the owner: factual only.
-  description: "8 events and the disaster The Spore Tide for the Respite terrain The Deep.",
+  description: "8 events and the disaster The Spore Tide for the Respite terrain Gloom & Spore.",
   category: "events",
   ai: "art",
   image: "/img/packs/gloom-spore.webp",
@@ -61,7 +62,7 @@ export default {
     url: "/overlays/gloom-spore/",
     eventCount: 8,
     disaster: "The Spore Tide",
-    terrain: "The Deep",
+    terrain: "Gloom & Spore",
     /** Hero background: crop of cover/background (AI-generated). */
     hero: "/img/packs/gloom-spore-bg.webp",
     /** Social preview: the 16:9 cover (AI-generated). */
