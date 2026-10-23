@@ -62,7 +62,7 @@
     ],
     "accent": "#E4CFAA",
     "iconAccent": "#E4CFAA",
-    "description": "Terrain banners, station tokens, camp phase images, and cooking, forage and brewing icons for Respite, including Frost & Stone and Dust & Bone terrains",
+    "description": "Terrain banners, station tokens, camp phase images, and cooking, forage and brewing icons for Respite, including Frost & Stone and Bone & Dust terrains",
     "category": "terrain",
     "ai": "art",
     "image": "/img/packs/respite-core-art.webp",
@@ -124,10 +124,10 @@
       "respite-bone-dust-overlay",
       "quartermaster-bone-dust-overlay"
     ],
-    "name": "Dust & Bone",
-    "tier": "Initiate",
-    "tierLabel": "Initiate",
-    "tierBadge": "initiate",
+    "name": "Bone & Dust",
+    "tier": "Free",
+    "tierLabel": "Subscriber",
+    "tierBadge": "subscriber",
     "modules": [
       "Respite",
       "Quartermaster"

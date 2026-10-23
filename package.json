@@ -8,7 +8,9 @@
     "start": "eleventy --serve",
     "sync:packs": "node scripts/sync-featured-packs.mjs",
     "thumbs:packs": "node scripts/generate-pack-thumbs.mjs",
-    "thumbs:blog": "node scripts/generate-blog-list-thumbs.mjs"
+    "thumbs:blog": "node scripts/generate-blog-list-thumbs.mjs",
+    "devlog:new": "node scripts/new-devlog.mjs",
+    "devlog:preview": "node scripts/devlog-preview.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",

@@ -1,5 +1,12 @@
 import rssPlugin from "@11ty/eleventy-plugin-rss";
 import { webp } from "./lib/webp.js";
+import {
+  FILL_IN,
+  TEASER_MAX_CHARS,
+  isGatedDevlog,
+  isScheduled,
+  teaserTextLength,
+} from "./lib/devlog.js";
 import { existsSync, readFileSync } from "fs";
 import gloomSpore from "./src/_data/gloomSpore.js";
 import path from "path";
@@ -54,6 +61,63 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
+
+  /**
+   * Dev log teaser safeguard (see docs/devlog-teasers.md).
+   * - Future-dated posts are left out until their time. DEVLOG_PREVIEW=1 builds them.
+   * - Dev logs dated on/after 20 Oct 2026 (or not tier Public) only publish when
+   *   marked `teaser: true`. Anything else, e.g. a full copy dropped in by the
+   *   Patreon sync, is left out of the whole build: page, lists, feed, sitemap.
+   * - A teaser still holding a "[Fill in" placeholder is left out too, with a warning.
+   * - A teaser body over TEASER_MAX_CHARS fails the build: it's probably pasted full text.
+   */
+  const preview = process.env.DEVLOG_PREVIEW === "1";
+  eleventyConfig.addPreprocessor("devlog-teasers", "md", (data, content) => {
+    if (!data.page?.inputPath?.includes("/posts/")) return;
+    const file = data.page.inputPath;
+    if (isScheduled(data) && !preview) {
+      console.log(`[devlog] ${file}: dated in the future, left out of this build.`);
+      return false;
+    }
+    if (!isGatedDevlog(data)) return;
+    if (data.teaser !== true) {
+      console.warn(
+        `[devlog] ${file}: members-only dev log without "teaser: true", left out of the build. ` +
+          "Replace the body with a short teaser (docs/devlog-teasers.md).",
+      );
+      return false;
+    }
+    const length = teaserTextLength(content);
+    if (length > TEASER_MAX_CHARS) {
+      throw new Error(
+        `[devlog] ${file}: teaser is ${length} characters (limit ${TEASER_MAX_CHARS}). ` +
+          "Is this the full members-only text? Keep it to 2–4 sentences.",
+      );
+    }
+    if (!data.description || !data.patreonUrl) {
+      throw new Error(`[devlog] ${file}: a teaser needs "description" and "patreonUrl".`);
+    }
+    const unfilled = [
+      content,
+      data.title,
+      data.description,
+      data.patreonUrl,
+      data.seoTitle,
+      ...(Array.isArray(data.moduleIds) ? data.moduleIds : []),
+      ...(Array.isArray(data.keywords) ? data.keywords : []),
+    ].some((v) => typeof v === "string" && v.includes(FILL_IN));
+    if (unfilled) {
+      if (preview) {
+        console.warn(`[devlog] ${file}: still has a "${FILL_IN}: …]" placeholder (shown in preview).`);
+        return;
+      }
+      // Kept out rather than failing, so other site changes still deploy.
+      console.warn(
+        `[devlog] ${file}: still has a "${FILL_IN}: …]" placeholder, left out of the build until it's filled in.`,
+      );
+      return false;
+    }
+  });
 
   eleventyConfig.addCollection("posts", (collectionApi) =>
     collectionApi

@@ -14,6 +14,8 @@ ogImage: "/img/blog/2026/resonance-core-sfx-now-a-standalone-sound-pack/cover.pn
 installNote: 'Install steps have changed since this post. The sound pack is on the <a href="/overlay-shelf/">Overlay Shelf</a>, where it is labelled as generative audio.'
 ---
 
+*Update, October 2026: Resonance no longer ships or downloads sounds. Resonance Core is a separate, website-only pack on the Overlay Shelf, and its audio is AI-generated.*
+
 Resonance's sounds have been carved out into their own pack.
 
 Up until now all the combat SFX shipped inside the module itself. That was simple and it worked - but the sounds are going to grow. Every new pack adds weight, and Forge is already taking half an hour just to pull an update. It wasn't going to scale.

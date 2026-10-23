@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 16:05 UK on Thursday, in both BST (15:05 UTC) and GMT (16:05 UTC).
+    - cron: "5 15,16 * * 4"
 
 permissions:
   contents: read
@@ -33,7 +36,7 @@ jobs:
           path: _site
 
   deploy:
-    if: success() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: success() && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule')
     needs: build
     runs-on: ubuntu-latest
     environment:

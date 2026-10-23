@@ -13,13 +13,15 @@ patreonLabel: "Ionrift on Patreon"
 ogImage: "/img/blog/2026/dev-log-building-a-starter-sound-pack-for-resonance/cover.png"
 ---
 
+*Update, October 2026: the sounds now live in Resonance Core, a separate pack on the Overlay Shelf, and the audio is AI-generated.*
+
 The most common feedback I get about Resonance: _it works well, but I have to find all the sounds myself._
 
 Fair enough. That changes with the next update.
 
 ### **What's Coming**
 
-Resonance 2.1 will ship with **nearly 300 built-in sounds** — no Syrinscape, no setup.
+Resonance 2.1 will ship with **nearly 300 built-in sounds**: no Syrinscape, no setup.
 
 Every combat sound key in Resonance will have default audio out of the box:
 
@@ -31,16 +33,16 @@ Every sound key has multiple variants. Resonance picks randomly so combat doesn'
 
 Death screams are my favourite example of what's under the hood. Each one is a three-layer composite:
 
-1.  **Vocal scream** — the raw performance
+1.  **Vocal scream**: the raw performance
     
-2.  **Horror chord** — a dissonant musical stab
+2.  **Horror chord**: a dissonant musical stab
     
-3.  **Bell toll** — the finality
+3.  **Bell toll**: the finality
     
 
 They play as a single sound, but the layering gives them weight.
 
-Critical hits work similarly — the base impact stacks with a crowd cheer and sparkle effects.
+Critical hits work similarly: the base impact stacks with a crowd cheer and sparkle effects.
 
 ### **The Architecture**
 
@@ -53,13 +55,13 @@ Resonance uses a **proposal → conclusion** model for weapon sounds:
 -   **Stinger** (CORE\_CRIT): overlays on a natural 20.
     
 
-GM and players hear the swing as they see the outcome — no spoilers on the roll.
+GM and players hear the swing as they see the outcome, no spoilers on the roll.
 
 ### **What's Still Ahead**
 
 A handful of weapon conclusion sounds are still in progress, plus Daggerheart mechanics (Hope, Fear, Stress tokens) and ambient SFX. These will round out the pack before it ships.
 
-The update will also re-tune the setup wizard so local sounds are the obvious default path — not a secondary option behind Syrinscape.
+The update will also re-tune the setup wizard so local sounds are the obvious default path, not a secondary option behind Syrinscape.
 
 ### **No Configuration Required**
 
@@ -67,4 +69,4 @@ You install the module, it detects your system, and combat sounds are wired up a
 
 Samples coming in the next update so you can hear the pack before it ships.
 
-— Ionrift
+\- Ionrift
