@@ -10,6 +10,7 @@ import {
   tierAtLeast,
   onSessionChange,
 } from "./sigil-auth.js";
+import { track } from "./track.js";
 
 const PATREON_HOME = "https://www.patreon.com/c/Ionrift";
 
@@ -107,7 +108,7 @@ function renderRow(row, session) {
     } else if (row.github) {
       // No manifest in catalogue; fall back to repo only in actions.
       actions.push(
-        `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.github)}" target="_blank" rel="noopener">GitHub</a>`
+        `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.github)}" target="_blank" rel="noopener" data-install-github>GitHub</a>`
       );
     }
   } else if (row.method === "patreon-manifest") {
@@ -233,12 +234,21 @@ function wireUi() {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
+    const moduleId = (el) => el.closest("[data-module-id]")?.getAttribute("data-module-id") || undefined;
+
+    const githubBtn = target.closest("a[data-install-github]");
+    if (githubBtn) {
+      track("module_install", { module_id: moduleId(githubBtn), method: "github" });
+      return;
+    }
+
     const copyBtn = target.closest("[data-copy-manifest]");
     if (copyBtn instanceof HTMLButtonElement) {
       const url = copyBtn.getAttribute("data-copy-manifest");
       if (!url) return;
       try {
         await copyText(url);
+        track("module_install", { module_id: moduleId(copyBtn), method: "copy_manifest" });
         setPageNote("Copied public manifest URL. Paste into Foundry Add-on Modules.");
       } catch (err) {
         setPageNote(String(err?.message || err), { error: true });
@@ -248,15 +258,16 @@ function wireUi() {
 
     const mintBtn = target.closest("[data-mint-module]");
     if (!(mintBtn instanceof HTMLButtonElement)) return;
-    const moduleId = mintBtn.getAttribute("data-mint-module");
-    if (!moduleId) return;
+    const packageId = mintBtn.getAttribute("data-mint-module");
+    if (!packageId) return;
     mintBtn.disabled = true;
     const prev = mintBtn.textContent;
     mintBtn.textContent = "Minting...";
     try {
-      const data = await mintFoundryInstallToken(moduleId);
+      const data = await mintFoundryInstallToken(packageId);
       if (!data?.manifestUrl) throw new Error("missing-manifest-url");
       await copyText(data.manifestUrl);
+      track("module_install", { module_id: moduleId(mintBtn), method: "install_link" });
       mintBtn.textContent = "Copied";
       setPageNote(
         data.rotated
