@@ -19,6 +19,7 @@ import {
   downloadOverlayBundle,
   onSessionChange,
 } from "./overlay-shelf-auth.js";
+import { track } from "./track.js";
 
 const API_BASE = "https://api.ionrift.cloud";
 const PUBLIC_LATEST = (id) => `${API_BASE}/packs/public/${id}/latest`;
@@ -230,7 +231,7 @@ function renderOverlayTile(row) {
 
   let action = "";
   if (row.downloadMode === "public" || (row.publicDownload && row.canDownload !== false)) {
-    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener">Download</a>`;
+    action = `<a class="btn btn-secondary btn-sm" href="${escapeHtml(PUBLIC_LATEST(row.id))}" rel="noopener" data-public-download data-pack-id="${escapeHtml(row.id)}">Download</a>`;
   } else if (row.downloadMode === "entitled" || (row.canDownload && !row.publicDownload)) {
     action = `<button type="button" class="btn btn-secondary btn-sm" data-entitled-download="${escapeHtml(row.id)}">Download</button>`;
   }
@@ -431,6 +432,18 @@ function syncSelectTree() {
   child.checked = genState === "all";
 }
 
+/** One overlay_download event. module_id is normalised to the site id by track(). */
+function trackOverlayDownload(row, { access, method, packId, packCount } = {}) {
+  const params = {
+    pack_id: packId || row?.id,
+    module_id: row?.moduleId,
+    access: access || (row && (row.publicDownload || row.downloadMode === "public") ? "public" : "entitled"),
+    method,
+  };
+  if (packCount) params.pack_count = packCount;
+  track("overlay_download", params);
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -468,6 +481,14 @@ async function downloadSelectedOverlays() {
         btn.textContent = "Downloading bundle...";
       }
       await downloadOverlayBundle(bundleHit);
+      const bundleModules = new Set(ids.map((id) => byId.get(id)?.moduleId).filter(Boolean));
+      // module_id only when every pack in the bundle belongs to one module.
+      trackOverlayDownload(bundleModules.size === 1 ? { moduleId: [...bundleModules][0] } : null, {
+        packId: bundleHit.id,
+        access: bundleHit.publicDownload || bundleHit.downloadMode === "public" ? "public" : "entitled",
+        method: "bundle",
+        packCount: ids.length,
+      });
       if (hint) {
         hint.textContent = `Started ${bundleHit.label}. Unzip at Foundry Data root (creates ionrift-data/overlays/...).`;
       }
@@ -501,6 +522,7 @@ async function downloadSelectedOverlays() {
       } else {
         await downloadEntitledPack(id);
       }
+      trackOverlayDownload(row, { method: "selected" });
       done += 1;
     } catch (err) {
       failed += 1;
@@ -674,6 +696,16 @@ function wireUi() {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
+    const publicLink = target.closest("a[data-public-download]");
+    if (publicLink instanceof HTMLAnchorElement) {
+      // The browser starts this download itself; record it as the click goes through.
+      const packId = publicLink.getAttribute("data-pack-id");
+      const row = (window.__ionriftStatus?.overlays || []).find((r) => r.id === packId);
+      const moduleId = row?.moduleId || publicLink.closest("[data-module-id]")?.getAttribute("data-module-id");
+      trackOverlayDownload({ id: packId, moduleId }, { access: "public", method: "single", packId });
+      return;
+    }
+
     const dl = target.closest("[data-entitled-download]");
     if (dl instanceof HTMLElement) {
       const packId = dl.getAttribute("data-entitled-download");
@@ -684,6 +716,9 @@ function wireUi() {
       }
       try {
         await downloadEntitledPack(packId);
+        const row = (window.__ionriftStatus?.overlays || []).find((r) => r.id === packId);
+        const moduleId = row?.moduleId || dl.closest("[data-module-id]")?.getAttribute("data-module-id");
+        trackOverlayDownload({ id: packId, moduleId }, { access: "entitled", method: "single", packId });
       } catch (err) {
         console.warn("Overlay Shelf: entitled download failed", err);
         if (String(err?.message) === "unauthorized" || String(err?.message) === "not-authenticated") {

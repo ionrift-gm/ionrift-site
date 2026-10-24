@@ -85,7 +85,7 @@
 
     <div class="wrapper">
         {% include "landing/nav.njk" %}
-        <article class="blog-main">
+        <article class="blog-main" data-track-location="post">
             <header>
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="blog-meta"><time datetime="{{ page.date | htmlDateString }}">{{ page.date | htmlDateString }}</time></p>
@@ -143,5 +143,6 @@
         }, { passive: true });
     </script>
     <script src="/js/consent.js" defer></script>
+    <script type="module" src="/js/track.js"></script>
 </body>
 </html>
