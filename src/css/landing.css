@@ -154,10 +154,9 @@
         }
 
         .nav-wordmark {
-            font-weight: 800;
-            font-size: 18px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
+            display: block;
+            height: 15px;
+            width: auto;
         }
 
         .nav-links {

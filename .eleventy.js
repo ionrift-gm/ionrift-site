@@ -55,6 +55,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/data");
   eleventyConfig.addPassthroughCopy("src/CNAME");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
+  eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico" });
 
 
   /**
