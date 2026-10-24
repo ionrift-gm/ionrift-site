@@ -201,9 +201,9 @@
   {
     "id": "waterline",
     "name": "Waterline",
-    "tagline": "Map FX & Walls",
-    "seoTitle": "Waterline: Map FX, Caustics and Procedural Walls for Foundry VTT | Ionrift Workshop",
-    "description": "Click water on a map to trace its shape, then render animated caustics with live-tunable speed, distortion, and opacity. Also generates procedural border walls so map edges feel organic.",
+    "tagline": "Water Effects",
+    "seoTitle": "Waterline: Flood Fill Water Regions and Animated Water for Foundry VTT | Ionrift Workshop",
+    "description": "Flood fill the water on a map to turn it into a water region, then pick how it moves: ocean, river or lake. Tokens standing or wading in it leave wakes and sloshes.",
     "accent": "#0EA5E9",
     "icon": "/img/modules/waterline.png",
     "status": "released",
@@ -216,8 +216,8 @@
     "detail": true,
     "order": 50,
     "detailBody": [
-      "Click water on a map to flood-fill its shape, then tune animated caustics: speed, distortion, opacity, all live on the canvas.",
-      "Procedural border walls trace map edges so outdoor scenes feel less rectangular without hand-drawing every segment."
+      "Click a water body and Waterline fills its shape. Shift adds a section, Ctrl removes one, and undo steps back as you go.",
+      "Each region gets a water shader that matches what the water is doing, from a coastline to a river or an underground lake. Needs Foundry v13 or later and Ionrift Library. With Resonance installed you can hook your own splash sounds to tokens moving through water."
     ]
   },
   {
