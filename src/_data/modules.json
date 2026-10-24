@@ -184,7 +184,7 @@
       "patreon": "https://www.patreon.com/c/Ionrift"
     },
     "try": null,
-    "trailer": null,
+    "trailer": "O-eGHNZGeWw",
     "preview": "/img/modules/previews/quiz-night-overview.png",
     "previewAlt": "Quiz Night question editor, prize pool, and player answering interface",
     "previewCaption": "Campaign trivia, custom rounds, and mystery prizes inside Foundry VTT.",
@@ -211,7 +211,7 @@
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-waterline/releases/latest/download/module.json", "label": "Foundry Module" },
     "links": { "github": "https://github.com/ionrift-gm/ionrift-waterline", "foundryPackage": "https://foundryvtt.com/packages/ionrift-waterline", "patreon": "https://www.patreon.com/c/Ionrift" },
     "try": null,
-    "trailer": "USmx-8CmQGk",
+    "trailer": "J8EyEEEUjeA",
     "systems": [],
     "detail": true,
     "order": 50,
