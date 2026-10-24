@@ -33,8 +33,8 @@ const blogCovers = readdirSync(postsDir)
 
 /** [path relative to src/img, max width, quality] */
 const targets = [
-  // Logo: 32px in the nav. Icons: 38-72px on cards and module pages.
-  ["ionrift_logo.png", 128, 85],
+  // Nav logo (ionrift_logo.webp) and favicons are generated from the brandmark master, not here.
+  // Icons: 38-72px on cards and module pages.
   ["fvtt-anvil.png", 192, 85],
   ...moduleIcons.map((rel) => [rel, 160, 85]),
   // Hero art: background up to ~960px wide on large screens.
