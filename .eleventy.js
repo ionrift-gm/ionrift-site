@@ -154,6 +154,16 @@ export default function (eleventyConfig) {
       dnd5e: "D&D 5e",
       pf2e: "Pathfinder 2e",
       daggerheart: "Daggerheart",
+      sfrpg: "Starfinder 1e",
+      sf2e: "Starfinder 2e",
+      pf1: "Pathfinder 1e",
+      D35E: "D&D 3.5e",
+      ose: "Old-School Essentials",
+      CoC7: "Call of Cthulhu 7e",
+      swade: "Savage Worlds",
+      wfrp4e: "Warhammer Fantasy 4e",
+      "cyberpunk-red-core": "Cyberpunk RED",
+      "blades-in-the-dark": "Blades in the Dark",
     };
     return labels[id] || id;
   });
