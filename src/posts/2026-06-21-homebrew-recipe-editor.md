@@ -1,6 +1,7 @@
 ---
 title: "Homebrew Recipe Editor"
-description: "Up till now, the cooking system in Respite has been fairly vestigial. Enough to prove the concept worked, make sure the crafting loop held together, but not really something you could make your own."
+seoTitle: "Respite Homebrew Recipe Editor for Foundry VTT | Ionrift"
+description: "Respite v3.3.1 adds a homebrew recipe editor for Foundry VTT. Write cooking recipes, ingredients, foraging results and DCs that merge with content packs."
 date: 2026-06-21
 layout: post.njk
 permalink: "/blog/homebrew-recipe-editor/"
