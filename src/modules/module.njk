@@ -156,7 +156,7 @@ eleventyComputed:
             <div class="module-detail-actions">
 {% if module.status == "retired" %}
 {% elif module.install and module.install.method == "foundry" and module.links.foundryPackage %}
-                <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener" class="btn btn-ghost module-detail-cta module-detail-cta--foundry">
+                <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener" class="btn btn-ghost module-detail-cta module-detail-cta--foundry" data-track-event="module_install" data-track-method="foundry_listing" data-track-access="public">
                     <img src="/img/fvtt-anvil.webp" alt="" class="fvtt-btn-icon" width="64" height="32">
                     Foundry Module
                 </a>
@@ -189,9 +189,9 @@ eleventyComputed:
             <p class="module-install-note">Subscribe on Patreon ({{ module.install.minTier or "Acolyte" }}+), then open the <a href="/module-shelf/">Modules</a> page, Connect Patreon, and copy the personal Foundry install link. Paste it into Foundry Add-on Modules. Not listed in the public Foundry browser.</p>
 {% elif module.install and module.links.github %}
 {% if module.install.method == "foundry" and module.links.foundryPackage %}
-            <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub</a>.</p>
+            <p class="module-install-note">Install from the <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener">Foundry package page</a>, or grab the manifest from <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener" data-track-event="module_install" data-track-method="github" data-track-access="public">GitHub</a>.</p>
 {% else %}
-            <p class="module-install-note">Grab the manifest from <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener">GitHub</a> and paste it into Foundry Add-on Modules.</p>
+            <p class="module-install-note">Grab the manifest from <a href="{{ module.links.github }}/releases/latest" target="_blank" rel="noopener" data-track-event="module_install" data-track-method="github" data-track-access="public">GitHub</a> and paste it into Foundry Add-on Modules.</p>
 {% endif %}
 {% endif %}
         </div>

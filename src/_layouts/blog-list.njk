@@ -51,7 +51,7 @@
 
     <div class="wrapper">
         {% include "landing/nav.njk" %}
-        <main class="blog-main">
+        <main class="blog-main" data-track-location="blog_list">
             <header>
                 <h1 class="blog-title">{{ title }}</h1>
                 <p class="rss-pill">RSS: <a href="/blog/feed.xml">feed.xml</a>{% if pagination.pages.length > 1 %} · Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}{% endif %}</p>

@@ -10,6 +10,23 @@
             ad_personalization: 'denied'
         });
         window.ionriftGaId = '{{ site.gaId }}';
+        // Internal traffic flag: ?internal=1 sets it, ?internal=0 clears it. The param is
+        // removed from the address before GA can read page_location. Other params (utm_*) stay.
+        (function () {
+            var flag = false;
+            try {
+                var url = new URL(location.href);
+                var v = url.searchParams.get('internal');
+                if (v === '1') localStorage.setItem('ionrift_internal', '1');
+                if (v === '0') localStorage.removeItem('ionrift_internal');
+                if (url.searchParams.has('internal')) {
+                    url.searchParams.delete('internal');
+                    history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+                }
+                flag = localStorage.getItem('ionrift_internal') === '1';
+            } catch (e) {}
+            window.ionriftInternal = flag;
+        })();
         (function () {
             var choice = null;
             try {
@@ -26,10 +43,10 @@
                 s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.ionriftGaId;
                 document.head.appendChild(s);
                 gtag('js', new Date());
-                gtag('config', window.ionriftGaId, {
+                gtag('config', window.ionriftGaId, Object.assign({
                     allow_google_signals: false,
                     allow_ad_personalization_signals: false
-                });
+                }, window.ionriftInternal ? { traffic_type: 'internal' } : {}));
             };
             if (window.ionriftConsent === 'granted') window.ionriftLoadGA();
         })();
