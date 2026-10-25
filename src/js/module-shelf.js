@@ -157,10 +157,22 @@ function renderList() {
     return;
   }
 
-  const premium = catalog.filter((row) => row.method === "patreon-manifest");
+  const isMembers = (row) => row.method === "patreon-manifest" && row.minTier === "Free";
+  const members = catalog.filter(isMembers);
+  const premium = catalog.filter((row) => row.method === "patreon-manifest" && !isMembers(row));
   const open = catalog.filter((row) => row.method === "foundry" || row.method === "github");
 
   const parts = [];
+  if (members.length) {
+    parts.push(`
+      <section class="module-shelf-group" aria-labelledby="module-shelf-members-heading">
+        <div class="module-shelf-group-head">
+          <h3 id="module-shelf-members-heading" class="module-shelf-group-title">Members</h3>
+          <p class="shelf-note">Free and paid Patreon members. Connect Patreon, then copy your personal install link.</p>
+        </div>
+        <div class="module-shelf-list">${members.map((row) => renderRow(row, session)).join("")}</div>
+      </section>`);
+  }
   if (premium.length) {
     parts.push(`
       <section class="module-shelf-group" aria-labelledby="module-shelf-premium-heading">
