@@ -157,6 +157,7 @@ export default function (eleventyConfig) {
       daggerheart: "Daggerheart",
       sfrpg: "Starfinder 1e",
       sf2e: "Starfinder 2e",
+      generic: "Other systems",
       pf1: "Pathfinder 1e",
       D35E: "D&D 3.5e",
       ose: "Old-School Essentials",
