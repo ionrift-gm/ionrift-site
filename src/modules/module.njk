@@ -39,6 +39,7 @@ eleventyComputed:
 {% set pillText = "Released" %}
 {% if module.status == "ea" %}{% set pillClass = "pill-ea" %}{% set pillText = "Early Access" %}{% endif %}
 {% if module.status == "ga" %}{% set pillText = "Released" %}{% endif %}
+{% if module.status == "retired" %}{% set pillClass = "pill-retired" %}{% set pillText = "Retired" %}{% endif %}
                     <span class="module-pill {{ pillClass }}">{{ pillText }}</span>
 {% if module.accessLabel %}
                     <span class="module-pill pill-premium">{{ module.accessLabel }}</span>
@@ -153,7 +154,8 @@ eleventyComputed:
 
             {# Link buttons: install route first, then GitHub, Wiki setup, and Patreon last (premium only). #}
             <div class="module-detail-actions">
-{% if module.install and module.install.method == "foundry" and module.links.foundryPackage %}
+{% if module.status == "retired" %}
+{% elif module.install and module.install.method == "foundry" and module.links.foundryPackage %}
                 <a href="{{ module.links.foundryPackage }}" target="_blank" rel="noopener" class="btn btn-ghost module-detail-cta module-detail-cta--foundry">
                     <img src="/img/fvtt-anvil.webp" alt="" class="fvtt-btn-icon" width="64" height="32">
                     Foundry Module
@@ -182,7 +184,8 @@ eleventyComputed:
 {% endif %}
             </div>
 
-{% if module.install and module.install.method == "patreon-manifest" %}
+{% if module.status == "retired" %}
+{% elif module.install and module.install.method == "patreon-manifest" %}
             <p class="module-install-note">Subscribe on Patreon ({{ module.install.minTier or "Acolyte" }}+), then open the <a href="/module-shelf/">Modules</a> page, Connect Patreon, and copy the personal Foundry install link. Paste it into Foundry Add-on Modules. Not listed in the public Foundry browser.</p>
 {% elif module.install and module.links.github %}
 {% if module.install.method == "foundry" and module.links.foundryPackage %}

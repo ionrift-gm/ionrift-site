@@ -21,8 +21,9 @@ function loadModules() {
 
 function buildCatalogue() {
   // shelfOnly modules (e.g. Companion) live on the Module Shelf only: no homepage card or detail page.
+  // Retired modules keep their detail page (old links) but drop out of the homepage lists.
   const sorted = [...loadModules()]
-    .filter((m) => !m.shelfOnly)
+    .filter((m) => !m.shelfOnly && m.status !== "retired")
     .sort((a, b) => (a.order || 0) - (b.order || 0));
   const shippable = sorted.filter((m) => m.status !== "roadmap");
   return {
