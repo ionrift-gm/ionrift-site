@@ -95,6 +95,20 @@ eleventyComputed:
             </div>
 {% endif %}
 
+{% if module.detailSections and module.detailSections.length %}
+{% for sec in module.detailSections %}
+            <div class="module-detail-copy module-detail-section">
+                <h2 class="module-detail-section-heading">{{ sec.heading }}</h2>
+                <ul class="module-detail-list">
+{% for it in sec.items %}
+{% set itMod = it.moduleId | moduleById %}
+                    <li>{% if itMod %}<a href="/modules/{{ itMod.id }}/">{{ itMod.name }}</a> - {% endif %}{{ it.text }}</li>
+{% endfor %}
+                </ul>
+            </div>
+{% endfor %}
+{% endif %}
+
 {% if module.highlights and module.highlights.length %}
             <div class="module-highlights">
 {% for h in module.highlights %}

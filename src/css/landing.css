@@ -1833,6 +1833,23 @@
             margin-bottom: 0;
         }
 
+        .module-detail-section-heading {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .module-detail-list {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.7;
+            padding-left: 20px;
+        }
+
+        .module-detail-list a {
+            color: var(--module-color, inherit);
+        }
+
         .module-detail-disclosure {
             margin-bottom: 24px;
             padding: 14px 16px;

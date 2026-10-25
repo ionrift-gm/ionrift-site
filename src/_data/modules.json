@@ -257,9 +257,9 @@
   {
     "id": "library",
     "name": "Ionrift Library",
-    "tagline": "Core dependency",
-    "seoTitle": "Ionrift Library: System Adapters, Roll Requests and Creature Index for Foundry VTT | Ionrift Workshop",
-    "description": "Ionrift Library provides common data contracts, multi-system adapters, tabletop roll requests, and creature taxonomy for all Ionrift modules.",
+    "tagline": "Shared code and features",
+    "seoTitle": "Ionrift Library: Shared Code, Entity Manifest and Party Roster for Foundry VTT | Ionrift Workshop",
+    "description": "The Library is a central place to keep all the shared code and features used across the Ionrift ecosystem.",
     "accent": "#8B5CF6",
     "icon": "/img/ionrift_logo.webp",
     "status": "released",
@@ -270,17 +270,34 @@
     "try": null,
     "trailer": null,
     "preview": "/img/modules/previews/library-manifest-inspector.png",
-    "previewAlt": "Entity Manifest Inspector showing creature classification and taxonomy confidence",
+    "previewAlt": "Entity Manifest showing creature types matched across systems",
     "accessLabel": null,
-    "highlights": ["System adapters", "Roll requests", "Creature index"],
-    "systems": ["dnd5e", "pf2e", "sf2e", "daggerheart", "generic"],
+    "highlights": [],
+    "systems": [],
     "detail": true,
     "order": 65,
     "suppressShelfLinks": true,
     "detailBody": [
-      "Multi-system adapters keep sheet data, rests and roll calculations consistent across modules on D&D 5e, Pathfinder 2e, Starfinder 2e and Daggerheart, with a generic fallback for other systems. Tabletop roll requests send interactive prompt cards for ability checks, saving throws and skill challenges, with live DC pulse cues, advantage selectors and dice settle animations.",
-      "The creature index sorts actor data into concept identifiers such as undead, construct or beast, each with a confidence rating. It powers audio triggers in Resonance and recipe unlocks in Monstrous Feast. Alongside it sit shared terrain and species registries, a cooking engine used by Respite and Monstrous Feast, a party roster service, and an in-game bug reporter that bundles console captures, active versions and module states into a support report without exposing sensitive data.",
-      "Install Ionrift Library from the Foundry VTT package manager and enable it in your world. Its tools live under Game Settings > Module Settings > Ionrift Library: Party Roster, Entity Manifest, Token Manifest and Custom Terrains. Free for Foundry v12 to v14."
+      "The library mostly contains all the shared concerns for the Ionrift modules but it also has some features which can be tuned e.g. the 'Entity manifest' which is a database of creature types allowing modules to query creature attributes in a system agnostic way so a skeleton in one system maps the same as a skeleton in another system for example.",
+      "The library is also used to manage the party roster in a central and abstracted means for the modules and we can also introduce custom 'terrains' for modules which need those concepts shared."
+    ],
+    "detailSections": [
+      { "heading": "What it does in a nutshell:", "items": [
+        { "text": "Centralises and abstracts concerns needed to manage Ionrift modules" },
+        { "text": "Abstracts creature entities and attributes" },
+        { "text": "Abstracts party management" },
+        { "text": "Abstracts Ionrift specific concepts across modules" }
+      ] },
+      { "heading": "Things that what it needs:", "items": [
+        { "text": "Foundry 12+" }
+      ] },
+      { "heading": "Things what use the Library", "items": [
+        { "text": "Self serve rest activities", "moduleId": "respite" },
+        { "text": "Automated combat and reactive sounds", "moduleId": "resonance" },
+        { "text": "Heuristically generated loot pools", "moduleId": "quartermaster" },
+        { "text": "Water body estimation and animation", "moduleId": "waterline" },
+        { "text": "Pub Quiz trivia night in Foundry!", "moduleId": "quiz-night" }
+      ] }
     ]
   },
   {
