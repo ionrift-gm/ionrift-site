@@ -24,8 +24,7 @@ eleventyComputed:
         <nav class="page-breadcrumb" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span aria-hidden="true">/</span>
-            {# Breadcrumb "Modules" matches the nav: it goes to the Modules page. Pages that hide shelf links (Library) keep the homepage section. #}
-            <a href="{{ '/#modules' if hideShelfLinks else '/module-shelf/' }}">Modules</a>
+            <a href="/#modules">Modules</a>
             <span aria-hidden="true">/</span>
             <span>{{ module.name }}</span>
         </nav>
