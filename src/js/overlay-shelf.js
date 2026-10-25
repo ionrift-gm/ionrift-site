@@ -433,14 +433,13 @@ function syncSelectTree() {
 }
 
 /** One overlay_download event. module_id is normalised to the site id by track(). */
-function trackOverlayDownload(row, { access, method, packId, packCount } = {}) {
+function trackOverlayDownload(row, { access, method, packId } = {}) {
   const params = {
     pack_id: packId || row?.id,
     module_id: row?.moduleId,
     access: access || (row && (row.publicDownload || row.downloadMode === "public") ? "public" : "entitled"),
     method,
   };
-  if (packCount) params.pack_count = packCount;
   track("overlay_download", params);
 }
 
@@ -487,7 +486,6 @@ async function downloadSelectedOverlays() {
         packId: bundleHit.id,
         access: bundleHit.publicDownload || bundleHit.downloadMode === "public" ? "public" : "entitled",
         method: "bundle",
-        packCount: ids.length,
       });
       if (hint) {
         hint.textContent = `Started ${bundleHit.label}. Unzip at Foundry Data root (creates ionrift-data/overlays/...).`;

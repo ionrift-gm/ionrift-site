@@ -108,7 +108,7 @@ function renderRow(row, session) {
     } else if (row.github) {
       // No manifest in catalogue; fall back to repo only in actions.
       actions.push(
-        `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.github)}" target="_blank" rel="noopener" data-install-github>GitHub</a>`
+        `<a class="btn btn-secondary btn-sm" href="${escapeHtml(row.github)}" target="_blank" rel="noopener" data-install-github data-track-skip>GitHub</a>`
       );
     }
   } else if (row.method === "patreon-manifest") {
@@ -133,7 +133,7 @@ function renderRow(row, session) {
     : "";
 
   return `
-    <article class="module-shelf-row" data-module-id="${escapeHtml(row.id)}"${accent}>
+    <article class="module-shelf-row" data-module-id="${escapeHtml(row.id)}" data-access="${escapeHtml(rowAccess(row))}"${accent}>
       ${icon}
       <div class="module-shelf-row-body">
         <div class="module-shelf-row-heading">
@@ -145,6 +145,12 @@ function renderRow(row, session) {
       </div>
       <div class="module-shelf-row-actions">${actions.join(" ")}</div>
     </article>`;
+}
+
+/** GA access value for a row: the module's own gate, never the visitor's tier. */
+function rowAccess(row) {
+  if (row.method !== "patreon-manifest") return "public";
+  return String(row.minTier || "Acolyte").toLowerCase();
 }
 
 function renderList() {
@@ -247,10 +253,11 @@ function wireUi() {
     if (!(target instanceof HTMLElement)) return;
 
     const moduleId = (el) => el.closest("[data-module-id]")?.getAttribute("data-module-id") || undefined;
+    const access = (el) => el.closest("[data-access]")?.getAttribute("data-access") || undefined;
 
     const githubBtn = target.closest("a[data-install-github]");
     if (githubBtn) {
-      track("module_install", { module_id: moduleId(githubBtn), method: "github" });
+      track("module_install", { module_id: moduleId(githubBtn), method: "github", access: access(githubBtn) });
       return;
     }
 
@@ -260,7 +267,7 @@ function wireUi() {
       if (!url) return;
       try {
         await copyText(url);
-        track("module_install", { module_id: moduleId(copyBtn), method: "copy_manifest" });
+        track("module_install", { module_id: moduleId(copyBtn), method: "copy_manifest", access: access(copyBtn) });
         setPageNote("Copied public manifest URL. Paste into Foundry Add-on Modules.");
       } catch (err) {
         setPageNote(String(err?.message || err), { error: true });
@@ -279,7 +286,7 @@ function wireUi() {
       const data = await mintFoundryInstallToken(packageId);
       if (!data?.manifestUrl) throw new Error("missing-manifest-url");
       await copyText(data.manifestUrl);
-      track("module_install", { module_id: moduleId(mintBtn), method: "install_link" });
+      track("module_install", { module_id: moduleId(mintBtn), method: "install_link", access: access(mintBtn) });
       mintBtn.textContent = "Copied";
       setPageNote(
         data.rotated
