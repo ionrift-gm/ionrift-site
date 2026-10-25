@@ -111,7 +111,7 @@
     "icon": "/img/modules/companion.png",
     "status": "released",
     "tier": "free",
-    "install": { "method": "patreon-manifest", "moduleId": "ionrift-companion", "minTier": "Free", "label": "Module Shelf install link" },
+    "install": { "method": "patreon-manifest", "moduleId": "ionrift-companion", "minTier": "Free", "label": "Get install link" },
     "links": { "github": null, "foundryPackage": null, "patreon": null },
     "accessLabel": "Released, on Patreon",
     "detail": false,
@@ -133,7 +133,7 @@
       "moduleId": "ionrift-voice",
       "minTier": "Acolyte",
       "manifest": null,
-      "label": "Module Shelf install link"
+      "label": "Get install link"
     },
     "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/19-Setup-Voice" },
     "try": null,
@@ -146,7 +146,7 @@
     "related": ["resonance"],
     "detailBody": [
       "Voices fade with distance and pan across the canvas relative to token placement. Walls, closed doors, and floorboards muffle sound naturally as characters explore.",
-      "Subscribe on Patreon (Acolyte+), then open the Module Shelf, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install the Early Access release."
+      "Subscribe on Patreon (Acolyte+), then open the Modules page, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install the Early Access release."
     ]
   },
   {
@@ -165,7 +165,7 @@
       "moduleId": "ionrift-cursewright",
       "minTier": "Acolyte",
       "manifest": null,
-      "label": "Module Shelf install link"
+      "label": "Get install link"
     },
     "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/11-Setup-Cursewright" },
     "try": null,
@@ -178,7 +178,7 @@
     "related": ["quartermaster"],
     "detailBody": [
       "Curses escalate across sessions with GM activation gates, combat intervention, and items designed for discovery rather than stat sticks.",
-      "Subscribe on Patreon (Acolyte+), then open the Module Shelf, Connect Patreon, and copy the personal Foundry install link. Paste that into Foundry Add-on Modules. The link is a personal install key; please do not post it publicly."
+      "Subscribe on Patreon (Acolyte+), then open the Modules page, Connect Patreon, and copy the personal Foundry install link. Paste that into Foundry Add-on Modules. The link is a personal install key; please do not post it publicly."
     ]
   },
   {
