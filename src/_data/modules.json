@@ -101,7 +101,7 @@
     "related": ["respite"],
     "detailBody": [
       "Butcher monsters post-combat to harvest culinary components. Drag ingredients into the party's shared cookbook, inscribe new recipes, and cook meals over the campfire.",
-      "Install from the GitHub release through Foundry Add-on Modules. Free and open source; not listed in the Foundry package browser yet. Crossover with Respite bridges cooking and ingredient spoilage."
+      "Install from the GitHub release through Foundry Add-on Modules. Free and open source; not listed in the Foundry package browser yet. Needs Ionrift Library. Crossover with Respite bridges cooking and ingredient spoilage."
     ]
   },
   {
@@ -317,6 +317,7 @@
         { "text": "Self serve rest activities", "moduleId": "respite" },
         { "text": "Automated combat and reactive sounds", "moduleId": "resonance" },
         { "text": "Heuristically generated loot pools", "moduleId": "quartermaster" },
+        { "text": "Monster butchering and campfire cooking", "moduleId": "monstrous-feast" },
         { "text": "Water body estimation and animation", "moduleId": "waterline" },
         { "text": "Pub Quiz trivia night in Foundry!", "moduleId": "quiz-night" }
       ] }
