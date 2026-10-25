@@ -25,7 +25,7 @@ If you already had the EA build, update to **1.0.0**. Fresh install is just Foun
 
 [https://github.com/ionrift-gm/ionrift-monstrous-feast/releases/latest/download/module.json](https://github.com/ionrift-gm/ionrift-monstrous-feast/releases/latest/download/module.json)
 
-(Needs Ionrift Library 2.5.12+.)
+(Needs a recent version of Ionrift Library.)
 
   
 As always if something weird shows up in the butcher or cook loop, drop it in Discord.

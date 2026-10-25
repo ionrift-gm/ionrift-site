@@ -261,19 +261,19 @@
     "seoTitle": "Ionrift Library: Shared Code, Entity Manifest and Party Roster for Foundry VTT | Ionrift Workshop",
     "description": "The Library is a central place to keep all the shared code and features used across the Ionrift ecosystem.",
     "accent": "#8B5CF6",
-    "icon": "/img/ionrift_logo.webp",
+    "icon": "/img/modules/library.png",
     "status": "released",
     "tier": "free",
     "compatibility": "v12+, verified v14",
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-library/releases/latest/download/module.json", "label": "Foundry Module" },
-    "links": { "github": "https://github.com/ionrift-gm/ionrift-library", "foundryPackage": "https://foundryvtt.com/packages/ionrift-library" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-library", "foundryPackage": "https://foundryvtt.com/packages/ionrift-library", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/1-Setup-Core-Library" },
     "try": null,
     "trailer": null,
     "preview": "/img/modules/previews/library-manifest-inspector.png",
     "previewAlt": "Entity Manifest showing creature types matched across systems",
     "accessLabel": null,
     "highlights": [],
-    "systems": [],
+    "systems": ["dnd5e", "pf2e", "sf2e", "daggerheart", "generic"],
     "detail": true,
     "order": 65,
     "suppressShelfLinks": true,
@@ -288,7 +288,7 @@
         { "text": "Abstracts party management" },
         { "text": "Abstracts Ionrift specific concepts across modules" }
       ] },
-      { "heading": "Things that what it needs:", "items": [
+      { "heading": "Things what it needs:", "items": [
         { "text": "Foundry 12+" }
       ] },
       { "heading": "Things what use the Library", "items": [
