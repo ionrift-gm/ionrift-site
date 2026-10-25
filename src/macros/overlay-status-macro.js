@@ -108,7 +108,7 @@
     buttons: {
       shelf: {
         icon: '<i class="fas fa-external-link-alt"></i>',
-        label: "Open Overlay Shelf",
+        label: "Open Packs",
         callback: () => window.open(SHELF_URL, "_blank", "noopener"),
       },
       close: {

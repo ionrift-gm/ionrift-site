@@ -344,7 +344,7 @@ function renderUnavailableSection(unavailable) {
   return `
     <details class="shelf-not-offered" id="shelf-not-offered"${notOfferedOpen ? " open" : ""}>
       <summary class="shelf-not-offered-summary">
-        <span class="shelf-not-offered-title">Other overlays</span>
+        <span class="shelf-not-offered-title">Other packs</span>
         <span class="shelf-not-offered-count">${n} pack${n === 1 ? "" : "s"}</span>
       </summary>
       <p class="shelf-note shelf-not-offered-note">${escapeHtml(notOfferedNote())}</p>
@@ -358,21 +358,21 @@ function renderUnavailableSection(unavailable) {
 function renderOverlayGroups(overlays) {
   const visible = visibleOverlays(overlays);
   if (!visible.length) {
-    return `<p class="shelf-empty">No overlays in the status listing yet.</p>`;
+    return `<p class="shelf-empty">No packs in the status listing yet.</p>`;
   }
 
   const { available, unavailable } = partitionShelfOverlays(visible);
   const main = available.length
     ? renderModuleBlocks(available)
-    : `<p class="shelf-empty">No overlays available for download in this session.</p>`;
+    : `<p class="shelf-empty">No packs available for download in this session.</p>`;
 
   return `${main}${renderUnavailableSection(unavailable)}`;
 }
 
 function renderModules(modules) {
-  // Overlay Shelf stays overlays-first. Module installs live on Module Shelf.
+  // Packs page stays packs-first. Module installs live on the Modules page.
   void modules;
-  return `<a class="btn btn-secondary btn-sm" href="/module-shelf/">Module Shelf</a>`;
+  return `<a class="btn btn-secondary btn-sm" href="/module-shelf/">Modules</a>`;
 }
 
 function syncSelectionFromDom() {
@@ -396,7 +396,7 @@ function updateSelectedHint() {
   }
   if (btn) {
     btn.disabled = n === 0;
-    btn.textContent = n ? `Download selected overlays (${n})` : "Download selected overlays";
+    btn.textContent = n ? `Download selected packs (${n})` : "Download selected packs";
   }
   syncSelectTree();
 }

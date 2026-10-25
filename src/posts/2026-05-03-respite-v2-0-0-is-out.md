@@ -11,7 +11,7 @@ patreonContentHash: "sha256:0c7df06da0e19fc4"
 patreonUrl: "/posts/respite-v2-0-0-157231442"
 patreonLabel: "Ionrift on Patreon"
 ogImage: "/img/blog/2026/respite-v2-0-0-is-out/cover.png"
-installNote: 'Install steps have changed since this post. The optional art pack is on the <a href="/overlay-shelf/">Overlay Shelf</a>, where it is labelled as generative art.'
+installNote: 'Install steps have changed since this post. The optional art pack is on the <a href="/overlay-shelf/">Packs</a> page, where it is labelled as generative art.'
 ---
 
 This is the camp scene update. Starting a long rest now places a full camp on the map: campfire, workbench, weapon rack, medical bedding, cooking station, and player gear. Everything covered in the dev log series lands in this version.

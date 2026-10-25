@@ -23,7 +23,7 @@ The starting point is the classic SRD cursed items, rebuilt from the ground up. 
 
 Cursewright is a **Patreon module**, not a Foundry browser listing. The engine, the Curse Author, the reference curses, and the compendiums ship together as one product at **Acolyte** and above.
 
-Install from the Module Shelf: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**
+Install from the Modules page: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**
 
 ### The archetype system.
 
@@ -52,4 +52,4 @@ Retrofitting the core systems for archetypes took a long time. But the payoff is
 
 Cursewright is in Early Access. Acolyte and above.
 
-Install from the Module Shelf: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**
+Install from the Modules page: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**

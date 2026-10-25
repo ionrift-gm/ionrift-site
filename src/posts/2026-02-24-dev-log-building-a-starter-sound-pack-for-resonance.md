@@ -13,7 +13,7 @@ patreonLabel: "Ionrift on Patreon"
 ogImage: "/img/blog/2026/dev-log-building-a-starter-sound-pack-for-resonance/cover.png"
 ---
 
-*Update, October 2026: the sounds now live in Resonance Core, a separate pack on the Overlay Shelf, and the audio is AI-generated.*
+*Update, October 2026: the sounds now live in Resonance Core, a separate pack on the Packs page, and the audio is AI-generated.*
 
 The most common feedback I get about Resonance: _it works well, but I have to find all the sounds myself._
 
