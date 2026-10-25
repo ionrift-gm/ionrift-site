@@ -36,4 +36,4 @@ The Curse Author. Build your own from any of those four templates (more in time)
 
 This release takes Cursewright out of Early Access. The engine is stable, the item library covers the SRD cursed-item catalogue, the Curse Author is open for homebrew, and it is verified on Foundry v14. It runs on the dnd5e system.
 
-Install from the Module Shelf: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**
+Install from the Modules page: **[https://ionrift.cloud/module-shelf/](https://ionrift.cloud/module-shelf/)**
