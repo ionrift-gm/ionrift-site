@@ -8,8 +8,10 @@
                     <img class="nav-wordmark" src="/img/ionrift-wordmark.svg?v=2" alt="Ionrift Workshop" width="190" height="15">
                 </a>
                 <ul class="nav-links">
+{% if not hideShelfLinks %}
                     <li><a href="/overlay-shelf/">Overlay Shelf</a></li>
                     <li><a href="/module-shelf/">Module Shelf</a></li>
+{% endif %}
                     <li><a href="/blog/">Blog</a></li>
 
                     <li><a href="{{ site.youtube }}" target="_blank" rel="noopener">YouTube</a></li>

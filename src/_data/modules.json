@@ -255,6 +255,35 @@
     ]
   },
   {
+    "id": "library",
+    "name": "Ionrift Library",
+    "tagline": "Core dependency",
+    "seoTitle": "Ionrift Library: System Adapters, Roll Requests and Creature Index for Foundry VTT | Ionrift Workshop",
+    "description": "Ionrift Library provides common data contracts, multi-system adapters, tabletop roll requests, and creature taxonomy for all Ionrift modules.",
+    "accent": "#8B5CF6",
+    "icon": "/img/ionrift_logo.webp",
+    "status": "released",
+    "tier": "free",
+    "compatibility": "v12+, verified v14",
+    "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-library/releases/latest/download/module.json", "label": "Foundry Module" },
+    "links": { "github": "https://github.com/ionrift-gm/ionrift-library", "foundryPackage": "https://foundryvtt.com/packages/ionrift-library" },
+    "try": null,
+    "trailer": null,
+    "preview": "/img/modules/previews/library-manifest-inspector.png",
+    "previewAlt": "Entity Manifest Inspector showing creature classification and taxonomy confidence",
+    "accessLabel": null,
+    "highlights": ["System adapters", "Roll requests", "Creature index"],
+    "systems": ["dnd5e", "pf2e", "sf2e", "daggerheart", "generic"],
+    "detail": true,
+    "order": 65,
+    "suppressShelfLinks": true,
+    "detailBody": [
+      "Multi-system adapters keep sheet data, rests and roll calculations consistent across modules on D&D 5e, Pathfinder 2e, Starfinder 2e and Daggerheart, with a generic fallback for other systems. Tabletop roll requests send interactive prompt cards for ability checks, saving throws and skill challenges, with live DC pulse cues, advantage selectors and dice settle animations.",
+      "The creature index sorts actor data into concept identifiers such as undead, construct or beast, each with a confidence rating. It powers audio triggers in Resonance and recipe unlocks in Monstrous Feast. Alongside it sit shared terrain and species registries, a cooking engine used by Respite and Monstrous Feast, a party roster service, and an in-game bug reporter that bundles console captures, active versions and module states into a support report without exposing sensitive data.",
+      "Install Ionrift Library from the Foundry VTT package manager and enable it in your world. Its tools live under Game Settings > Module Settings > Ionrift Library: Party Roster, Entity Manifest, Token Manifest and Custom Terrains. Free for Foundry v12 to v14."
+    ]
+  },
+  {
     "id": "cartographer",
     "name": "Cartographer",
     "tagline": "In the workshop",

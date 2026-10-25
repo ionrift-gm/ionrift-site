@@ -16,6 +16,7 @@ eleventyComputed:
   bodyClass: "page-module-detail"
 ---
 
+{% set hideShelfLinks = module.suppressShelfLinks %}
 {% include "landing/nav.njk" %}
 
 <main class="page-main module-detail" data-track-location="module_page" data-module-id="{{ module.id }}">
