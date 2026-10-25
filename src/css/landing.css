@@ -1037,6 +1037,12 @@
             border: 1px solid color-mix(in srgb, var(--module-icon-color, var(--module-color, var(--accent))) 28%, transparent);
         }
 
+        .pill-retired {
+            background: rgba(148, 163, 184, 0.08);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
         .pill-premium {
             background: rgba(124, 58, 237, 0.1);
             color: #a78bfa;

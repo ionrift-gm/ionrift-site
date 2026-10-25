@@ -15,7 +15,7 @@ const SHELF_METHODS = new Set(["foundry", "github", "patreon-manifest"]);
 
 export default function () {
   return modules
-    .filter((m) => m.install && SHELF_METHODS.has(m.install.method) && m.status !== "roadmap")
+    .filter((m) => m.install && SHELF_METHODS.has(m.install.method) && m.status !== "roadmap" && m.status !== "retired")
     .sort((a, b) => (a.shelfOrder ?? a.order ?? 0) - (b.shelfOrder ?? b.order ?? 0))
     .map((m) => {
       const method = m.install.method;
