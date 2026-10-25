@@ -317,7 +317,6 @@
         { "text": "Self serve rest activities", "moduleId": "respite" },
         { "text": "Automated combat and reactive sounds", "moduleId": "resonance" },
         { "text": "Heuristically generated loot pools", "moduleId": "quartermaster" },
-        { "text": "Monster butchering and campfire cooking", "moduleId": "monstrous-feast" },
         { "text": "Water body estimation and animation", "moduleId": "waterline" },
         { "text": "Pub Quiz trivia night in Foundry!", "moduleId": "quiz-night" }
       ] }
