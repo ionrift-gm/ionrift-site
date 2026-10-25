@@ -57,7 +57,41 @@ eleventyComputed:
         </header>
 
         <div class="module-trailer">
-{% if module.trailer %}
+{% if module.gallery and module.gallery.length %}
+            <section class="module-gallery" data-gallery aria-roledescription="carousel" aria-label="{{ module.name }} screenshots">
+                <div class="module-trailer-preview-label">Screenshots</div>
+                <div class="module-gallery-viewport">
+                    <ul class="module-gallery-track" tabindex="0" aria-label="{{ module.name }} screenshots, scroll sideways for more">
+{% for img in module.gallery %}
+                        <li class="module-gallery-slide" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} of {{ module.gallery.length }}">
+                            <figure class="module-gallery-figure">
+                                <picture>
+{% if (img.src | webp) != img.src %}
+                                    <source type="image/webp" srcset="{{ img.src | webp }}">
+{% endif %}
+                                    <img src="{{ img.src }}" alt="{{ img.alt }}" width="{{ img.width }}" height="{{ img.height }}"{% if not loop.first %} loading="lazy"{% endif %} decoding="async">
+                                </picture>
+{% if img.caption %}
+                                <figcaption class="module-gallery-caption">{{ img.caption }}</figcaption>
+{% endif %}
+                            </figure>
+                        </li>
+{% endfor %}
+                    </ul>
+                    <button type="button" class="module-gallery-btn module-gallery-btn--prev" data-gallery-prev aria-label="Previous screenshot" hidden>&#8249;</button>
+                    <button type="button" class="module-gallery-btn module-gallery-btn--next" data-gallery-next aria-label="Next screenshot" hidden>&#8250;</button>
+                </div>
+                <div class="module-gallery-nav" data-gallery-nav hidden>
+                    <div class="module-gallery-dots">
+{% for img in module.gallery %}
+                        <button type="button" class="module-gallery-dot" data-gallery-dot="{{ loop.index0 }}" aria-label="Show screenshot {{ loop.index }} of {{ module.gallery.length }}"></button>
+{% endfor %}
+                    </div>
+                    <span class="module-gallery-counter" data-gallery-counter aria-live="polite">1 / {{ module.gallery.length }}</span>
+                </div>
+            </section>
+            <script src="/js/module-gallery.js" defer></script>
+{% elif module.trailer %}
             <div class="module-trailer-embed">
                 <iframe
                     src="https://www.youtube-nocookie.com/embed/{{ module.trailer }}"
