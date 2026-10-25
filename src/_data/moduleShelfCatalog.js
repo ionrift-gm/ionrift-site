@@ -16,7 +16,7 @@ const SHELF_METHODS = new Set(["foundry", "github", "patreon-manifest"]);
 export default function () {
   return modules
     .filter((m) => m.install && SHELF_METHODS.has(m.install.method) && m.status !== "roadmap")
-    .sort((a, b) => (a.order || 0) - (b.order || 0))
+    .sort((a, b) => (a.shelfOrder ?? a.order ?? 0) - (b.shelfOrder ?? b.order ?? 0))
     .map((m) => {
       const method = m.install.method;
       const packageId = m.install.moduleId || `ionrift-${m.id}`;
