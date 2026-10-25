@@ -105,6 +105,20 @@
     ]
   },
   {
+    "id": "companion",
+    "name": "Ionrift Companion",
+    "tagline": "Packs & Patreon Link",
+    "icon": "/img/modules/companion.png",
+    "status": "released",
+    "tier": "free",
+    "install": { "method": "patreon-manifest", "moduleId": "ionrift-companion", "minTier": "Free", "label": "Module Shelf install link" },
+    "links": { "github": null, "foundryPackage": null, "patreon": null },
+    "accessLabel": "Released, on Patreon",
+    "detail": false,
+    "shelfOnly": true,
+    "order": 35
+  },
+  {
     "id": "voice",
     "name": "Voice",
     "tagline": "Proximity & Acoustics",

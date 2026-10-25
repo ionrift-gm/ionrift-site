@@ -20,7 +20,10 @@ function loadModules() {
 }
 
 function buildCatalogue() {
-  const sorted = [...loadModules()].sort((a, b) => (a.order || 0) - (b.order || 0));
+  // shelfOnly modules (e.g. Companion) live on the Module Shelf only: no homepage card or detail page.
+  const sorted = [...loadModules()]
+    .filter((m) => !m.shelfOnly)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
   const shippable = sorted.filter((m) => m.status !== "roadmap");
   return {
     hero: shippable.slice(0, 3),
