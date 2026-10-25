@@ -269,8 +269,13 @@
     "links": { "github": "https://github.com/ionrift-gm/ionrift-library", "foundryPackage": "https://foundryvtt.com/packages/ionrift-library", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/1-Setup-Core-Library" },
     "try": null,
     "trailer": null,
-    "preview": "/img/modules/previews/library-manifest-inspector.png",
-    "previewAlt": "Entity Manifest showing creature types matched across systems",
+    "preview": "/img/modules/previews/library-manifest-5e.png",
+    "previewAlt": "Entity Manifest window listing D&D 5e SRD monsters with their matched creature types",
+    "gallery": [
+      { "src": "/img/modules/previews/library-manifest-5e.png", "width": 1200, "height": 904, "caption": "Entity Manifest on D&D 5e SRD monsters", "alt": "Entity Manifest window in Foundry on the D&D 5e SRD monster compendium. Each row lists a creature, such as the Aboleth, the Acolyte and several adult dragons, with its matched creature type, sound category and match confidence. The header shows 256 of 345 entities matched." },
+      { "src": "/img/modules/previews/library-manifest-pf2e.png", "width": 1200, "height": 846, "caption": "Entity Manifest on Pathfinder 2e Monster Core", "alt": "Entity Manifest window on the Pathfinder 2e Monster Core compendium. Adamantine dragon variants are classed as Dragon (Wyvern) and the Adamantine Golem as Construct (Golem), each with a sound category and 90% confidence. The header shows 1488 of 1501 entities matched." },
+      { "src": "/img/modules/previews/library-settings.png", "width": 1053, "height": 854, "caption": "Library settings panel", "alt": "Ionrift Library settings panel with buttons to edit the party roster, inspect entities and manage custom terrains, each marked with icons for the modules that use it, followed by links to join Discord, submit a bug report and open the wiki." }
+    ],
     "accessLabel": null,
     "highlights": [],
     "systems": ["dnd5e", "pf2e", "sf2e", "daggerheart", "generic"],
