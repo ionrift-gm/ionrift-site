@@ -26,12 +26,6 @@ Everything is tunable in real time. Speed, intensity, opacity, distortion streng
 
 Shift+click adds more water. Ctrl+click removes it. Ctrl+Z undoes. Its additive, so you can build up complex bodies from multiple clicks.
 
-_**Border walls**_
-
-This one came from a thing that always bugged me as a player - when you can see the exact edges of the map, you know the whole space. Theres nothing beyond. Your curiosity just switches off because the boundaries are right there, clean straight lines showing you exactly where the world ends. Even hiding those edges by a few pixels keeps that part of your brain active - the part that wonders whats around the corner or past the treeline.
-
-So the border wall tool generates noise-displaced walls along the canvas edge. They bite into the map image just enough to make the boundaries feel organic instead of mechanical. You dont know exactly where the map stops and thats the point. Vertex count, amplitude, jitter, and inset are all configurable so you can dial in how much it eats into the edges. Theres a straight-wall mode too if you just need clean boundaries for indoor maps.
-
 _**Install**_
 
 Free module. Requires Ionrift Library.
