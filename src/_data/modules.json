@@ -233,7 +233,7 @@
     "install": { "method": "foundry", "manifest": "https://github.com/ionrift-gm/ionrift-waterline/releases/latest/download/module.json", "label": "Foundry Module" },
     "links": { "github": "https://github.com/ionrift-gm/ionrift-waterline", "foundryPackage": "https://foundryvtt.com/packages/ionrift-waterline", "patreon": "https://www.patreon.com/c/Ionrift", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/8-Setup-Waterline" },
     "try": null,
-    "trailer": "J8EyEEEUjeA",
+    "trailer": "-Fzm7DXkcFI",
     "systems": [],
     "detail": true,
     "order": 50,
