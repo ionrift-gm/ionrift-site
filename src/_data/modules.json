@@ -156,7 +156,7 @@
     "seoTitle": "Bloodshed: Directional Blood Splatter and Token Wounds for Foundry VTT | Ionrift Workshop",
     "description": "Directional blood and fluid splatter for Foundry VTT. Ballistic droplet bursts and persistent floor decals reactive to attack angles, damage types, and creature biology. System-agnostic.",
     "accent": "#DC2626",
-    "icon": null,
+    "icon": "/img/modules/bloodshed.png",
     "status": "ea",
     "tier": "premium",
     "compatibility": "v12+, verified v14",
