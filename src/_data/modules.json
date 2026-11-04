@@ -150,6 +150,39 @@
     ]
   },
   {
+    "id": "bloodshed",
+    "name": "Bloodshed",
+    "tagline": "Combat Splatter & Wounds",
+    "seoTitle": "Bloodshed: Directional Blood Splatter and Token Wounds for Foundry VTT | Ionrift Workshop",
+    "description": "Directional blood and fluid splatter for Foundry VTT. Ballistic droplet bursts and persistent floor decals reactive to attack angles, damage types, and creature biology. System-agnostic.",
+    "accent": "#DC2626",
+    "icon": null,
+    "status": "ea",
+    "tier": "premium",
+    "compatibility": "v12+, verified v14",
+    "install": {
+      "method": "patreon-manifest",
+      "moduleId": "ionrift-bloodshed",
+      "minTier": "Acolyte",
+      "manifest": null,
+      "label": "Get install link"
+    },
+    "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift" },
+    "try": null,
+    "trailer": null,
+    "accessLabel": "Early Access, on Patreon",
+    "highlights": ["Directional splatter", "Creature biology palettes", "Waterline dispersion"],
+    "systems": [],
+    "detail": true,
+    "order": 37,
+    "related": ["waterline", "resonance"],
+    "detailBody": [
+      "Strikes spray directional droplets across the floor from the attacker through the target, while persistent wounds accumulate on tokens and fade into dried battle stains as characters heal.",
+      "Creature biology drives what hits the canvas: oozes bleed in their own manifest colour, constructs and skeletons shed dry debris, and intangible spirits leave no stain. When paired with Waterline, blood disperses into water plumes and washes off soaking tokens.",
+      "Subscribe on Patreon (Acolyte+), then open the Modules page, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install the Early Access release."
+    ]
+  },
+  {
     "id": "cursewright",
     "name": "Cursewright",
     "tagline": "Curse Engine",
