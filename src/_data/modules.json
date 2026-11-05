@@ -126,7 +126,7 @@
     "description": "Proximity voice chat with subterranean acoustics, physical wall occlusion, arcane telepathy bridges, and GM omnipresence.",
     "accent": "#C9D254",
     "icon": "/img/modules/voice.png",
-    "status": "ea",
+    "status": "ga",
     "tier": "premium",
     "install": {
       "method": "patreon-manifest",
@@ -138,7 +138,7 @@
     "links": { "github": null, "foundryPackage": null, "patreon": "https://www.patreon.com/c/Ionrift", "wiki": "https://github.com/ionrift-gm/ionrift-library/wiki/19-Setup-Voice" },
     "try": null,
     "trailer": null,
-    "accessLabel": "Early Access, on Patreon",
+    "accessLabel": "Premium, on Patreon",
     "highlights": ["Subterranean acoustics", "Wall muffling", "Discord relay"],
     "systems": [],
     "detail": true,
@@ -146,7 +146,7 @@
     "related": ["resonance"],
     "detailBody": [
       "Voices fade with distance and pan across the canvas relative to token placement. Walls, closed doors, and floorboards muffle sound naturally as characters explore.",
-      "Subscribe on Patreon (Acolyte+), then open the Modules page, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install the Early Access release."
+      "Subscribe on Patreon (Acolyte+), then open the Modules page, Connect Patreon, and copy your personal Foundry install link. Paste that into Foundry Add-on Modules to install it."
     ]
   },
   {
