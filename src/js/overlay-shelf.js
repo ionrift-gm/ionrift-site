@@ -222,6 +222,11 @@ function tileMetaBits(row, { unavailable = false } = {}) {
   return bits.filter(Boolean);
 }
 
+/** Optional one-line note from the art map (e.g. a companion pack to update). */
+function tileNote(art) {
+  return art.note ? `<p class="shelf-tile-note">${escapeHtml(art.note)}</p>` : "";
+}
+
 function renderOverlayTile(row) {
   const selectable = isSelectablePack(row);
   const selected = selectable && selectedIds.has(row.id);
@@ -263,6 +268,7 @@ function renderOverlayTile(row) {
       <div class="shelf-tile-body">
         <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
         <p class="shelf-tile-meta"><span>${escapeHtml(metaBits.join(" · "))}</span>${badge}</p>
+        ${tileNote(art)}
         ${action}
       </div>
     </article>
@@ -289,6 +295,7 @@ function renderUnavailableTile(row) {
       <div class="shelf-tile-body">
         <h4 class="shelf-tile-title">${escapeHtml(title)}</h4>
         <p class="shelf-tile-meta"><span>${escapeHtml(metaBits.join(" · "))}</span>${badge}${moduleBit}</p>
+        ${tileNote(art)}
       </div>
     </article>
   `;

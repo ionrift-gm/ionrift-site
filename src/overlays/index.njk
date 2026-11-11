@@ -64,7 +64,7 @@ bodyClass: page-overlays
         </div>
 
         <div class="pack-grid pack-grid--full">
-{% for pack in packs %}
+{% for pack in packs.concat(gloomSpore.cards) %}
             <article class="pack-card" style="--module-color: {{ pack.accent }}; --module-icon-color: {{ pack.iconAccent }};">
                 <div class="pack-card-media">
                     <img src="{{ pack.image }}" alt="" width="900" height="900" loading="lazy" decoding="async">
@@ -74,7 +74,7 @@ bodyClass: page-overlays
                 </div>
                 <div class="pack-card-body">
                     <div class="pack-card-top">
-                        <h3 class="pack-name">{{ pack.name }}</h3>
+                        <h3 class="pack-name">{% if pack.href %}<a href="{{ pack.href }}">{{ pack.name }}</a>{% else %}{{ pack.name }}{% endif %}</h3>
                         <span class="pack-tier pack-tier--{{ pack.tierBadge }}">{{ pack.tierLabel }}</span>
                     </div>
                     <p class="pack-desc">{{ pack.description }}</p>
